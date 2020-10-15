@@ -32,4 +32,8 @@ public class Asignatura {
     @ManyToOne
     private Curso curso;
 
+    public Asignatura(String nombre, Curso curso) {
+        this.nombre = nombre;
+        this.curso = curso;
+    }
 }

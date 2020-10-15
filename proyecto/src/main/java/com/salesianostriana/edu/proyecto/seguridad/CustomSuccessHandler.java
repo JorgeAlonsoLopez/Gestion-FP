@@ -47,12 +47,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 			roles.add(a.getAuthority());
 		}
 
-		if (isAdmin(roles)) {
-			url = "/administrador/principal";
-		} else if (isUser(roles)) {
-			url = "/cliente/principal";
-		} else if(isPend(roles)){
-			url = "/espera";
+		if (isJefe(roles)) {
+			url = "/jefe/principal";
+		} else if (isProf(roles)) {
+			url = "/profesor/principal";
+		} else if (isAlumm(roles)) {
+			url = "/alumno/principal";
 		} else {
 			url = "/acceso";
 		}
@@ -60,22 +60,22 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 		return url;
 	}
 
-	private boolean isUser(List<String> roles) {
-		if (roles.contains("ROLE_USER")) {
+	private boolean isJefe(List<String> roles) {
+		if (roles.contains("ROLE_JEFE")) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean isAdmin(List<String> roles) {
-		if (roles.contains("ROLE_ADMIN")) {
+	private boolean isProf(List<String> roles) {
+		if (roles.contains("ROLE_PROF")) {
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean isPend(List<String> roles) {
-		if (roles.contains("ROLE_PENDT")) {
+	private boolean isAlumm(List<String> roles) {
+		if (roles.contains("ROLE_ALUM")) {
 			return true;
 		}
 		return false;

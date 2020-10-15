@@ -1,7 +1,8 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Titulo;
-import com.salesianostriana.edu.proyecto.repositorio.TituloRepository;
+import com.salesianostriana.edu.proyecto.repositorio.CursoRepositorio;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -13,49 +14,52 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> {
+public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
 
-    public TituloServicio(TituloRepository repo) {
+    public TituloServicio titulo;
+
+    public CursoServicio(CursoRepositorio repo) {
         super(repo);
     }
 
-    public Titulo findByName(String nombre){
+    public Curso findByName(String nombre){
 
-        Titulo titulo = new Titulo();
-        titulo=null;
+        Curso curso = new Curso();
+        curso=null;
 
-        for (Titulo t : this.findAll()){
+        for (Curso t : this.findAll()){
             if(t.getNombre().equals(nombre)){
-                titulo = t;
+                curso = t;
             }
         }
-        return titulo;
+        return curso;
     }
 
     public void cargarListado() {
-        List<Titulo> result = new ArrayList<>();
+        List<Curso> result = new ArrayList<>();
 
-        String path = "classpath:Titulos.csv";
+        String path = "classpath:clientes.csv";
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
-                return new Titulo(values[0]);
+                return new Curso(values[1], Integer.parseInt(values[2]), titulo.findByName(values[0]));
 
             }).collect(Collectors.toList());
             // @formatter:on
 
         } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.err.println("Error de lectura del fichero de datos de cursos.");
             System.exit(-1);
         }
 
-        for(Titulo t : result){
-            this.save(t);
+        for(Curso c : result){
+            c.getTitulo().addCurso(c);
+            titulo.edit(c.getTitulo());
+            this.save(c);
         }
 
     }
-
 
 
 
