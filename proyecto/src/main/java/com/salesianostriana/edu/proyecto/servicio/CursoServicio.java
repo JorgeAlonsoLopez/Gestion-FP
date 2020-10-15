@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
 
-    public TituloServicio titulo;
-
     public CursoServicio(CursoRepositorio repo) {
         super(repo);
     }
@@ -35,10 +33,10 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         return curso;
     }
 
-    public void cargarListado() {
+    public void cargarListado(TituloServicio titulo) {
         List<Curso> result = new ArrayList<>();
 
-        String path = "classpath:clientes.csv";
+        String path = "classpath:Cursos.csv";
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
@@ -53,6 +51,7 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
             System.exit(-1);
         }
 
+        // MIRAR SE DUPILCA
         for(Curso c : result){
             c.getTitulo().addCurso(c);
             titulo.edit(c.getTitulo());

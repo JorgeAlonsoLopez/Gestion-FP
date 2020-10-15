@@ -40,7 +40,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
     public void cargarListado() {
         List<Asignatura> result = new ArrayList<>();
 
-        String path = "classpath:clientes.csv";
+        String path = "classpath:Asignaturas.csv";
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {

@@ -24,7 +24,7 @@ public class ProyectoApplication {
 			public void run(String... args) throws Exception {
 
 			tituloServicio.cargarListado();
-			cursoServicio.cargarListado();
+			cursoServicio.cargarListado(tituloServicio);
 //			asignaturaServicio.cargarListado();
 //			horarioServicio.cargarListado();
 

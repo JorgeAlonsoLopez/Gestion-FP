@@ -25,7 +25,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
     public void cargarListado() {
         List<Horario> result = new ArrayList<>();
 
-        String path = "classpath:clientes.csv";
+        String path = "classpath:Horarios.csv";
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
