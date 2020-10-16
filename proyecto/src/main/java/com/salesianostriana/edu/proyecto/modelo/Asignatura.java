@@ -18,6 +18,7 @@ public class Asignatura {
     private long id;
 
     private String nombre;
+    private boolean esAlta;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -32,8 +33,9 @@ public class Asignatura {
     @ManyToOne
     private Curso curso;
 
-    public Asignatura(String nombre, Curso curso) {
+    public Asignatura(String nombre, Curso curso,  boolean esAlta) {
         this.nombre = nombre;
         this.curso = curso;
+        this.esAlta = esAlta;
     }
 }

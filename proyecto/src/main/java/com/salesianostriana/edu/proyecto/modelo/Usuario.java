@@ -19,7 +19,7 @@ public abstract class Usuario implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    private String correo;
+    private String email;
 
     private String contrasenya;
     private String codigoBienv;
@@ -27,8 +27,8 @@ public abstract class Usuario implements UserDetails {
     private String nombre;
     private String apellidos;
 
-    public Usuario(String correo, String codigoBienv, boolean primerInic, String nombre, String apellidos) {
-        this.correo = correo;
+    public Usuario(String email, String codigoBienv, boolean primerInic, String nombre, String apellidos) {
+        this.email = email;
         this.codigoBienv = codigoBienv;
         this.primerInic = primerInic;
         this.nombre = nombre;
@@ -37,7 +37,7 @@ public abstract class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return correo;
+        return email;
     }
 
     @Override

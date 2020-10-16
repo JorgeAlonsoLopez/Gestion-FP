@@ -20,17 +20,16 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         super(repo);
     }
 
-    public AsignaturaServicio asignatura;
-
-    public void cargarListado() {
+    public void cargarListado(AsignaturaServicio asignatura) {
         List<Horario> result = new ArrayList<>();
 
-        String path = "classpath:Horarios.csv";
+        String path = "classpath:Horario.csv";
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
-                return new Horario(Integer.parseInt(values[0]), Integer.parseInt(values[1]), asignatura.findByNameCurs(values[0],values[0]));
+                return new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
+                        asignatura.findByNameCurs(values[0],values[1]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on

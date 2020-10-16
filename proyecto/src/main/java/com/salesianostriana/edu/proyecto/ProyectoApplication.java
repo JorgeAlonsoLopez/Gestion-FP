@@ -25,8 +25,8 @@ public class ProyectoApplication {
 
 			tituloServicio.cargarListado();
 			cursoServicio.cargarListado(tituloServicio);
-//			asignaturaServicio.cargarListado();
-//			horarioServicio.cargarListado();
+			asignaturaServicio.cargarListado(cursoServicio);
+			horarioServicio.cargarListado(asignaturaServicio);
 
 
 

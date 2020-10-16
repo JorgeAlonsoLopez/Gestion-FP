@@ -21,14 +21,16 @@ public class Titulo {
     private long id;
 
     private String nombre;
+    private boolean esAlta;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "titulo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Curso> listaCursos = new ArrayList<>();
 
-    public Titulo(String nombre) {
+    public Titulo(String nombre,  boolean esAlta) {
         this.nombre = nombre;
+        this.esAlta = esAlta;
     }
 
     public void addCurso(Curso curso) {

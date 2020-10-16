@@ -20,8 +20,6 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         super(repo);
     }
 
-    public CursoServicio curso;
-
     public Asignatura findByNameCurs(String nombre, String curso){
 
         Asignatura asign = new Asignatura();
@@ -37,7 +35,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         return asign;
     }
 
-    public void cargarListado() {
+    public void cargarListado(CursoServicio curso) {
         List<Asignatura> result = new ArrayList<>();
 
         String path = "classpath:Asignaturas.csv";
@@ -46,7 +44,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
 
-                    return new Asignatura(values[0], curso.findByName(values[1]));
+                    return new Asignatura(values[0], curso.findByName(values[1]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on
@@ -58,7 +56,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
         for(Asignatura a : result){
             a.getCurso().addAsignatura(a);
-            curso.edit(a.getCurso());
+            //curso.edit(a.getCurso());
             this.save(a);
         }
 

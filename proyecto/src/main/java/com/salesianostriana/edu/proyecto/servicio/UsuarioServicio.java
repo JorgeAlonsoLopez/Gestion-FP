@@ -12,7 +12,7 @@ public class UsuarioServicio extends BaseService<Usuario, Long, UsuarioRepositor
     public UsuarioServicio(UsuarioRepository repo) {
         super(repo);
     }
-    public Optional<Usuario> buscarPorUsuario(String correo) {
-        return repositorio.findFirstByCorreo(correo);
+    public Optional<Usuario> buscarPorUsuario(String email) {
+        return repositorio.findFirstByEmail(email);
     }
 }

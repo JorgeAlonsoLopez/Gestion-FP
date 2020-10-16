@@ -41,7 +41,7 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
-                return new Curso(values[1], Integer.parseInt(values[2]), titulo.findByName(values[0]));
+                return new Curso(values[1], Integer.parseInt(values[2]), titulo.findByName(values[0]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on
@@ -54,7 +54,7 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         // MIRAR SE DUPILCA
         for(Curso c : result){
             c.getTitulo().addCurso(c);
-            titulo.edit(c.getTitulo());
+            //titulo.edit(c.getTitulo());
             this.save(c);
         }
 

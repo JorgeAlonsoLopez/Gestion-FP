@@ -40,7 +40,7 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
-                return new Titulo(values[0]);
+                return new Titulo(values[0], true);
 
             }).collect(Collectors.toList());
             // @formatter:on

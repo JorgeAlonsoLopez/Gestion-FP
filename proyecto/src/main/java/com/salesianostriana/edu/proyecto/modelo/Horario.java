@@ -15,13 +15,15 @@ public class Horario {
 
     private int dia;
     private int tramo;
+    private boolean esAlta;
 
     @ManyToOne
     private Asignatura asigntura;
 
-    public Horario(int dia, int tramo, Asignatura asigntura) {
+    public Horario(int dia, int tramo, Asignatura asigntura,  boolean esAlta) {
         this.dia = dia;
         this.tramo = tramo;
         this.asigntura = asigntura;
+        this.esAlta = esAlta;
     }
 }
