@@ -4,10 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,21 +20,19 @@ public class Profesor extends Usuario{
 
     private boolean esJefeDeEstudios;
 
-    @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name="profesor_id"),
-            inverseJoinColumns = @JoinColumn(name="asignatura_id")
-    )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy="profesor", fetch = FetchType.EAGER)
     private List<Asignatura> asignaturas = new ArrayList<>();
 
     public void addAsignatura(Asignatura a) {
-        asignaturas.add(a);
-        a.getProfesores().add(this);
+        this.asignaturas.add(a);
+        a.setProfesor(this);
     }
 
     public void removeAsignatura(Asignatura a) {
-        asignaturas.remove(a);
-        a.getProfesores().remove(this);
+        this.asignaturas.remove(a);
+        a.setProfesor(null);
     }
 
     public Profesor(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esJefeDeEstudios) {

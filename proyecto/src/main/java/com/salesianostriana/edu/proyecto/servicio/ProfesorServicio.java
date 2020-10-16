@@ -36,24 +36,48 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
     public void cargarListadoProf_Asig(AsignaturaServicio asignatura) {
 
+        List<Profesor> listaProf = new ArrayList<>();
+        List<Asignatura> listaAsig = new ArrayList<>();
 
-        String path = "classpath:Asignaturas-profesores.csv";
+        String path = "classpath:AsignaturasProfesores.csv";
         try {
             // @formatter:off
-            Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+            listaProf = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
+                return this.findByEmail(values[2]);
 
-                this.findByEmail(values[2]).addAsignatura(asignatura.findByNameCurs(values[0], values[1]));
-                this.edit(this.findByEmail(values[2]));
-
-                return null;
-            });
+            }).collect(Collectors.toList());
             // @formatter:on
 
         } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de profesores.");
+            System.err.println("Error de lectura del fichero de datos de asignaturas de profesores.");
             System.exit(-1);
         }
+
+
+        try {
+            // @formatter:off
+            listaAsig = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return asignatura.findByNameCurs(values[0], values[1]);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de asignaturas de profesores.");
+            System.exit(-1);
+        }
+
+        for(int i=0; i < listaProf.size(); i++){
+
+            listaProf.get(i).addAsignatura(listaAsig.get(i));
+            this.edit(listaProf.get(i));
+            asignatura.edit(listaAsig.get(i));
+
+
+        }
+
 
     }
 

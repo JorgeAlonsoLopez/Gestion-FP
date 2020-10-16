@@ -25,10 +25,8 @@ public class Asignatura {
     @ManyToMany(mappedBy="asignaturas")
     private List<Alumno> alumnos = new ArrayList<>();
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(mappedBy="asignaturas")
-    private List<Profesor> profesores = new ArrayList<>();
+    @ManyToOne
+    private Profesor profesor;
 
     @ManyToOne
     private Curso curso;

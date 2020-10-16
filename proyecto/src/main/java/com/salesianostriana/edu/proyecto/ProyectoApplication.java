@@ -24,8 +24,8 @@ public class ProyectoApplication {
 			cursoServicio.cargarListado(tituloServicio);
 			asignaturaServicio.cargarListado(cursoServicio);
 			horarioServicio.cargarListado(asignaturaServicio);
-//			profesorServicio.cargarListado(asignaturaServicio);
-//			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
+			profesorServicio.cargarListado(asignaturaServicio);
+			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
 
 
 			}

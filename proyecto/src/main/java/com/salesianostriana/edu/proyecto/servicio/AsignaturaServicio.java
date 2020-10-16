@@ -56,7 +56,6 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
         for(Asignatura a : result){
             a.getCurso().addAsignatura(a);
-            //curso.edit(a.getCurso());
             this.save(a);
         }
 
