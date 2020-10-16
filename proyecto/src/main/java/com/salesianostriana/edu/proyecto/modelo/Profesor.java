@@ -16,6 +16,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Profesor extends Usuario{
 
     private boolean esJefeDeEstudios;

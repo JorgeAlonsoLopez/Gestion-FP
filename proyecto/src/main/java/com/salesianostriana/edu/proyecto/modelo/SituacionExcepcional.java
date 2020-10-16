@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.modelo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class SituacionExcepcional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

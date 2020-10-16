@@ -16,6 +16,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Alumno extends Usuario{
 
 
@@ -28,6 +29,11 @@ public class Alumno extends Usuario{
             inverseJoinColumns = @JoinColumn(name="asignatura_id")
     )
     private List<Asignatura> asignaturas = new ArrayList<>();
+
+    public Alumno(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, Curso curso) {
+        super(email, contrasenya, primerInic, nombre, apellidos);
+        this.curso = curso;
+    }
 
     public void addAsignatura(Asignatura a) {
         asignaturas.add(a);

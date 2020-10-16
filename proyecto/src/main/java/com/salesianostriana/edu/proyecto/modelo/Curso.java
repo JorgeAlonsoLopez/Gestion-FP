@@ -1,9 +1,8 @@
 package com.salesianostriana.edu.proyecto.modelo;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Curso {
 
@@ -32,6 +32,7 @@ public class Curso {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy="curso")
     private List<Alumno> alumnos = new ArrayList<>();
 

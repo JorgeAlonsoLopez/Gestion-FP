@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.modelo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

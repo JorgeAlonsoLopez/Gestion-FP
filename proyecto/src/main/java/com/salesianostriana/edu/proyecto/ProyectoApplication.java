@@ -15,7 +15,7 @@ public class ProyectoApplication {
 
 	@Bean
 	public CommandLineRunner app(TituloServicio tituloServicio, CursoServicio cursoServicio, AsignaturaServicio asignaturaServicio,
-			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio){
+			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio){
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
@@ -26,7 +26,7 @@ public class ProyectoApplication {
 			horarioServicio.cargarListado(asignaturaServicio);
 			profesorServicio.cargarListado(asignaturaServicio);
 			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
-
+			alumnoServicio.cargarListado(cursoServicio);
 
 			}
 		};
