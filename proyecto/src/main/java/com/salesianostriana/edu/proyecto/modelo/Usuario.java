@@ -27,9 +27,9 @@ public abstract class Usuario implements UserDetails {
     private String nombre;
     private String apellidos;
 
-    public Usuario(String email, String codigoBienv, boolean primerInic, String nombre, String apellidos) {
+    public Usuario(String email, String contrasenya, boolean primerInic, String nombre, String apellidos) {
         this.email = email;
-        this.codigoBienv = codigoBienv;
+        this.contrasenya = contrasenya;
         this.primerInic = primerInic;
         this.nombre = nombre;
         this.apellidos = apellidos;

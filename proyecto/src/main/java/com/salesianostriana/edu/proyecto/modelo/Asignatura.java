@@ -33,9 +33,26 @@ public class Asignatura {
     @ManyToOne
     private Curso curso;
 
+    @OneToMany(mappedBy = "asigntura", fetch = FetchType.EAGER)
+    private List<Horario> horarios = new ArrayList<>();
+
     public Asignatura(String nombre, Curso curso,  boolean esAlta) {
         this.nombre = nombre;
         this.curso = curso;
         this.esAlta = esAlta;
     }
+
+    public void addHorario(Horario h) {
+        this.horarios.add(h);
+        h.setAsigntura(this);
+    }
+
+    public void removeHorario(Horario h) {
+        this.horarios.remove(h);
+        h.setAsigntura(null);
+    }
+
+
+
+
 }

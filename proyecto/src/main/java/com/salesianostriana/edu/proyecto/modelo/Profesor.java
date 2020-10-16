@@ -40,6 +40,10 @@ public class Profesor extends Usuario{
         a.getProfesores().remove(this);
     }
 
+    public Profesor(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esJefeDeEstudios) {
+        super(email, contrasenya, primerInic, nombre, apellidos);
+        this.esJefeDeEstudios = esJefeDeEstudios;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

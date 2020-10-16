@@ -54,7 +54,6 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         // MIRAR SE DUPILCA
         for(Curso c : result){
             c.getTitulo().addCurso(c);
-            //titulo.edit(c.getTitulo());
             this.save(c);
         }
 

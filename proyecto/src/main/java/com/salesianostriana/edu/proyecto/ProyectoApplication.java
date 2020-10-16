@@ -1,9 +1,6 @@
 package com.salesianostriana.edu.proyecto;
 
-import com.salesianostriana.edu.proyecto.servicio.AsignaturaServicio;
-import com.salesianostriana.edu.proyecto.servicio.CursoServicio;
-import com.salesianostriana.edu.proyecto.servicio.HorarioServicio;
-import com.salesianostriana.edu.proyecto.servicio.TituloServicio;
+import com.salesianostriana.edu.proyecto.servicio.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +15,7 @@ public class ProyectoApplication {
 
 	@Bean
 	public CommandLineRunner app(TituloServicio tituloServicio, CursoServicio cursoServicio, AsignaturaServicio asignaturaServicio,
-			HorarioServicio horarioServicio){
+			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio){
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
@@ -27,7 +24,8 @@ public class ProyectoApplication {
 			cursoServicio.cargarListado(tituloServicio);
 			asignaturaServicio.cargarListado(cursoServicio);
 			horarioServicio.cargarListado(asignaturaServicio);
-
+//			profesorServicio.cargarListado(asignaturaServicio);
+//			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
 
 
 			}

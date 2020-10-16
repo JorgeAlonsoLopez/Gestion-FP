@@ -40,6 +40,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         }
 
         for(Horario h : result){
+            h.getAsigntura().addHorario(h);
             this.save(h);
         }
 
