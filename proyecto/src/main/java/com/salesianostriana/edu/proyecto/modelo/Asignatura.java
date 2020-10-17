@@ -1,6 +1,8 @@
 package com.salesianostriana.edu.proyecto.modelo;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Asignatura {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(mappedBy="asignaturas")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Alumno> alumnos = new ArrayList<>();
 
     @ManyToOne

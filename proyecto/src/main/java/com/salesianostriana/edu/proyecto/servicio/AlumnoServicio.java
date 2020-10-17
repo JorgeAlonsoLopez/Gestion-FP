@@ -1,8 +1,7 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Profesor;
+import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.repositorio.AlumnoRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -45,5 +44,19 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
             this.save(a);
         }
     }
+
+    public void cargarListadoAsignaturas(AsignaturaServicio asign) {
+
+        for (Alumno a : this.findAll()) {
+            for(Asignatura asig : a.getCurso().getAsignaturas()){
+                a.addAsignatura(asig);
+                asign.edit(asig);
+            }
+            this.edit(a);
+        }
+    }
+
+
+
 
 }

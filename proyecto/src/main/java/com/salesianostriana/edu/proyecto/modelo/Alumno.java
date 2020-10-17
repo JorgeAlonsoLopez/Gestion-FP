@@ -23,7 +23,7 @@ public class Alumno extends Usuario{
     @ManyToOne
     private Curso curso;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             joinColumns = @JoinColumn(name="alumno_id"),
             inverseJoinColumns = @JoinColumn(name="asignatura_id")
