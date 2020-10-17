@@ -23,6 +23,8 @@ public class Alumno extends Usuario{
     @ManyToOne
     private Curso curso;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             joinColumns = @JoinColumn(name="alumno_id"),

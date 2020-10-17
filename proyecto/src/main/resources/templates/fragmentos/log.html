@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE">Título</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <!-- Modal (iziModal.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.js"
+        integrity="sha256-jx5SpNrWp5tIlHK2uGtUsZ4QRJkEV9aQXXGN3kkPXIE=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.css"
+        integrity="sha256-qaS6Cn77YhfgOLFHy4qadvrn/cEYG9bvbnQILtSY+0E=" crossorigin="anonymous" />
+    <!-- Iconos  -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- Estilos -->
+    <link rel="stylesheet" type="text/css" href="../../static/css/CSS.css" th:href="@{/css/CSS.css}">
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+
+</head>
+<body>
+    
+    <div class="container mt-5">
+        <div class="row">
+          <div class="col-lg-8 mx-auto align-self-center my-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body ">
+                <h5 class="card-title text-center saludo mt-5">Bienvenid@</h5>
+                <div class="mt-5">
+                    <div class="container">
+                        <div layout:fragment="contenido">
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-around mt-5">
+                    <div class="col-md-4 mx-auto align-items-center text-center">
+                        <a href="#" data-izimodal-open="#coockiesModal">Política de Cookies</a>
+                    </div>
+                    <div class="col-md-4 mx-auto align-items-center text-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="#" class="redS">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="redS">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="redS">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="redS">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="redS">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mx-auto align-items-center text-center">
+                        <a href="#" data-izimodal-open="#legalModal">Aviso Legal</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div id="coockiesModal" class="modalP">
+        <div class="conten">
+            <h1><br>
+                Política de cookies</h1>
+            <p>
+                Utilizamos cookies para garantizar el funcionamiento de nuestros sitios web, así como para mejorar
+                su
+                calidad y contenidos a través del análisis de los hábitos de navegación de los usuarios,
+                proporcionándote una excelente experiencia de navegación.</p>
+            <p>
+                En la presente Política de Cookies, te explicamos qué son las cookies, para qué sirven, y cómo
+                puedes
+                configurarla o desactivarlas si así lo deseas. Además, te indicamos qué tipos de cookies utiliza, y
+                con
+                qué finalidad lo hace, la sociedad perteneciente al Grupo Sanitas responsable del sitio web a través
+                del
+                cual has accedido a la presente Política de Cookies (el “Sitio web”), y que se encuentra debidamente
+                identificada en el Aviso Legal que figura en el mismo.</p>
+            <p>
+                Te invitamos a leer atentamente esta Política de Cookies.<br>
+                &nbsp;</p>
+            <h3>
+                1. ¿Qué son las cookies y para qué sirven?<strong style="font-size:12px"><span
+                        class="negrita">&nbsp;&nbsp;</span></strong></h3>
+            <p>
+                Las cookies ficheros que se instalan en tu dispositivo (por ejemplo tu ordenador, tableta o teléfono
+                móvil) cuando visitas un sitio web. Las cookies se utilizan para garantizar la calidad, usabilidad y
+                correcto funcionamiento de los sitios web, además de para almacenar y recuperar información sobre
+                los
+                hábitos de navegación en los mismos y personalizar sus contenidos, pudiendo utilizarse en ocasiones
+                para
+                reconocer al usuario de un sitio web.</p>
+            <p>
+                Por lo tanto, las cookies son esenciales para el funcionamiento de Internet, y en ningún caso
+                suponen un
+                riesgo para tu equipo o tu dispositivo. Es más, pueden ayudarnos a reconocer la necesidad de mejoras
+                en
+                partes del Sitio web y a detectar errores de funcionamiento.<br>
+                &nbsp;</p>
+            <h3>
+                <span class="negrita">2. ¿Qué tipos de cookies existen?</span></h3>
+            <p>
+                Las cookies pueden clasificarse en diversos tipos, según diferentes criterios. A continuación,
+                Sanitas
+                le ofrece información sobre los diferentes tipos de cookies que utilizamos en el Sitio web.</p>
+            <p>
+                <strong>2.1. Tipos de cookies según la entidad que las gestiona</strong></p>
+            <ul class="boliches">
+                <li>
+                    Cookies propias: son aquellas que se envían a su equipo o dispositivo desde el Sitio web
+                    gestionado
+                    por Sanitas y desde el que se le presta el servicio. Si las cookies se instalan desde un equipo
+                    o
+                    dominio gestionado por Sanitas, pero la información que se recoge mediante las mismas es
+                    gestionada
+                    por un tercero, no pueden ser consideradas como cookies propias si el tercero las utiliza para
+                    sus
+                    propias finalidades (por ejemplo, la mejora de los servicios que presta).</li>
+                <li>
+                    Cookies de terceros: son aquellas que se envían a su equipo web desde un equipo o dominio que no
+                    es
+                    gestionado por Sanitas, sino por otra entidad, que trata la información obtenida a través de las
+                    mismas.<br>
+                    &nbsp;</li>
+            </ul>
+            <p>
+                <strong>2.2. Tipos de cookies según el período de tiempo que permanecen activadas en su
+                    dispositivo</strong></p>
+            <ul class="boliches">
+                <li>
+                    Cookies de sesión: son aquellas diseñadas para recabar y almacenar información únicamente
+                    durante la
+                    duración de su visita al Sitio web, y desaparecen al terminar la sesión.. Se emplean normalmente
+                    para almacenar información que solo interesa conservar durante para garantizar las
+                    funcionalidades
+                    básicas del Sitio web de Sanitas durante su visita al mismo.</li>
+                <li>
+                    Cookies persistentes: estas cookies almacenan la información por un período de tiempo más largo,
+                    que
+                    puede ser accedida y tratada por el responsable de la cookie&nbsp; durante dicho período. Este
+                    período varía según cada cookie, y puede ir de unos minutos a varios años.<br>
+                    &nbsp;</li>
+            </ul>
+            <p>
+            <h3><span class="negrita">3. Tipos de cookies</span></h3>
+            <strong>3.1. Tipos de cookies según su finalidad</strong>
+            </p>
+            <ul class="boliches">
+                <li>
+                    Cookies de sesión: son aquellas que te permiten navegar por el Sitio web. Las cookies de sesión
+                    te
+                    permitirán utilizar las diferentes funcionalidades y servicios del Sitio web, por ejemplo el
+                    inicio
+                    de sesión con tu identificador.</li>
+                <li>
+                    Cookies de preferencias o de personalización: son aquellas que permiten recordar información
+                    para
+                    que puedas acceder al Sitio web con características que pueden diferenciar tu experiencia de las
+                    de
+                    otros usuarios, como, por ejemplo, el aspecto o contenido del Sitio Web, que podrá variar en
+                    función
+                    del el tipo de navegador que utilizas.</li>
+                <li>
+                    Cookies de análisis o medición: son aquellas que permiten el seguimiento y análisis de su
+                    comportamiento en el Sitio web. Esta información permite medir y analizar el uso del Sitio web,
+                    así
+                    como elaborar perfiles de navegación de los usuarios, con el objetivo de introducir las mejoras
+                    necesarias en Sitio web en función del análisis de los datos de navegación recogidos.</li>
+                <li>
+                    Cookies publicitarias: son aquéllas que permiten la gestión, de la forma más eficaz posible, de
+                    los
+                    espacios publicitarios que, en su caso, se hayan incluido en el Sitio web de Sanitas.</li>
+                <li>
+                    Cookies de publicidad comportamental: son aquellas que permiten la gestión eficaz de los
+                    espacios
+                    publicitarios que se hayan podido incluir en el Sitio web, a través del almacenamiento de
+                    información de su comportamiento obtenida gracias a la observación continuada de sus hábitos de
+                    navegación, lo que permite desarrollar un perfil específico para mostrar publicidad en función
+                    del
+                    mismo.<br>
+                    &nbsp;</li>
+            </ul>
+            <h3>
+                4. ¿Cómo puedes configurar las cookies en el Sitio web?<br>
+                &nbsp;</h3>
+            <p>
+                <strong>4.1. Configuración de cookies a través del centro de configuración de cookies de
+                    Sanitas</strong></p>
+            <p>
+                Puedes aceptar o rechazar el uso de cookies a través del centro de configuración de cookies que
+                Sanitas
+                pone a tu disposición, y al que puedes acceder tanto a través del mensaje de información básica
+                sobre
+                cookies que aparece al visitar el Sitio web por primera vez, como a través del siguiente enlace, que
+                te
+                dirigirá al centro de configuración de cookies:&nbsp;<a class="ot-sdk-show-settings"
+                    style="cursor:pointer">Configuración de privacidad</a>.</p>
+            <p>
+                En el centro de configuración de cookies de Sanitas podrás consentir al uso de cookies, así como
+                retirar
+                cualquier consentimiento para sus uso ya otorgado, en cualquier momento y tantas veces como desees.
+            </p>
+            <p>
+                Ten en cuenta que si aceptas las cookies de terceros, deberás eliminarlas, si así lo deseas,
+                directamente a través de las opciones de gestión de cookies de tu navegador, tal y como explicamos
+                en el
+                siguiente punto 4.2.<br>
+                &nbsp;</p>
+            <p>
+                <strong>4.2. Configuración de cookies a través de tu navegador</strong></p>
+            <p>
+                Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo&nbsp; en cualquier momento
+                a
+                través de las opciones que pone a tu disposición el navegador que utilizas. Ten en cuenta que si
+                deshabilitas la totalidad de las cookies, algunas funcionalidades o contenidos del Sitio web de
+                Sanitas
+                pueden verse afectados. Te contamos cómo hacerlo:</p>
+            <ul class="boliches">
+                <li>
+                    Si utilizas <strong>Microsoft Internet Explorer</strong>: pulsa en el botón Herramientas de
+                    Internet
+                    Explorer y, después, en Opciones de Internet &gt; Privacidad &gt; Configuración &gt; Aceptar.
+                    Para
+                    más información, pulsa <a
+                        href="https://support.microsoft.com/es-es/help/17442/windows-internet-explorer-delete-manage-cookies"
+                        target="_blank">aquí</a></li>
+                <li>
+                    Si utilizas&nbsp;<strong>Firefox</strong>: pulsa en el botón Firefox y selecciona Opciones &gt;
+                    Privacidad &gt; Usar una configuración personalizada para el historial &gt; Marca la opción
+                    Aceptar
+                    cookies para activarlas, y desmárcala para desactivarlas &gt; Elige durante cuánto tiempo las
+                    cookies serán almacenadas &gt; Aceptar. Para más información, pulsa <a
+                        href="https://support.mozilla.org/es/products/firefox/privacy-and-security"
+                        target="_blank">aquí</a></li>
+                <li>
+                    Si utilizas&nbsp;<strong>Chrome</strong>: pulsa en el menú de Chrome en la barra de herramientas
+                    del
+                    navegador &gt; Configuración &gt; Mostrar opciones avanzadas &gt; En la sección "Privacidad",
+                    pulsa
+                    en Configuración de contenido &gt; En la sección "Cookies", puedes configurar las cookies. Para
+                    más
+                    información, pulsa <a href="https://support.google.com/chrome/answer/95647?hl=es"
+                        target="_blank">aquí</a></li>
+                <li>
+                    Si utilizas&nbsp;<strong>Safari</strong>: ve a Preferencias y, en el panel Privacidad, elige
+                    Bloquear Cookies, y selecciona la opción que prefieras de las que el navegador te ofrece. Para
+                    más
+                    información, pulsa <a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac"
+                        target="_blank">aquí</a></li>
+                <li>
+                    Si utilizas&nbsp;<strong>Opera</strong>: pulsa en Configuración &gt; Opciones &gt; Avanzado &gt;
+                    Cookies. Para más información, pulsa <a
+                        href="https://help.opera.com/en/latest/web-preferences/#cookies" target="_blank">aquí</a>
+                </li>
+                <li>
+                    Si utilizas un&nbsp;<strong>IPhone </strong>o un<strong> Ipad</strong>: en la pantalla de
+                    inicio,
+                    selecciona Ajustes &gt; Safari y, a continuación, elige la opción de configuración que
+                    prefieras.
+                    Para más información, pulsa <a href="https://support.apple.com/es-es/HT201265"
+                        target="_blank">aquí</a></li>
+                <li>
+                    Si utilizas&nbsp;<strong>Android</strong>: pulsa en Menú &gt; Ajustes &gt; Seguridad y
+                    Privacidad
+                    &gt; activa o desactiva la casilla “Aceptar cookies” &gt; Reinicia el navegador para que los
+                    cambios
+                    sean efectivos.</li>
+                <li>
+                    Si utilizas&nbsp;<strong>Windows Phone</strong>: en Internet Explorer, pulsa en Más &gt;
+                    Configuración. También puedes obtener acceso a la configuración de Internet Explorer a través de
+                    Configuración, en la lista de aplicaciones. Selecciona o desactiva la opción Permitir
+                    cookies.<br>
+                    &nbsp;</li>
+            </ul>
+            <h3>
+                5. Información adicional</h3>
+            <p>
+                Puedes consultar información adicional sobre el tratamiento de tu información, en particular sobre
+                tus
+                derechos y las modalidades de ejercicio de los mismos, en el aviso legal y la política de privacidad
+                de
+                Sanitas que encontrarás disponible a través del enlace que figura al pie de página del Sitio Web, y
+                que
+                te invitamos a consultar.<br>
+                &nbsp;</p>
+            <h4>
+                Última actualización de la Política de Cookies: 11 de noviembre de 2019</h4>
+            <style></style>
+        </div>
+        </section>
+    </div>
+
+    <div id="legalModal" class="modalP">
+        <div class="conten">
+            <div><br>
+                <h3>1) Identidad del titular del web</h3>
+                <p>RBA Revistas, S.L. (en adelante la COMPAÑÍA) es una entidad mercantil de nacionalidad española,
+                    con
+                    domicilio en Avenida Diagonal 189, 08018 Barcelona, y C.I.F. nº B64610389, inscrita en el
+                    Registro
+                    Mercantil de Barcelona, Tomo 39811, folio 38, hoja nº B-352176, inscripción 1ª.</p>
+                <p>Puede contactarnos en el teléfono 910 92 01 29 o enviando un correo a clientes@rba.es</p>
+                <p>Para cuestiones relacionadas con su privacidad: Envíe un correo electrónico a
+                    protecciondatos@rba.es
+                </p>
+                <h3>2) Aceptación del Usuario</h3>
+                <p>Estas Condiciones de Uso (en adelante Aviso Legal) regulan el acceso y utilización de la página
+                    web
+                    (en adelante la “Web”) que LA COMPAÑÍA pone a disposición de los usuarios de Internet. El acceso
+                    a
+                    la misma implica la aceptación sin reservas del presente Aviso Legal.</p>
+                <p>LA COMPAÑÍA puede ofrecer a través de la página web, servicios que podrán encontrarse sometidos a
+                    unas condiciones particulares propias sobre las cuales se informará al Usuario en cada caso
+                    concreto.</p>
+                <h3>3) Acceso a la página web y Contraseñas</h3>
+                <p>En general no se exige la previa suscripción o registro como Usuario para el acceso y uso de la
+                    página web, sin perjuicio de que para la utilización de determinados servicios o contenidos de
+                    la
+                    misma se deba realizar dicha suscripción o registro.</p>
+                <p>Los datos de los Usuarios obtenidos a través de la suscripción o registro, están protegidos
+                    mediante
+                    contraseñas elegidas por ellos mismos. El Usuario se compromete a mantener su contraseña en
+                    secreto
+                    y a protegerla de usos no autorizados por terceros. El Usuario deberá notificar a LA COMPAÑÍA
+                    inmediatamente cualquier uso no consentido de su cuenta o cualquier violación de la seguridad
+                    relacionada con el servicio de la página web, de la que haya tenido conocimiento.</p>
+                <p>LA COMPAÑÍA adopta las medidas técnicas y organizativas necesarias para garantizar la protección
+                    de
+                    los datos de carácter personal y evitar su alteración, pérdida, tratamiento y/o acceso no
+                    autorizado, habida cuenta del estado de la técnica, la naturaleza de los datos almacenados y los
+                    riesgos a que están expuestos, todo ello, conforme a lo establecido por la legislación española
+                    de
+                    Protección de Datos de Carácter Personal.</p>
+                <p>LA COMPAÑÍA no se hace responsable frente a los Usuarios, por la revelación de sus datos
+                    personales a
+                    terceros que no sea debida a causas directamente imputables a LA COMPAÑÍA, ni por el uso que de
+                    tales datos hagan terceros ajenos a LA COMPAÑÍA.</p>
+                <h3>4) Uso correcto de la página web</h3>
+                <p>El Usuario se compromete a utilizar la página web, los contenidos y servicios de conformidad con
+                    la
+                    Ley, el presente Aviso Legal, las buenas costumbres y el orden público. Del mismo modo el
+                    Usuario se
+                    obliga a no utilizar la página web, sus contenidos o los servicios que se presten a través de
+                    ésta
+                    con fines o efectos ilícitos o contrarios al contenido del presente</p>
+                <p>Aviso Legal, lesivos de los intereses o derechos de terceros, o que de cualquier forma pueda
+                    dañar,
+                    inutilizar, hacer inaccesibles o deteriorar la página web, sus contenidos o sus servicios o
+                    impedir
+                    un normal disfrute de la misma por otros Usuarios.</p>
+                <p>Asimismo, el Usuario se compromete expresamente a no destruir, alterar, inutilizar o, de
+                    cualquier
+                    otra forma, dañar los datos, programas o documentos electrónicos que se encuentren en la Web.
+                </p>
+                <p>El Usuario se compromete a no obstaculizar el acceso de otros Usuarios mediante el consumo masivo
+                    de
+                    los recursos informáticos a través de los cuales LA COMPAÑÍA presta el servicio, así como
+                    realizar
+                    acciones que dañen, interrumpan o generen errores en dichos sistemas o servicios.</p>
+                <p>El Usuario se compromete a no introducir programas, virus, macros, applets, controles ActiveX o
+                    cualquier otro dispositivo lógico o secuencia de caracteres que causen o sean susceptibles de
+                    causar
+                    cualquier tipo de alteración en los sistemas informáticos de LA COMPAÑÍA o de terceros.</p>
+                <h3>5) Enlaces de terceros</h3>
+                <p>El presente Aviso Legal se refiere únicamente a la página web y contenidos de LA COMPAÑÍA, y no
+                    se
+                    aplica a los enlaces o a las páginas web de terceros accesibles a través de la página web.</p>
+                <p>Los destinos de dichos enlaces no están bajo el control de LA COMPAÑÍA, y LA COMPAÑÍA no es
+                    responsable del contenido de ninguna de las páginas web de destino de un enlace, ni de ningún
+                    enlace
+                    incluido en una página web a la que se llegue desde la web de LA COMPAÑÍA, ni de ningún cambio o
+                    actualización de dichas páginas.</p>
+                <p>Estos enlaces se proporcionan únicamente para informar al Usuario sobre la existencia de otras
+                    fuentes de información sobre un tema concreto, y la inclusión de un enlace no implica la
+                    aprobación
+                    de la página web enlazada por parte de LA COMPAÑÍA.</p>
+                <h3>6) Propiedad intelectual e industrial</h3>
+                <p>Todos los contenidos de la página Web, salvo que se indique lo contrario, son titularidad
+                    exclusiva
+                    de LA COMPAÑÍA y, con carácter enunciativo, que no limitativo, el diseño gráfico, código fuente,
+                    logos, textos, gráficos, ilustraciones, fotografías, y demás elementos que aparecen en la página
+                    Web.</p>
+                <p>Igualmente, todos los nombres comerciales, marcas o signos distintivos de cualquier clase
+                    contenidos
+                    en la página Web están protegidos por la Ley.</p>
+                <p>LA COMPAÑÍA no concede ningún tipo de licencia o autorización de uso personal al Usuario sobre
+                    sus
+                    derechos de propiedad intelectual e industrial o sobre cualquier otro derecho relacionado con su
+                    Web
+                    y los servicios ofrecidos en la misma.</p>
+                <p>Por ello, el Usuario reconoce que la reproducción, distribución, comercialización,
+                    transformación, y
+                    en general, cualquier otra forma de explotación, por cualquier procedimiento, de todo o parte de
+                    los
+                    contenidos de esta página Web constituye una infracción de los derechos de propiedad intelectual
+                    y/o
+                    industrial de LA COMPAÑÍA o del titular de los mismos.</p>
+                <h3>7) Foros o Blogs</h3>
+                <p>LA COMPAÑÍA ofrece a los Usuarios la posibilidad de introducir comentarios y/o de remitir
+                    fotografías
+                    para incorporarlos en las secciones correspondientes, así como de participar en foros de debate
+                    y de
+                    mantener conversaciones con otros usuarios. La publicación de los comentarios y/o las
+                    fotografías
+                    está sujeta al presente Aviso Legal.</p>
+                <p>La persona identificada en cada caso como la que ha realizado los comentarios y/o ha enviado las
+                    fotografías, es responsable de los mismos. Los comentarios y/o las fotografías, no reflejan la
+                    opinión de LA COMPAÑÍA, ni LA COMPAÑÍA hace declaraciones a este respecto.</p>
+                <p>LA COMPAÑÍA no se hará responsable, a no ser en aquellos extremos a los que le obligue la Ley, de
+                    los
+                    errores, inexactitudes o irregularidades que puedan contener los comentarios y/o las
+                    fotografías,
+                    así como de los daños o perjuicios que se pudieran ocasionar por la inserción de los comentarios
+                    y/o
+                    las fotografías en el Foro o en las demás secciones de la página web que permitan esta clase de
+                    servicios y contenidos.</p>
+                <p>El Usuario suministrador del texto y/o fotografías cede a LA COMPAÑÍA los derechos para su
+                    reproducción, uso, distribución, comunicación pública y cualquier tipo de actividad sobre los
+                    mismos, tanto en formato electrónico, digital, papel, como en cualquier otro tipo de soporte. Y,
+                    en
+                    especial, el Usuario cede dichos derechos para el emplazamiento del texto y/o las fotografías en
+                    la
+                    página Web, con el fin de que los demás Usuarios puedan acceder a los mismos.</p>
+                <p>El Usuario suministrador declara ser el titular de los derechos sobre los textos o fotografías o,
+                    en
+                    su caso, garantiza que dispone de los derechos y autorizaciones necesarios del autor o
+                    propietario
+                    del texto y/o fotografías, para su utilización por parte de LA COMPAÑÍA a través de la página
+                    Web.
+                </p>
+                <p>LA COMPAÑÍA no se hará responsable, a no ser en aquellos extremos a los que obligue la Ley, de
+                    los
+                    daños o perjuicios que se pudieran ocasionar por el uso, reproducción, distribución o
+                    comunicación
+                    pública o cualquier tipo de actividad que realice sobre los textos y/o fotografías que se
+                    encuentren
+                    protegidos por derechos de propiedad intelectual pertenecientes a terceros, sin que el Usuario
+                    haya
+                    obtenido previamente de sus titulares la autorización necesaria para llevar a cabo el uso que
+                    efectúa o pretende efectuar.</p>
+                <p>Asimismo, LA COMPAÑÍA se reserva el derecho de retirar de forma unilateral los comentarios y/o
+                    fotografías albergados en cualquier sección de la web, cuando haya indicios de que los
+                    comentarios
+                    y/o fotografías infringen cualquier disposición legal, vulneran derechos de terceros, o son
+                    utilizados con fines publicitarios (spam), así como cuando LA COMPAÑÍA lo estime oportuno.</p>
+                <p>LA COMPAÑÍA no será responsable por la información enviada por el Usuario cuando no tenga
+                    conocimiento efectivo de que la información almacenada es ilícita o de que lesiona bienes o
+                    derechos
+                    de un tercero susceptibles de indemnización. En el momento que LA COMPAÑÍA tenga conocimiento
+                    efectivo de que aloja datos como los anteriormente referidos, se compromete a actuar con
+                    diligencia
+                    para retirarlos o hacer imposible el acceso a ellos.</p>
+                <p>En todo caso, para interponer cualquier reclamación relacionada con los contenidos insertados en
+                    cualquiera de las secciones, puede dirigirse a la siguiente dirección de correo electrónico:
+                    juridico@rba.es</p>
+                <h3>8) Redes sociales</h3>
+                <p>El usuario podrá unirse a los Grupos que LA COMPAÑÍA tiene en distintas redes sociales. El
+                    usuario
+                    que se haga fan o seguidor de alguno de estos Grupos, acepta las condiciones de uso y política
+                    de
+                    privacidad de la red social correspondiente.</p>
+                <h3>9) Protección de datos de carácter personal</h3>
+                <p>El Usuario podrá facilitar a LA COMPAÑÍA sus datos de carácter personal a través de los distintos
+                    formularios que a tal efecto aparecen incorporados en la página Web. Dichos formularios
+                    incorporan
+                    un texto legal en materia de protección de datos personales que da cumplimiento a las exigencias
+                    establecidas en la normativa de Protección de Datos en vigor.</p>
+                <p>Rogamos lea atentamente los textos legales antes de facilitar sus datos de carácter personal.</p>
+                <p>En general los datos personales se incorporarán a un único fichero cuyo responsable es la
+                    Comunidad
+                    RBA que está conformada por las siguientes empresas de RBA: RBA COLECCIONABLES, S.A.U., RBA
+                    REVISTAS, S.L., RBA LIBROS, S.A. y EDICIONES EL JUEVES, S.A., pertenecientes al sector editorial
+                    y
+                    serán tratados con la finalidad para la que los haya facilitado, o para remitirle comunicaciones
+                    comerciales de sus productos cuando así lo haya autorizado. Estas compañías están domiciliadas
+                    en
+                    Avda. Diagonal, 189, 08018, Barcelona y en conjunto conforman la Comunidad RBA. La Comunidad se
+                    coordina desde las referidas instalaciones de RBA, donde se centralizan los sistemas y servicios
+                    de
+                    las citadas Compañías, para ser gestionados de forma unificada. Por ello, a pesar de existir
+                    varios
+                    responsables, el fichero donde se albergarán sus datos personales se tratará internamente como
+                    una
+                    única base de datos respecto a la que podrá ejercitar los derechos descritos a continuación.</p>
+                <p>Podrá ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación del
+                    tratamiento
+                    y portabilidad de sus datos, así como revocar el consentimiento prestado para el envío de
+                    comunicaciones comerciales, enviando un correo electrónico a protecciondatos@rba.es, o bien
+                    enviando
+                    una carta a la dirección anteriormente indicada. Además, en cada envío que reciba incluiremos el
+                    medio habilitado para que pueda darse de baja de nuestras comunicaciones.</p>
+                <p>RBA tiene implantadas las medidas de seguridad de índole técnica y organizativas necesarias para
+                    garantizar la seguridad de sus datos de carácter personal y evitar su alteración, pérdida y
+                    tratamiento y/o acceso no autorizado, habida cuenta del estado de la tecnología, la naturaleza
+                    de
+                    los datos almacenados y los riesgos a que están expuestos. Todo ello, de conformidad con lo
+                    previsto
+                    en las referidas normativas.</p>
+                <h3>10) Modificación de las condiciones de uso</h3>
+                <p>LA COMPAÑÍA se reserva el derecho de desarrollar o actualizar en cualquier momento el Aviso Legal
+                    por
+                    lo que el usuario deberá leerlo periódicamente.</p>
+                <h3>11) Ley aplicable y Jurisdicción</h3>
+                <p>La relación entre LA COMPAÑÍA y el Usuario se regirá por la normativa española vigente y
+                    cualquier
+                    controversia se someterá a los Juzgados y Tribunales del domicilio del Usuario.</p>
+                <p>LA COMPAÑÍA perseguirá el incumplimiento de las presentes Condiciones, así como cualquier
+                    utilización
+                    indebida del sitio web ejerciendo todas las acciones civiles y penales que le puedan
+                    corresponder y
+                    asistan en derecho.</p>
+                <h3>12) Resolución de conflictos online en caso de compra o suscripción</h3>
+                <p>En relación con la resolución de reclamaciones online en materia de consumo, el Art. 14.1 del
+                    Reglamento 524/2013 de la Comisión Europea facilita a los consumidores una plataforma para
+                    interponer sus reclamaciones, que se encuentra disponible en el siguiente enlace:
+                    http://ec.europa.eu/consumers/odr/</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $(".modalP").iziModal({
+                title: "Políticas y aviso legal",
+                fullscreen: true,
+                headerColor: 'rgb(88,88,88)',
+                overlayColor: 'rgba(0,0,0,0)',
+                transitionIn: 'comingIn',
+                width: 1000
+            });
+        });
+    </script>
+
+</body>
+</html>

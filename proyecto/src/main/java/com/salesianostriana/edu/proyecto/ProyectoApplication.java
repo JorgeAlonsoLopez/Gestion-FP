@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ProyectoApplication {
 
 	@Bean
 	public CommandLineRunner app(TituloServicio tituloServicio, CursoServicio cursoServicio, AsignaturaServicio asignaturaServicio,
-			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio){
+			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio, BCryptPasswordEncoder passwordEncoder){
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
@@ -28,9 +29,9 @@ public class ProyectoApplication {
 			tituloServicio.cargarListado();
 			cursoServicio.cargarListado(tituloServicio);
 			asignaturaServicio.cargarListado(cursoServicio);
-			profesorServicio.cargarListado(asignaturaServicio);
+			profesorServicio.cargarListado(passwordEncoder);
 			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
-			alumnoServicio.cargarListado(cursoServicio);
+			alumnoServicio.cargarListado(cursoServicio, passwordEncoder);
 			alumnoServicio.cargarListadoAsignaturas(asignaturaServicio);
 			horarioServicio.cargarListado(asignaturaServicio);
 

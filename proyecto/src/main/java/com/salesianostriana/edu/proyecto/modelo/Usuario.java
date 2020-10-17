@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Random;
 
 @Data
 @NoArgsConstructor
@@ -66,5 +67,7 @@ public abstract class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 }

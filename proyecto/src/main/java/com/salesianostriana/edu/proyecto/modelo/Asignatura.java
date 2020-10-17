@@ -8,10 +8,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
+
 public class Asignatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,8 @@ public class Asignatura {
     @ManyToOne
     private Curso curso;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "asigntura", fetch = FetchType.EAGER)
     private List<Horario> horarios = new ArrayList<>();
 

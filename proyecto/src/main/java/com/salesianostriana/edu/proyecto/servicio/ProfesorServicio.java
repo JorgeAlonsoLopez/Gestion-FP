@@ -1,10 +1,10 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Horario;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.ProfesorRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -81,7 +81,7 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
     }
 
-    public void cargarListado(AsignaturaServicio asignatura) {
+    public void cargarListado(BCryptPasswordEncoder passwordEncoder) {
         List<Profesor> result = new ArrayList<>();
 
         String path = "classpath:Profesores.csv";
@@ -107,6 +107,7 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
         }
 
         for(Profesor p : result){
+            p.setContrasenya(passwordEncoder.encode(p.getContrasenya()));
             this.save(p);
         }
 

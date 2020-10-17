@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http
 		.authorizeRequests()
-		.antMatchers("/css/**","/js/**","/img/**", "/h2-console/**", "/", "/acceso", "/index", "/nuevo", "/nuevo/submit").permitAll()
+		.antMatchers("/css/**","/js/**","/img/**", "/h2-console/**", "/", "/invitacionA/**", "/invitacionP/**", "/acceso", "/inicio", "/submit").permitAll()
 			.antMatchers("/jefe/**").hasAnyRole("JEFE")
 			.antMatchers("/profesor/**").hasAnyRole("PROF")
 			.antMatchers("/alumno/**").hasAnyRole("ALUM")
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 		.logout()
 			.logoutUrl("/logout")
-			.logoutSuccessUrl("/index")
+			.logoutSuccessUrl("/")
 			.permitAll()
 			.and()
 		.exceptionHandling()

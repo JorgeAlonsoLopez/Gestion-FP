@@ -2,8 +2,10 @@ package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
+import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.AlumnoRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -20,7 +22,20 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         super(repo);
     }
 
-    public void cargarListado(CursoServicio curso) {
+    public Alumno findByEmail(String email){
+
+        Alumno alu = new Alumno();
+        alu=null;
+
+        for (Alumno a : this.findAll()){
+            if(a.getEmail().equals(email)){
+                alu = a;
+            }
+        }
+        return alu;
+    }
+
+    public void cargarListado(CursoServicio curso, BCryptPasswordEncoder passwordEncoder) {
         List<Alumno> result = new ArrayList<>();
 
         String path = "classpath:Alumnos.csv";
@@ -40,6 +55,7 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         }
 
         for (Alumno a : result) {
+            a.setContrasenya(passwordEncoder.encode(a.getContrasenya()));
             a.getCurso().addAlumno(a);
             this.save(a);
         }
