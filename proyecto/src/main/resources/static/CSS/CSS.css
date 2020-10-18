@@ -2,15 +2,20 @@ html {
     scroll-behavior: smooth;
 }
 
-body{
+#bodyLog{
     color: black;
     background-color: #999999;
     background-image: url(../img/sky.jpg);
 }
 
-a:link  {
+a:link {
     color: black;
   }
+
+#contenLog a:link, #contenLog a , #contenLog a:hover {
+  color: white;
+  text-decoration: none;
+}
 
 .saludo{
     font-family: 'Sofia';
@@ -146,13 +151,44 @@ a:link  {
     padding-left: 28px;
 }
 
-.no_enlace{
-    color: black;
+.no_enlace a{
     text-decoration: none;
   }
 
-.no_enlace:hover{
-   color: white;
+.no_enlace a:hover{
    text-decoration: none;
 }
+
+#menu{
+  background-color: #edf2f4;
+}
+
+nav{
+  font-size: 15pt;
+  background-color: #d90429;
+  color: white;
+}
+
+nav a:link , footer a:link{
+  color: white;
+}
+
+
+footer{
+  font-size: 15pt;
+  background-color: #51626f;
+}
+
+.boton{
+  background-color: #8d99ae;
+  border-radius: 0%;
+}
+
+.botonMenu{
+  width: 70%;
+  margin-bottom: 25px;
+  text-decoration: none;
+}
+
+
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,65 +33,67 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
 
 </head>
-<body id="bodyLog">
+<body id="menu">
     
-    <div class="container mt-5">
-        <div class="row">
-          <div class="col-lg-8 mx-auto align-self-center my-auto">
-            <div class="card card-signin my-5">
-              <div class="card-body ">
-                <h5 class="card-title text-center saludo mt-5">Bienvenid@</h5>
-                <div class="mt-5">
-                    <div class="container" id="contenLog">
-                        <div layout:fragment="contenido">
-
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-around mt-5 no_enlace">
-                    <div class="col-md-4 mx-auto align-items-center text-center">
-                        <a href="#" data-izimodal-open="#coockiesModal">Política de Cookies</a>
-                    </div>
-                    <div class="col-md-4 mx-auto align-items-center text-center">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="#" class="redS">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#" class="redS">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#" class="redS">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#" class="redS">
-                                    <i class="fab fa-google-plus-g"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#" class="redS">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 mx-auto align-items-center text-center">
-                        <a href="#" data-izimodal-open="#legalModal">Aviso Legal</a>
-                    </div>
-                </div>
-              </div>
+    <nav class="fixed-top pt-2 pb-2">
+        <div class="row d-flex justify-content-between no_enlace">
+            <div class="col-md-2 mx-auto align-items-center text-center">
+                <span th:text="${usuarioLogeado.nombre} + ' ' + ${usuarioLogeado.apellidos}">Nombre y apellidos</span>
             </div>
-          </div>
+            <div class="col-md-8 mx-auto align-items-center text-center">
+                <img src="../../static/img/logo.PNG" th:src="@{/img/logo.PNG}" alt="Logo del centro">
+            </div>
+            <div class="col-md-2 mx-auto align-items-center text-center no_enlace">
+                <form th:action="@{/logout}" method="POST" id="logoutForm">
+                </form>
+                <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</span>
+            </div>
         </div>
-      </div>
+    </nav>
+
+    <main layout:fragment="contenido" class="container-fluid">
+        
+    </main>
+
+    <footer class="fixed-bottom">
+        <div class="row d-flex justify-content-around no_enlace mt-2">
+            <div class="col-md-4 mx-auto align-items-center text-center">
+                <a href="#" data-izimodal-open="#coockiesModal">Política de Cookies</a>
+            </div>
+            <div class="col-md-4 mx-auto align-items-center text-center">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="#" class="redS">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" class="redS">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" class="redS">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" class="redS">
+                            <i class="fab fa-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" class="redS">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 mx-auto align-items-center text-center">
+                <a href="#" data-izimodal-open="#legalModal">Aviso Legal</a>
+            </div>
+        </div>
+    </footer>
 
     <div id="coockiesModal" class="modalP">
         <div class="conten">

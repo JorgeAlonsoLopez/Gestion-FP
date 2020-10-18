@@ -8,9 +8,21 @@
 </head>
 <body>
 	<div layout:fragment="contenido">
+        <div>
+            <h2 class="mx-auto text-center mb-3 mt-3">Profesor</h2>
+        </div>
+        <div class="mx-auto mb-3 mt-3 alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p>Le recordamos que para que se lleve a cabo de forma correcta la siguiente operación se deben dar las siguientes características:</p>
+            <ul>
+                <li>El correo que va a insertar debe ser un profesor.</li>
+                <li>No puede haber iniciado sesión antes.</li>
+            </ul>
+            <p>Si no se cumplen las siguientes condiciones volverá a la página anterior. Si se ha olvidado de la contraseña, por favor, póngase en contacto con el administrador.</p>
+        </div>
 		<form action="#" method="post"  th:action="@{/invitacionP/submit}" th:object="${profesor}">
             <div>
-                <h2 class="mx-auto text-center">Correo</h2>
+                <h3 class="mx-auto text-center">Correo</h3>
             </div>
             <div class="wrap-input100 validate-input mx-auto mb-5">
                 <input class="input100" type="email" name="email" placeholder="Email" th:field="*{email}">
@@ -19,12 +31,18 @@
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
             </div>
+            <div>
+                <h3 class="mx-auto text-center">Código de bienvenida</h3>
+            </div>
             <div class="wrap-input100 validate-input mx-auto mb-5">
                 <input class="input100" type="text" name="codigoBienv" placeholder="Código de bienvenida" th:field="*{codigoBienv}">
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
                     <i class="fa fa-door-open" aria-hidden="true"></i>
                 </span>
+            </div>
+            <div>
+                <h3 class="mx-auto text-center">Contraseña</h3>
             </div>
             <div class="wrap-input100 validate-input mx-auto mb-5">
                 <input class="input100" type="password" name="contrasenya" placeholder="Contraseña" th:field="*{contrasenya}">

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuProfesor}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Principal</title>
 </head>
 <body>
-    <h1>Profesor</h1>
+    <div layout:fragment="contenido-sin-menu">
+        <span>Menu principal del profesor</span>
+    </div>
+
 </body>
 </html>
