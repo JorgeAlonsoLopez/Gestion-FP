@@ -1,6 +1,8 @@
 package com.salesianostriana.edu.proyecto.modelo;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -32,11 +34,6 @@ public class Alumno extends Usuario{
     )
     private List<Asignatura> asignaturas = new ArrayList<>();
 
-    public Alumno(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, Curso curso) {
-        super(email, contrasenya, primerInic, nombre, apellidos);
-        this.curso = curso;
-    }
-
     public void addAsignatura(Asignatura a) {
         asignaturas.add(a);
         a.getAlumnos().add(this);
@@ -46,6 +43,49 @@ public class Alumno extends Usuario{
         asignaturas.remove(a);
         a.getAlumnos().remove(this);
     }
+
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "alumno")
+    private List<Excepcion> listaExcepciones = new ArrayList<>();
+
+    public void addExcepcion(Excepcion e) {
+        listaExcepciones.add(e);
+        e.setAlumno(this);
+    }
+
+    public void removeExcepcion(Excepcion e) {
+        listaExcepciones.remove(e);
+        e.setAlumno(null);
+    }
+
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "alumno")
+    private List<Ampliacion> listaAmpliaciones = new ArrayList<>();
+
+    public void addAmpliacion(Ampliacion e) {
+        listaAmpliaciones.add(e);
+        e.setAlumno(this);
+    }
+
+    public void removeAmpliacion(Ampliacion e) {
+        listaAmpliaciones.remove(e);
+        e.setAlumno(null);
+    }
+
+
+
+    public Alumno(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, Curso curso) {
+        super(email, contrasenya, primerInic, nombre, apellidos);
+        this.curso = curso;
+    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

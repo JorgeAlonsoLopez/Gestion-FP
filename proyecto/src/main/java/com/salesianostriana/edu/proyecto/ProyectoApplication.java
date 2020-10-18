@@ -22,20 +22,26 @@ public class ProyectoApplication {
 
 	@Bean
 	public CommandLineRunner app(TituloServicio tituloServicio, CursoServicio cursoServicio, AsignaturaServicio asignaturaServicio,
-			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio, BCryptPasswordEncoder passwordEncoder){
+			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio,
+			 BCryptPasswordEncoder passwordEncoder, ExcepcionServicio excepcionServicio, AmpliacionServicio ampliacionServicio){
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
 
 			tituloServicio.cargarListado();
-			cursoServicio.cargarListado(tituloServicio);
-			asignaturaServicio.cargarListado(cursoServicio);
+			cursoServicio.cargarListado();
+			asignaturaServicio.cargarListado();
 			profesorServicio.cargarListado(passwordEncoder);
-			profesorServicio.cargarListadoProf_Asig(asignaturaServicio);
-			alumnoServicio.cargarListado(cursoServicio, passwordEncoder);
-			alumnoServicio.cargarListadoAsignaturas(asignaturaServicio);
-			horarioServicio.cargarListado(asignaturaServicio);
+			profesorServicio.cargarListadoProf_Asig();
+			alumnoServicio.cargarListado(passwordEncoder);
+			alumnoServicio.cargarListadoAsignaturas();
+			horarioServicio.cargarListado();
 
+			alumnoServicio.deleteAsignatura("alumno2@email.com", "Bases de Datos", "1º DAM");
+			alumnoServicio.deleteAsignatura("alumno2@email.com", "Lenguajes de Marcas y Sistemas de Gestión de la Información", "1º DAM");
+
+//			excepcionServicio.nuevaExcepcion("alumno2@email.com", "1º DAM", "FOP");
+//			ampliacionServicio.nuevaAmpliacion("alumno2@email.com", "2º DAM", "Sistemas de Gestión Empresarial");
 
 			}
 		};

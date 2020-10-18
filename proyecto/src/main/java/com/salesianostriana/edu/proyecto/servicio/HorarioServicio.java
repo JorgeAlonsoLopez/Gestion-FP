@@ -1,6 +1,5 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Horario;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
@@ -16,11 +15,14 @@ import java.util.stream.Collectors;
 @Service
 public class HorarioServicio extends BaseService<Horario, Long, HorarioRepository> {
 
-    public HorarioServicio(HorarioRepository repo) {
+    private final AsignaturaServicio asignaturaServicio;
+
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio) {
         super(repo);
+        this.asignaturaServicio = asignaturaServicio;
     }
 
-    public void cargarListado(AsignaturaServicio asignatura) {
+    public void cargarListado() {
         List<Horario> result = new ArrayList<>();
 
         String path = "classpath:Horario.csv";
@@ -29,7 +31,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
                 return new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
-                        asignatura.findByNameCurs(values[0],values[1]), true);
+                        asignaturaServicio.findByNameCurs(values[0],values[1]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on

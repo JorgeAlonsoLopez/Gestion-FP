@@ -39,12 +39,6 @@ public class Asignatura {
     @OneToMany(mappedBy = "asigntura", fetch = FetchType.EAGER)
     private List<Horario> horarios = new ArrayList<>();
 
-    public Asignatura(String nombre, Curso curso,  boolean esAlta) {
-        this.nombre = nombre;
-        this.curso = curso;
-        this.esAlta = esAlta;
-    }
-
     public void addHorario(Horario h) {
         this.horarios.add(h);
         h.setAsigntura(this);
@@ -55,6 +49,43 @@ public class Asignatura {
         h.setAsigntura(null);
     }
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "asignatura")
+    private List<Excepcion> listaExcepciones = new ArrayList<>();
+
+    public void addExcepcion(Excepcion e) {
+        listaExcepciones.add(e);
+        e.setAsignatura(this);
+    }
+
+    public void removeExcepcion(Excepcion e) {
+        listaExcepciones.remove(e);
+        e.setAsignatura(null);
+    }
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "asignatura")
+    private List<Ampliacion> listaAmpliaciones = new ArrayList<>();
+
+    public void addAmpliacion(Ampliacion e) {
+        listaAmpliaciones.add(e);
+        e.setAsignatura(this);
+    }
+
+    public void removeAmpliacion(Ampliacion e) {
+        listaAmpliaciones.remove(e);
+        e.setAsignatura(null);
+    }
+
+    public Asignatura(String nombre, Curso curso,  boolean esAlta) {
+        this.nombre = nombre;
+        this.curso = curso;
+        this.esAlta = esAlta;
+    }
 
 
 

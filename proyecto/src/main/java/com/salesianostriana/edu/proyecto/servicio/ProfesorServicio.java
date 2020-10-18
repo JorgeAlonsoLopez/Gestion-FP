@@ -17,8 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorRepository> {
 
-    public ProfesorServicio(ProfesorRepository repo) {
+    private final AsignaturaServicio asignaturaServicio;
+
+    public ProfesorServicio(ProfesorRepository repo, AsignaturaServicio asignaturaServicio) {
         super(repo);
+        this.asignaturaServicio = asignaturaServicio;
     }
 
     public Profesor findByEmail(String email){
@@ -34,7 +37,7 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
         return prof;
     }
 
-    public void cargarListadoProf_Asig(AsignaturaServicio asignatura) {
+    public void cargarListadoProf_Asig() {
 
         List<Profesor> listaProf = new ArrayList<>();
         List<Asignatura> listaAsig = new ArrayList<>();
@@ -59,7 +62,7 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
             // @formatter:off
             listaAsig = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
-                return asignatura.findByNameCurs(values[0], values[1]);
+                return asignaturaServicio.findByNameCurs(values[0], values[1]);
 
             }).collect(Collectors.toList());
             // @formatter:on
@@ -73,7 +76,7 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
             listaProf.get(i).addAsignatura(listaAsig.get(i));
             this.edit(listaProf.get(i));
-            asignatura.edit(listaAsig.get(i));
+            asignaturaServicio.edit(listaAsig.get(i));
 
 
         }

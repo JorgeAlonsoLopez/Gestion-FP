@@ -1,7 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class AsignaturaServicio extends BaseService<Asignatura, Long, AsignaturaRepository> {
 
-    public AsignaturaServicio(AsignaturaRepository repo) {
+    private final CursoServicio cursoServicio;
+
+    public AsignaturaServicio(AsignaturaRepository repo, CursoServicio cursoServicio) {
         super(repo);
+        this.cursoServicio = cursoServicio;
     }
 
     public Asignatura findByNameCurs(String nombre, String curso){
@@ -35,7 +37,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         return asign;
     }
 
-    public void cargarListado(CursoServicio curso) {
+    public void cargarListado() {
         List<Asignatura> result = new ArrayList<>();
 
         String path = "classpath:Asignaturas.csv";
@@ -44,7 +46,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
 
-                    return new Asignatura(values[0], curso.findByName(values[1]), true);
+                    return new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on
@@ -60,6 +62,9 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         }
 
     }
+
+
+
 
 
 }

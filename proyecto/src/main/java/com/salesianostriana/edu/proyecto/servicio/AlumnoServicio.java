@@ -2,7 +2,6 @@ package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.AlumnoRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,8 +17,13 @@ import java.util.stream.Collectors;
 @Service
 public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> {
 
-    public AlumnoServicio(AlumnoRepository repo) {
+    private final AsignaturaServicio asignaturaServicio;
+    private final CursoServicio cursoServicio;
+
+    public AlumnoServicio(AlumnoRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
         super(repo);
+        this.asignaturaServicio = asignaturaServicio;
+        this.cursoServicio = cursoServicio;
     }
 
     public Alumno findByEmail(String email){
@@ -35,7 +39,7 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         return alu;
     }
 
-    public void cargarListado(CursoServicio curso, BCryptPasswordEncoder passwordEncoder) {
+    public void cargarListado(BCryptPasswordEncoder passwordEncoder) {
         List<Alumno> result = new ArrayList<>();
 
         String path = "classpath:Alumnos.csv";
@@ -43,7 +47,7 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(",");
-                return new Alumno(values[2], values[3], false, values[0], values[1], curso.findByName(values[4]));
+                return new Alumno(values[2], values[3], false, values[0], values[1], cursoServicio.findByName(values[4]));
 
 
             }).collect(Collectors.toList());
@@ -61,16 +65,39 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         }
     }
 
-    public void cargarListadoAsignaturas(AsignaturaServicio asign) {
+    public void cargarListadoAsignaturas() {
 
         for (Alumno a : this.findAll()) {
             for(Asignatura asig : a.getCurso().getAsignaturas()){
                 a.addAsignatura(asig);
-                asign.edit(asig);
+                asignaturaServicio.edit(asig);
             }
             this.edit(a);
         }
     }
+
+    public void addAsignatura(String correo, String nombreAsig, String curso){
+        Alumno alum = this.findByEmail(correo);
+        Asignatura asig = asignaturaServicio.findByNameCurs(nombreAsig, curso);
+        alum.addAsignatura(asig);
+        asignaturaServicio.edit(asig);
+        this.edit(alum);
+
+    }
+
+
+    public void deleteAsignatura(String correo, String nombreAsig, String curso){
+        Alumno alum = this.findByEmail(correo);
+        Asignatura asig = asignaturaServicio.findByNameCurs(nombreAsig, curso);
+        alum.removeAsignatura(asig);
+        asignaturaServicio.edit(asig);
+        this.edit(alum);
+
+    }
+
+
+
+
 
 
 
