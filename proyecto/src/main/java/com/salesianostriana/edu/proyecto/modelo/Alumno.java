@@ -52,4 +52,8 @@ public class Alumno extends Usuario{
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_ALUM"));
     }
 
+    public Alumno(String email, String nombre, String apellidos, Curso curso) {
+        super(email, nombre, apellidos);
+        this.curso = curso;
+    }
 }

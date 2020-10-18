@@ -3,6 +3,7 @@ package com.salesianostriana.edu.proyecto;
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
+import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.servicio.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +35,7 @@ public class ProyectoApplication {
 			alumnoServicio.cargarListado(cursoServicio, passwordEncoder);
 			alumnoServicio.cargarListadoAsignaturas(asignaturaServicio);
 			horarioServicio.cargarListado(asignaturaServicio);
+
 
 			}
 		};

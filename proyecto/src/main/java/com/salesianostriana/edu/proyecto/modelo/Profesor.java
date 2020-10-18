@@ -52,4 +52,8 @@ public class Profesor extends Usuario{
         return Arrays.asList(new SimpleGrantedAuthority(role));
     }
 
+    public Profesor(String email, String nombre, String apellidos, boolean esJefeDeEstudios) {
+        super(email, nombre, apellidos);
+        this.esJefeDeEstudios = esJefeDeEstudios;
+    }
 }

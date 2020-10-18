@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div layout:fragment="contenido">
-		<form action="#" method="post"  th:action="@{/submit}" th:object="${profesor}">
+		<form action="#" method="post"  th:action="@{/invitacionP/submit}" th:object="${profesor}">
             <div>
                 <h2 class="mx-auto text-center">Correo</h2>
             </div>
@@ -27,7 +27,7 @@
                 </span>
             </div>
             <div class="wrap-input100 validate-input mx-auto mb-5">
-                <input class="input100" type="text" name="contrasenya" placeholder="Contraseña" th:field="*{contrasenya}">
+                <input class="input100" type="password" name="contrasenya" placeholder="Contraseña" th:field="*{contrasenya}">
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
                     <i class="fa fa-key" aria-hidden="true"></i>

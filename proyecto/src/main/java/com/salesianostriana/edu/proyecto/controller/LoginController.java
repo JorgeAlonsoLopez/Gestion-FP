@@ -34,13 +34,22 @@ public class LoginController {
     @PostMapping("/invitacionA/submit")
     public String confirmacionPasswA(@ModelAttribute("alumno") Alumno alumno, BCryptPasswordEncoder passwordEncoder){
         Alumno alumno2 = alumnoServicio.findByEmail(alumno.getEmail());
-        if(alumno.getCodigoBienv().equals(alumno2.getCodigoBienv()) && alumno2.isPrimerInic()==false){
-            alumno2.setContrasenya(passwordEncoder.encode(alumno.getContrasenya()));
-            alumnoServicio.edit(alumno2);
-            return "redirect:/login";
+        if(alumno2 != null){
+            if(alumno2.getCodigoBienv() != null && alumno2.isPrimerInic()){
+                if(alumno.getCodigoBienv().equals(alumno2.getCodigoBienv())){
+                    alumno2.setContrasenya(passwordEncoder.encode(alumno.getContrasenya()));
+                    alumnoServicio.edit(alumno2);
+                    return "redirect:/login";
+                }else{
+                    return "redirect:/inicio";
+                }
+            }else{
+                return "redirect:/inicio";
+            }
         }else{
             return "redirect:/inicio";
         }
+
     }
 
     @GetMapping("/invitacionP")
@@ -52,13 +61,23 @@ public class LoginController {
     @PostMapping("/invitacionP/submit")
     public String confirmacionPasswP(@ModelAttribute("profesor") Profesor profesor, BCryptPasswordEncoder passwordEncoder){
         Profesor profesor2 = profesorServicio.findByEmail(profesor.getEmail());
-        if(profesor.getCodigoBienv().equals(profesor2.getCodigoBienv()) && profesor2.isPrimerInic()==false){
-            profesor2.setContrasenya(passwordEncoder.encode(profesor.getContrasenya()));
-            profesorServicio.edit(profesor2);
-            return "redirect:/login";
+        if(profesor2 != null){
+            if(profesor2.getCodigoBienv() != null && profesor2.isPrimerInic()){
+                if(profesor.getCodigoBienv().equals(profesor2.getCodigoBienv())){
+                    profesor2.setContrasenya(passwordEncoder.encode(profesor.getContrasenya()));
+                    profesorServicio.edit(profesor2);
+                    return "redirect:/login";
+                }else{
+                    return "redirect:/inicio";
+                }
+            }else{
+                return "redirect:/inicio";
+            }
         }else{
             return "redirect:/inicio";
         }
+
+
     }
 
 

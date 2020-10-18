@@ -38,6 +38,12 @@ public abstract class Usuario implements UserDetails {
         this.apellidos = apellidos;
     }
 
+    public Usuario(String email, String nombre, String apellidos) {
+        this.email = email;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+
     @Override
     public String getUsername() {
         return email;
