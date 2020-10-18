@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/log}">
+<head>
+<meta charset="UTF-8">
+<title>Inicio</title>
+</head>
+<body>
+	<div layout:fragment="contenido">
+        <h2 class="mx-auto text-center mb-5">¿Es la primera vez que inicias sesión?</h2>
+        <div class="container-login100-form-btn mb-5">
+            <a type="button" class="login100-form-btn no_enlace" href="/login" th:href="@{/login}">NO</a>
+        </div>
+        <div class="mb-5 mt-5">
+            <h2 class="mx-auto text-center mb-5"> En caso contrario, ¿qué tipo de usuario es?</h2>
+            <div>
+                <div class="container-login100-form-btn mb-5">
+                    <a type="button" class="login100-form-btn no_enlace" href="/invitacionA" th:href="@{/invitacionA}">ALUMNO</a>
+                </div>
+                <div class="container-login100-form-btn mb-5">
+                    <a type="button" class="login100-form-btn no_enlace" href="/invitacionP" th:href="@{/invitacionP}">PROFESOR</a>
+                </div>
+            </div>
+        </div>
+	</div>
+
+</body>
+</html>
