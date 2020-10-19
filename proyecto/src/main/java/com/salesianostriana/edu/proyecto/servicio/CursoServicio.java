@@ -1,6 +1,7 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Curso;
+import com.salesianostriana.edu.proyecto.modelo.Titulo;
 import com.salesianostriana.edu.proyecto.repositorio.CursoRepositorio;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,34 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
             }
         }
         return curso;
+    }
+
+    public List<Curso> listaActivos(){
+
+        List<Curso> lista = new ArrayList<>();
+        for(Titulo t : tituloServicio.findAll()){
+            if(t.isEsAlta()){
+                for( Curso c : t.getListaCursos()){
+                    if(c.isEsAlta()){
+                        lista.add(c);
+                    }
+                }
+            }
+        }
+        return lista;
+    }
+
+    public List<Curso> listaDisponibles(){
+
+        List<Curso> lista = new ArrayList<>();
+        for(Titulo t : tituloServicio.findAll()){
+            if(t.isEsAlta()){
+                for( Curso c : t.getListaCursos()){
+                        lista.add(c);
+                }
+            }
+        }
+        return lista;
     }
 
     public void cargarListado() {

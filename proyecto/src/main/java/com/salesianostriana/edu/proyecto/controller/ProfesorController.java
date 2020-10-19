@@ -26,9 +26,7 @@ public class ProfesorController {
     @GetMapping("/profesor/principal")
     public String profesor(Model model, @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos", cursoServicio.findAll());
-
-
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "profesor/principal";
     }
 
