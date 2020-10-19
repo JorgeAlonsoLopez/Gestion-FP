@@ -25,20 +25,20 @@ public class Asignatura {
     @ManyToOne
     private Curso curso;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(mappedBy = "asigntura", fetch = FetchType.EAGER)
-    private List<Horario> horarios = new ArrayList<>();
-
-    public void addHorario(Horario h) {
-        horarios.add(h);
-        h.setAsigntura(this);
-    }
-
-    public void removeHorario(Horario h) {
-        horarios.remove(h);
-        h.setAsigntura(null);
-    }
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "asigntura", fetch = FetchType.EAGER)
+//    private List<Horario> horarios = new ArrayList<>();
+//
+//    public void addHorario(Horario h) {
+//        horarios.add(h);
+//        h.setAsigntura(this);
+//    }
+//
+//    public void removeHorario(Horario h) {
+//        horarios.remove(h);
+//        h.setAsigntura(null);
+//    }
 
     public Asignatura(String nombre, Curso curso,  boolean esAlta) {
         this.nombre = nombre;

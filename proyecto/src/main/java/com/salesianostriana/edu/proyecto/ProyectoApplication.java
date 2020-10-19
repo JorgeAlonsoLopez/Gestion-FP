@@ -37,7 +37,7 @@ public class ProyectoApplication {
 
 			horarioServicio.cargarListado();
 
-
+				System.out.println("");
 //			excepcionServicio.nuevaExcepcion("alumno2@email.com", "1º DAM", "FOP");
 //			ampliacionServicio.nuevaAmpliacion("alumno2@email.com", "2º DAM", "Sistemas de Gestión Empresarial");
 

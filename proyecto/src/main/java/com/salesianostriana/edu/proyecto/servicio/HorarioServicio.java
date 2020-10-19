@@ -1,5 +1,7 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Asignatura;
+import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Horario;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 public class HorarioServicio extends BaseService<Horario, Long, HorarioRepository> {
 
     private final AsignaturaServicio asignaturaServicio;
+    private final CursoServicio cursoServicio;
 
-    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio) {
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
+        this.cursoServicio = cursoServicio;
     }
 
     public void cargarListado() {
@@ -42,11 +46,27 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         }
 
         for(Horario h : result){
-            h.getAsigntura().addHorario(h);
+           // h.getAsigntura().addHorario(h);
             this.save(h);
-            asignaturaServicio.edit(h.getAsigntura());
+           // asignaturaServicio.edit(h.getAsigntura());
         }
 
+    }
+
+    public List<Horario> findByCurso (String nombre){
+
+        List<Horario> lista = new ArrayList<>();
+
+        for(Asignatura asig : asignaturaServicio.findByCurs(nombre)){
+            for(Horario h : this.findAll()){
+                if(h.getAsigntura().equals(asig)){
+                    lista.add(h);
+                }
+            }
+        }
+
+
+        return lista;
     }
 
 

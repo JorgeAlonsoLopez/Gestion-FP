@@ -35,7 +35,7 @@ public class LoginController {
     public String confirmacionPasswA(@ModelAttribute("alumno") Alumno alumno, BCryptPasswordEncoder passwordEncoder){
         Alumno alumno2 = alumnoServicio.findByEmail(alumno.getEmail());
         if(alumno2 != null){
-            if(alumno2.getCodigoBienv() != null && alumno2.isPrimerInic()){
+            if(alumno2.getCodigoBienv() != null){
                 if(alumno.getCodigoBienv().equals(alumno2.getCodigoBienv())){
                     alumno2.setContrasenya(passwordEncoder.encode(alumno.getContrasenya()));
                     alumno2.setPrimerInic(false);
@@ -64,7 +64,7 @@ public class LoginController {
     public String confirmacionPasswP(@ModelAttribute("profesor") Profesor profesor, BCryptPasswordEncoder passwordEncoder){
         Profesor profesor2 = profesorServicio.findByEmail(profesor.getEmail());
         if(profesor2 != null){
-            if(profesor2.getCodigoBienv() != null && profesor2.isPrimerInic()){
+            if(profesor2.getCodigoBienv() != null){
                 if(profesor.getCodigoBienv().equals(profesor2.getCodigoBienv())){
                     profesor2.setContrasenya(passwordEncoder.encode(profesor.getContrasenya()));
                     profesor2.setPrimerInic(false);
