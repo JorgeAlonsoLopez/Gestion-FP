@@ -22,15 +22,6 @@ public class Asignatura {
     private String nombre;
     private boolean esAlta;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(mappedBy="asignaturas")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Alumno> alumnos = new ArrayList<>();
-
-    @ManyToOne
-    private Profesor profesor;
-
     @ManyToOne
     private Curso curso;
 
@@ -40,45 +31,13 @@ public class Asignatura {
     private List<Horario> horarios = new ArrayList<>();
 
     public void addHorario(Horario h) {
-        this.horarios.add(h);
+        horarios.add(h);
         h.setAsigntura(this);
     }
 
     public void removeHorario(Horario h) {
-        this.horarios.remove(h);
+        horarios.remove(h);
         h.setAsigntura(null);
-    }
-
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "asignatura")
-    private List<Excepcion> listaExcepciones = new ArrayList<>();
-
-    public void addExcepcion(Excepcion e) {
-        listaExcepciones.add(e);
-        e.setAsignatura(this);
-    }
-
-    public void removeExcepcion(Excepcion e) {
-        listaExcepciones.remove(e);
-        e.setAsignatura(null);
-    }
-
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "asignatura")
-    private List<Ampliacion> listaAmpliaciones = new ArrayList<>();
-
-    public void addAmpliacion(Ampliacion e) {
-        listaAmpliaciones.add(e);
-        e.setAsignatura(this);
-    }
-
-    public void removeAmpliacion(Ampliacion e) {
-        listaAmpliaciones.remove(e);
-        e.setAsignatura(null);
     }
 
     public Asignatura(String nombre, Curso curso,  boolean esAlta) {

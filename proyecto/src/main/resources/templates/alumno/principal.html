@@ -8,8 +8,94 @@
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <span>Menu principal del alumno</span>
+        <div class="mt-3 mb-5">
+        </div>
+        <div class="w-75">
+            <table class="table" id="horario">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Lunes</th>
+                    <th scope="col">Martes</th>
+                    <th scope="col">Miércoles</th>
+                    <th scope="col">Jueves</th>
+                    <th scope="col">Viernes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">8:00-9:00</th>
+                    <td id="H11"></td>
+                    <td id="H21"></td>
+                    <td id="H31"></td>
+                    <td id="H41"></td>
+                    <td id="H51"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">9:00-10:00</th>
+                    <td id="H12"></td>
+                    <td id="H22"></td>
+                    <td id="H32"></td>
+                    <td id="H42"></td>
+                    <td id="H52"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">10:00-11:00</th>
+                    <td id="H13"></td>
+                    <td id="H23"></td>
+                    <td id="H33"></td>
+                    <td id="H43"></td>
+                    <td id="H53"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">11:30-12:30</th>
+                    <td id="H14"></td>
+                    <td id="H24"></td>
+                    <td id="H34"></td>
+                    <td id="H44"></td>
+                    <td id="H54"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">12:30-13:30</th>
+                    <td id="H15"></td>
+                    <td id="H25"></td>
+                    <td id="H35"></td>
+                    <td id="H45"></td>
+                    <td id="H55"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">13:30-14:30</th>
+                    <td id="H16"></td>
+                    <td id="H26"></td>
+                    <td id="H36"></td>
+                    <td id="H46"></td>
+                    <td id="H56"></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
     </div>
+
+    <script th:inline="javascript">
+        
+
+        /*<![CDATA[*/
+
+        function myFunction(x) {
+            var dia = x.dia;
+            var hora = x.tramo;
+            $('#horario tr').eq(dia).children().eq(hora).html(x.asigntura.nombre.val());
+        }
+
+        var theList = [[${horarios}]]
+        for (i = 0; i < theList.length; i++) {
+            doSomething(theList[i]);
+        }
+
+        /*]]>*/
+
+        
+    </script>
 
 </body>
 </html>

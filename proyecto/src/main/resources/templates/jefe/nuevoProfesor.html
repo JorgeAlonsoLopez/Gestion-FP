@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Principal</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <div class="mt-3 mb-5">
+            <h2 >Formulario de creación de un nuevo profesor</h2>
+        </div>
+        <div class="mt-4 mb-4">
+            <form action="#" method="post"  th:action="@{/jefe/nuevoProfesor/submit}" th:object="${nuevoProf}">
+                <div>
+                    <h3 class="mx-auto text-center">Nombre</h3>
+                </div>
+                <div class="wrap-input100 validate-input mx-auto mb-5">
+                    <input class="input100" type="text" name="nombre" placeholder="Nombre" th:field="*{nombre}">
+                    <span class="focus-input100"></span>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input mx-auto mb-5">
+                    <input class="input100" type="text" name="apellidos" placeholder="Apellidos" th:field="*{apellidos}">
+                    <span class="focus-input100"></span>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input mx-auto mb-5">
+                    <input class="input100" type="email" name="email" placeholder="Email" th:field="*{email}">
+                    <span class="focus-input100"></span>
+                    </span>
+                </div>
+                <div class="mb-3 mt-4">
+                    <h3 class="mx-auto text-center">Código de invitación</h3>
+                    <input class="input100 w-50 mx-auto" type="text" name="codigoBienv" placeholder="Codigo" readonly th:field="*{codigoBienv}">
+                </div>
+                <div class="container-login100-form-btn mb-5 mt-5">
+                    <input type="submit" class="login100-form-btn" value="Confirmar" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

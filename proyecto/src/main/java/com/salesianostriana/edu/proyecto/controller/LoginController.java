@@ -38,6 +38,8 @@ public class LoginController {
             if(alumno2.getCodigoBienv() != null && alumno2.isPrimerInic()){
                 if(alumno.getCodigoBienv().equals(alumno2.getCodigoBienv())){
                     alumno2.setContrasenya(passwordEncoder.encode(alumno.getContrasenya()));
+                    alumno2.setPrimerInic(false);
+                    alumno2.setCodigoBienv(null);
                     alumnoServicio.edit(alumno2);
                     return "redirect:/login";
                 }else{
@@ -65,6 +67,8 @@ public class LoginController {
             if(profesor2.getCodigoBienv() != null && profesor2.isPrimerInic()){
                 if(profesor.getCodigoBienv().equals(profesor2.getCodigoBienv())){
                     profesor2.setContrasenya(passwordEncoder.encode(profesor.getContrasenya()));
+                    profesor2.setPrimerInic(false);
+                    profesor2.setCodigoBienv(null);
                     profesorServicio.edit(profesor2);
                     return "redirect:/login";
                 }else{

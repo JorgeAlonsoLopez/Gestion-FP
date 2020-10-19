@@ -16,10 +16,25 @@ public class AlumnoController {
     private final AlumnoServicio alumnoServicio;
 
     @GetMapping("/alumno/principal")
-    public String jefeEstudios(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
+    public String principal(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
+        model.addAttribute("usuarioLogeado", alumnoServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("horarios", alumnoServicio.findByEmail(usuarioLog.getEmail())
+        .getCurso().getAsignaturas());
+        return "alumno/principal";
+    }
+
+    @GetMapping("/alumno/excepcion")
+    public String excepcion(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
         model.addAttribute("usuarioLogeado", alumnoServicio.findByEmail(usuarioLog.getEmail()));
 
-        return "alumno/principal";
+        return "alumno/excepcion";
+    }
+
+    @GetMapping("/alumno/ampliacion")
+    public String ampliacion(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
+        model.addAttribute("usuarioLogeado", alumnoServicio.findByEmail(usuarioLog.getEmail()));
+
+        return "alumno/ampliacion";
     }
 
 

@@ -21,21 +21,6 @@ public class Profesor extends Usuario{
 
     private boolean esJefeDeEstudios;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(mappedBy="profesor", fetch = FetchType.EAGER)
-    private List<Asignatura> asignaturas = new ArrayList<>();
-
-    public void addAsignatura(Asignatura a) {
-        this.asignaturas.add(a);
-        a.setProfesor(this);
-    }
-
-    public void removeAsignatura(Asignatura a) {
-        this.asignaturas.remove(a);
-        a.setProfesor(null);
-    }
-
     public Profesor(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esJefeDeEstudios) {
         super(email, contrasenya, primerInic, nombre, apellidos);
         this.esJefeDeEstudios = esJefeDeEstudios;
@@ -56,4 +41,7 @@ public class Profesor extends Usuario{
         super(email, nombre, apellidos);
         this.esJefeDeEstudios = esJefeDeEstudios;
     }
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
+import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,19 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         return asign;
     }
 
+    public List<Asignatura> findByCurs(String curso){
+
+        List<Asignatura> asign = new ArrayList<>();
+
+
+        for (Asignatura t : this.findAll()){
+            if(t.getCurso().getNombre().equals(curso)){
+                asign.add(t);
+            }
+        }
+        return asign;
+    }
+
     public void cargarListado() {
         List<Asignatura> result = new ArrayList<>();
 
@@ -63,7 +77,14 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
     }
 
+    public void recomponer(){
+        for(Curso c : cursoServicio.findAll()){
+            for(Asignatura asig : c.getAsignaturas()){
 
+            }
+        }
+
+    }
 
 
 
