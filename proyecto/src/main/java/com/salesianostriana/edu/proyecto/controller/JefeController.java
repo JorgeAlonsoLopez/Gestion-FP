@@ -2,6 +2,7 @@ package com.salesianostriana.edu.proyecto.controller;
 
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
+import com.salesianostriana.edu.proyecto.modelo.Titulo;
 import com.salesianostriana.edu.proyecto.servicio.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -18,7 +20,7 @@ public class JefeController {
     private final ProfesorServicio profesorServicio;
     private final AlumnoServicio alumnoServicio;
     private final CursoServicio cursoServicio;
-
+    private final TituloServicio tituloServicio;
 
 
 
@@ -155,8 +157,49 @@ public class JefeController {
     @GetMapping("/jefe/titulos")
     public String titulos(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("titulos", tituloServicio.findAll());
         return "jefe/titulos";
+    }
+
+    @GetMapping("/jefe/titulos/{id}")
+    public String titulosAltaBaja(@PathVariable("id") Long id) {
+        Titulo modificado = tituloServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        tituloServicio.edit(modificado);
+        return "redirect:/jefe/titulos";
+    }
+
+    @GetMapping("/jefe/nuevoTitulo")
+    public String nuevoTitulo(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("nuevoTitulo", new Titulo());
+        return "jefe/nuevoTitulo";
+    }
+
+    @PostMapping("/jefe/nuevoTitulo/submit")
+    public String nuevoTituloSubmit(@ModelAttribute("nuevoTitulo") Titulo nuevoTitulo) {
+        if(tituloServicio.findByName(nuevoTitulo.getNombre())==null){
+            nuevoTitulo.setEsAlta(true);
+            tituloServicio.save(nuevoTitulo);
+        }
+        return "redirect:/jefe/titulos";
+    }
+
+    @GetMapping ("/jefe/editarTitulo/{id}")
+    public String editarTitulo ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("titulo", tituloServicio.findById(id));
+        return "jefe/editarTitulo";
+    }
+
+    @PostMapping("/jefe/editarTitulo/submit")
+    public String editarTituloSubmit(@ModelAttribute("nuevoTitulo") Titulo nuevoTitulo) {
+            tituloServicio.edit(nuevoTitulo);
+        return "redirect:/jefe/titulos";
     }
 
 }

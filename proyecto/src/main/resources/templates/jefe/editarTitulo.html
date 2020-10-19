@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Principal</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <h2 >Formulario de creación de un nuevo título</h2>
+        <form action="#" method="post"  th:action="@{/jefe/editarTitulo/submit}" th:object="${titulo}">
+            <div>
+                <h3 class="mx-auto text-center mt-5 mb-5">Nombre</h3>
+            </div>
+            <input type="hidden" class="form-control col-sm-12 col-xl-7" th:field="*{id}" id="id">
+            <div class="wrap-input100 validate-input mx-auto mb-5">
+                <input class="input100" type="text" name="nombre" placeholder="Nombre" th:field="*{nombre}">
+                <span class="focus-input100"></span>
+                </span>
+            </div>
+            <div class="container-login100-form-btn mb-5 mt-5">
+                <input type="submit" class="login100-form-btn" value="Confirmar" />
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

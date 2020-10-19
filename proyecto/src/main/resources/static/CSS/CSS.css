@@ -8,11 +8,11 @@ html {
     background-image: url(../img/sky.jpg);
 }
 
-a:link {
+#bodyLog a:link {
     color: black;
   }
 
-#contenLog a:link, #contenLog a , #contenLog a:hover {
+#contenLog a:link, #contenLog a , #contenLog a:hover , #contenLog a:visited {
   color: white;
   text-decoration: none;
 }
