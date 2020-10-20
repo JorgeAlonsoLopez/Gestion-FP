@@ -30,6 +30,10 @@ public class Horario implements Comparable<Horario>{
         this.esAlta = esAlta;
     }
 
+    public Horario(int dia) {
+        this.dia = dia;
+    }
+
     @Override
     public int compareTo(Horario o) {
         int numP=1, numN=-1;

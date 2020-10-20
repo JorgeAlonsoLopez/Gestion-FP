@@ -291,7 +291,7 @@ public class JefeController {
     @GetMapping("/jefe/horarios")
     public String horarios(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-00
+
         return "jefe/horarios";
     }
 

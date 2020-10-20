@@ -26,7 +26,12 @@
                     <tbody th:each="horario : ${horarios}">
                     <tr>
                         <th:block th:each="clase : ${horario}">
-                            <td th:text="${clase.asignatura.nombre}"> X </td>
+                            <th:block th:if="${clase.asignatura!=null}">
+                                <td th:text="${clase.asignatura.nombre}"> X </td>
+                            </th:block>
+                            <th:block th:if="${clase.asignatura==null}">
+                                <td> X </td>
+                            </th:block>
                         </th:block>
                     </tr>
                     </tbody>

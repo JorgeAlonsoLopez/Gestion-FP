@@ -57,9 +57,14 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         List<Horario> lista = new ArrayList<>();
 
         for(Asignatura asig : asignaturaServicio.findByCurs(nombre)){
-            for(Horario h : asig.getHorarios()){
-                lista.add(h);
+            if(asig.isEsAlta()){
+                for(Horario h : asig.getHorarios()){
+                    if(h.isEsAlta()) {
+                        lista.add(h);
+                    }
+                }
             }
+
         }
         return lista;
     }
@@ -75,20 +80,54 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
     }
 
     public List<Horario> ordenar (List<Horario> lista){
+        int plus=0;
         lista = lista.stream()
                 .sorted(Comparator.comparingInt(Horario::getDia))
                 .collect(Collectors.toList());
+
+        if(lista.size()<5) {
+            plus = 5 - lista.size();
+            for (int i = 0; i < plus; i++) {
+                lista.add(new Horario(6));
+            }
+
+            boolean encontrado;
+            for (int dia = 1; dia <= 5; dia++) {
+                encontrado = false;
+                for (Horario h : lista) {
+                    if (h.getDia() == dia) {
+                        encontrado = true;
+                    }
+                }
+                if (!encontrado) {
+                    for (int j = 0; j < lista.size(); j++) {
+                        if (lista.get(j).getDia() == 6) {
+                            lista.get(j).setDia(dia);
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+        lista = lista.stream()
+                .sorted(Comparator.comparingInt(Horario::getDia))
+                .collect(Collectors.toList());
+
         return lista;
     }
 
     public List<Horario> listaTramo(List<Horario> lista, int dia){
-
         List<Horario> listaF = new ArrayList<>();
-            for(Horario h : lista){
-                if(h.getTramo()==dia){
-                    listaF.add(h);
-                }
+        for(Horario h : lista){
+            if(h.getTramo()==dia){
+                listaF.add(h);
+            }
         }
+
+
+
+
         return listaF;
     }
 
