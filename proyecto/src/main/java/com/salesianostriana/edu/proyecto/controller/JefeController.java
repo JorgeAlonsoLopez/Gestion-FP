@@ -22,6 +22,7 @@ public class JefeController {
     private final AlumnoServicio alumnoServicio;
     private final CursoServicio cursoServicio;
     private final TituloServicio tituloServicio;
+    private final SendEmail sendEmail;
 
 
 
@@ -157,6 +158,7 @@ public class JefeController {
     @PostMapping("/jefe/nuevoAlumno/submit")
     public String nuevoAlumnoSubmit(@ModelAttribute("nuevoAlum") Alumno alumnoForm) {
         if(profesorServicio.findByEmail(alumnoForm.getEmail()) == null && alumnoServicio.findByEmail(alumnoForm.getEmail()) == null){
+            sendEmail.enviarCodigo(alumnoForm.getCodigoBienv());
             alumnoServicio.save(alumnoForm);
         }
         return "redirect:/jefe/principal";
@@ -177,6 +179,7 @@ public class JefeController {
     public String nuevoProfesorSubmit(@ModelAttribute("nuevoProf") Profesor profForm) {
         profForm.setEsJefeDeEstudios(false);
         if(profesorServicio.findByEmail(profForm.getEmail()) == null && alumnoServicio.findByEmail(profForm.getEmail()) == null){
+            sendEmail.enviarCodigo(profForm.getCodigoBienv());
             profesorServicio.save(profForm);
         }
         return "redirect:/jefe/principal";
@@ -195,6 +198,7 @@ public class JefeController {
     public String nuevoJefeSubmit(@ModelAttribute("nuevoJefe") Profesor nuevoJefe) {
         nuevoJefe.setEsJefeDeEstudios(true);
         if(profesorServicio.findByEmail(nuevoJefe.getEmail()) == null && alumnoServicio.findByEmail(nuevoJefe.getEmail()) == null){
+            sendEmail.enviarCodigo(nuevoJefe.getCodigoBienv());
             profesorServicio.save(nuevoJefe);
         }
         return "redirect:/jefe/principal";
