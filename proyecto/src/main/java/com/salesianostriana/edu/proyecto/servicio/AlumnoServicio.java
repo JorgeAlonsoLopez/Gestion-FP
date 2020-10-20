@@ -57,6 +57,8 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         return alu;
     }
 
+
+
     public void cargarListado(BCryptPasswordEncoder passwordEncoder) {
         List<Alumno> result = new ArrayList<>();
 

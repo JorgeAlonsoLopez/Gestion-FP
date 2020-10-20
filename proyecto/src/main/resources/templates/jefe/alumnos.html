@@ -15,7 +15,7 @@
                     <h2 th:text="${curso.nombre}">Nombre</h2>
                 </div>
                 <div th:each="alumno : ${curso.alumnos}" class="row conten justify-content-around">
-                    <div class="col-lg-3 mt-3 mb-3">
+                    <div class="col-lg-2 mt-3 mb-3">
                         <h3 th:text="${alumno.nombre}">Nombre</h3>
                     </div>
                     <div class="col-lg-3 mt-3 mb-3">
@@ -34,6 +34,9 @@
                     </div>
                     <div class="col-lg-2 mt-3 mb-3">
                         <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#delete-modal" th:data-id="${alumno.id}">Cambiar de estado</a>
+                    </div>
+                    <div class="col-lg-1 mt-3 mb-3">
+                        <a type="button" class="btn btn-success btn-lg" th:href="@{'/jefe/carnet/'+${alumno.id}}">Carnet</a>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@ public class JefeController {
     private final TituloServicio tituloServicio;
     private final SendEmail sendEmail;
     private final AsignaturaServicio asignaturaServicio;
+    private final HorarioServicio horarioServicio;
 
 
 
@@ -203,16 +204,16 @@ public class JefeController {
     @PostMapping("/jefe/editarAsignatura/submit")
     public String editarAsignaturaSubmit(@ModelAttribute("asignatura") Asignatura asignatura) {
         asignatura.setEsAlta(true);
-
         asignaturaServicio.edit(asignatura);
         return "redirect:/jefe/asignaturas";
     }
 
 
-    @GetMapping("/jefe/carnet")
-    public String carnet(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+    @GetMapping("/jefe/carnet/{id}")
+    public String carnet(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("alumno", alumnoServicio.findById(id));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findByCurso(alumnoServicio.findById(id).getCurso())));
         return "jefe/carnet";
     }
 
@@ -290,7 +291,7 @@ public class JefeController {
     @GetMapping("/jefe/horarios")
     public String horarios(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+00
         return "jefe/horarios";
     }
 

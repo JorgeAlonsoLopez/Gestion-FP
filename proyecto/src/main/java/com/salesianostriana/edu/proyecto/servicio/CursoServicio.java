@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Titulo;
 import com.salesianostriana.edu.proyecto.repositorio.CursoRepositorio;
@@ -44,6 +45,25 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
                 for( Curso c : t.getListaCursos()){
                     if(c.isEsAlta()){
                         lista.add(c);
+                    }
+                }
+            }
+        }
+        return lista;
+    }
+
+    public List<Alumno> listaCursosAlumnosActivos(){
+
+        List<Alumno> lista = new ArrayList<>();
+        for(Titulo t : tituloServicio.findAll()){
+            if(t.isEsAlta()){
+                for( Curso c : t.getListaCursos()){
+                    if(c.isEsAlta()){
+                        for(Alumno a : c.getAlumnos()){
+                            if(a.isEsAlta()){
+                                lista.add(a);
+                            }
+                        }
                     }
                 }
             }

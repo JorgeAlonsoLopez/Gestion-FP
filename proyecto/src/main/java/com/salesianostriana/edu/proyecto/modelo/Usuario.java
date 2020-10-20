@@ -63,7 +63,12 @@ public abstract class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        if(this.isEsAlta()){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     @Override
