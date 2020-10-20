@@ -21,8 +21,8 @@ public class Profesor extends Usuario{
 
     private boolean esJefeDeEstudios;
 
-    public Profesor(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esJefeDeEstudios) {
-        super(email, contrasenya, primerInic, nombre, apellidos);
+    public Profesor(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esAlta, boolean esJefeDeEstudios) {
+        super(email, contrasenya, primerInic, nombre, apellidos, esAlta);
         this.esJefeDeEstudios = esJefeDeEstudios;
     }
 

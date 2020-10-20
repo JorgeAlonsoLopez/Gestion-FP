@@ -24,11 +24,6 @@ public class Alumno extends Usuario{
     @ManyToOne
     private Curso curso;
 
-    public Alumno(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, Curso curso) {
-        super(email, contrasenya, primerInic, nombre, apellidos);
-        this.curso = curso;
-    }
-
 
 
     @Override
@@ -38,6 +33,11 @@ public class Alumno extends Usuario{
 
     public Alumno(String email, String nombre, String apellidos, Curso curso) {
         super(email, nombre, apellidos);
+        this.curso = curso;
+    }
+
+    public Alumno(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esAlta, Curso curso) {
+        super(email, contrasenya, primerInic, nombre, apellidos, esAlta);
         this.curso = curso;
     }
 }

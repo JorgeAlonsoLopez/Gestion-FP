@@ -1,9 +1,6 @@
 package com.salesianostriana.edu.proyecto.controller;
 
-import com.salesianostriana.edu.proyecto.modelo.Alumno;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Profesor;
-import com.salesianostriana.edu.proyecto.modelo.Titulo;
+import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.servicio.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +20,7 @@ public class JefeController {
     private final CursoServicio cursoServicio;
     private final TituloServicio tituloServicio;
     private final SendEmail sendEmail;
+    private final AsignaturaServicio asignaturaServicio;
 
 
 
@@ -31,6 +29,114 @@ public class JefeController {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
 
         return "jefe/principal";
+    }
+
+    @GetMapping("/jefe/alumnos")
+    public String alumnos(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("cursos", cursoServicio.findAll());
+        return "jefe/alumnos";
+    }
+
+
+    @GetMapping("/jefe/alumnos/{id}")
+    public String alumnosAltaBaja(@PathVariable("id") Long id) {
+        Alumno modificado = alumnoServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        alumnoServicio.edit(modificado);
+        return "redirect:/jefe/alumnos";
+    }
+
+    @GetMapping ("/jefe/editarAlumno/{id}")
+    public String editarAlumno ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("alumno", alumnoServicio.findById(id));
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        return "jefe/editarAlumno";
+    }
+
+    @PostMapping("/jefe/editarAlumno/submit")
+    public String editarAlumnoSubmit(@ModelAttribute("alumno") Alumno alumno) {
+        alumno.setEsAlta(true);
+        alumno.setCodigoBienv(null);
+        alumnoServicio.edit(alumno);
+        return "redirect:/jefe/alumnos";
+    }
+
+    @GetMapping("/jefe/profesores")
+    public String profesores(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("profesores", profesorServicio.findProfesor());
+        return "jefe/profesores";
+    }
+
+
+    @GetMapping("/jefe/profesores/{id}")
+    public String profesoresAltaBaja(@PathVariable("id") Long id) {
+        Profesor modificado = profesorServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        profesorServicio.edit(modificado);
+        return "redirect:/jefe/profesores";
+    }
+
+    @GetMapping ("/jefe/editarProfesor/{id}")
+    public String editarProfesor ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("profesor", profesorServicio.findById(id));
+        return "jefe/editarProfesor";
+    }
+
+    @PostMapping("/jefe/editarProfesor/submit")
+    public String editarProfesorSubmit(@ModelAttribute("profesor") Profesor profesor) {
+        profesor.setEsAlta(true);
+        profesor.setEsJefeDeEstudios(false);
+        profesor.setCodigoBienv(null);
+        profesorServicio.edit(profesor);
+        return "redirect:/jefe/profesores";
+    }
+
+    @GetMapping("/jefe/jefes")
+    public String jefes(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("jefes", profesorServicio.findJefes());
+        return "jefe/jefes";
+    }
+
+
+    @GetMapping("/jefe/jefes/{id}")
+    public String jefesAltaBaja(@PathVariable("id") Long id) {
+        Profesor modificado = profesorServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        profesorServicio.edit(modificado);
+        return "redirect:/jefe/jefes";
+    }
+
+    @GetMapping ("/jefe/editarJefe/{id}")
+    public String editarJefe ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("jefe", profesorServicio.findById(id));
+        return "jefe/editarJefe";
+    }
+
+    @PostMapping("/jefe/editarJefe/submit")
+    public String editarJefeSubmit(@ModelAttribute("jefe") Profesor jefe) {
+        jefe.setEsAlta(true);
+        jefe.setEsJefeDeEstudios(true);
+        jefe.setCodigoBienv(null);
+        profesorServicio.edit(jefe);
+        return "redirect:/jefe/jefes";
     }
 
 
@@ -53,8 +159,53 @@ public class JefeController {
     @GetMapping("/jefe/asignaturas")
     public String asignaturas(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("cursos" , cursoServicio.findAll());
         return "jefe/asignaturas";
+    }
+
+    @GetMapping("/jefe/asignaturas/{id}")
+    public String AsignaturaAltaBaja(@PathVariable("id") Long id) {
+        Asignatura modificado = asignaturaServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        asignaturaServicio.edit(modificado);
+        return "redirect:/jefe/asignaturas";
+    }
+
+    @GetMapping("/jefe/nuevoAsignatura")
+    public String nuevoAsignatura(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("nuevaAsignatura", new Asignatura());
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        return "jefe/nuevoAsignatura";
+    }
+
+    @PostMapping("/jefe/nuevoAsignatura/submit")
+    public String nuevoAsignaturaSubmit(@ModelAttribute("nuevaAsignatura") Asignatura nuevaAsignatura) {
+        if(asignaturaServicio.findByNameCurs(nuevaAsignatura.getNombre(), nuevaAsignatura.getCurso().getNombre())==null){
+            nuevaAsignatura.setEsAlta(true);
+            asignaturaServicio.save(nuevaAsignatura);
+        }
+        return "redirect:/jefe/asignaturas";
+    }
+
+    @GetMapping ("/jefe/editarAsignatura/{id}")
+    public String editarAsignatura ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("asignatura", asignaturaServicio.findById(id));
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        return "jefe/editarAsignatura";
+    }
+
+    @PostMapping("/jefe/editarAsignatura/submit")
+    public String editarAsignaturaSubmit(@ModelAttribute("asignatura") Asignatura asignatura) {
+        asignatura.setEsAlta(true);
+
+        asignaturaServicio.edit(asignatura);
+        return "redirect:/jefe/asignaturas";
     }
 
 
@@ -159,6 +310,7 @@ public class JefeController {
     public String nuevoAlumnoSubmit(@ModelAttribute("nuevoAlum") Alumno alumnoForm) {
         if(profesorServicio.findByEmail(alumnoForm.getEmail()) == null && alumnoServicio.findByEmail(alumnoForm.getEmail()) == null){
             sendEmail.enviarCodigo(alumnoForm.getCodigoBienv());
+            alumnoForm.setEsAlta(true);
             alumnoServicio.save(alumnoForm);
         }
         return "redirect:/jefe/principal";
@@ -180,6 +332,7 @@ public class JefeController {
         profForm.setEsJefeDeEstudios(false);
         if(profesorServicio.findByEmail(profForm.getEmail()) == null && alumnoServicio.findByEmail(profForm.getEmail()) == null){
             sendEmail.enviarCodigo(profForm.getCodigoBienv());
+            profForm.setEsAlta(true);
             profesorServicio.save(profForm);
         }
         return "redirect:/jefe/principal";
@@ -199,6 +352,7 @@ public class JefeController {
         nuevoJefe.setEsJefeDeEstudios(true);
         if(profesorServicio.findByEmail(nuevoJefe.getEmail()) == null && alumnoServicio.findByEmail(nuevoJefe.getEmail()) == null){
             sendEmail.enviarCodigo(nuevoJefe.getCodigoBienv());
+            nuevoJefe.setEsAlta(true);
             profesorServicio.save(nuevoJefe);
         }
         return "redirect:/jefe/principal";

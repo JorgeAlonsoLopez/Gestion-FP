@@ -65,7 +65,7 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(",");
-                return new Alumno(values[2], values[3], false, values[0], values[1], cursoServicio.findByName(values[4]));
+                return new Alumno(values[2], values[3], false, values[0], values[1], true, cursoServicio.findByName(values[4]));
 
 
             }).collect(Collectors.toList());

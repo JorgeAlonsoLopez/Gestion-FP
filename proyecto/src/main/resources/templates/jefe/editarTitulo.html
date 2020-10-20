@@ -4,11 +4,11 @@
 	layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
-    <title>Principal</title>
+    <title>Editar título</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <h2 >Formulario de creación de un nuevo título</h2>
+        <h2 >Formulario de edición de un título</h2>
         <form action="#" method="post"  th:action="@{/jefe/editarTitulo/submit}" th:object="${titulo}">
             <div>
                 <h3 class="mx-auto text-center mt-5 mb-5">Nombre</h3>

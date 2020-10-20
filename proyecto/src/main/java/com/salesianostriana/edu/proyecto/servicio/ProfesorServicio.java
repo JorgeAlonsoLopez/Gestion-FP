@@ -37,6 +37,26 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
         return prof;
     }
 
+    public List<Profesor> findProfesor (){
+        List<Profesor> lista = new ArrayList<>();
+        for(Profesor p : this.findAll()){
+            if(!p.isEsJefeDeEstudios()){
+                lista.add(p);
+            }
+        }
+        return lista;
+    }
+
+    public List<Profesor> findJefes(){
+        List<Profesor> lista = new ArrayList<>();
+        for(Profesor p : this.findAll()){
+            if(p.isEsJefeDeEstudios()){
+                lista.add(p);
+            }
+        }
+        return lista;
+    }
+
     public void cargarListado(BCryptPasswordEncoder passwordEncoder) {
         List<Profesor> result = new ArrayList<>();
 
@@ -47,10 +67,10 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
                 String[] values = line.split(";");
                 if (values[4].equals("True")) {
                     return new Profesor(values[2], values[3], false,
-                            values[0], values[1], true);
+                            values[0], values[1], true, true);
                 } else {
                     return new Profesor(values[2], values[3], false,
-                            values[0], values[1], false);
+                            values[0], values[1], true, false);
                 }
 
 

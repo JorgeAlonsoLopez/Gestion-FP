@@ -4,47 +4,34 @@
 	layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo alumno</title>
+    <title>Editar jefe de estudios</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
         <div class="mt-3 mb-5">
-            <h2 >Formulario de creación de un nuevo alumno</h2>
+            <h2 >Formulario de edición de un nuevo jefe de estudios</h2>
         </div>
         <div class="mt-4 mb-4">
-            <form action="#" method="post"  th:action="@{/jefe/nuevoAlumno/submit}" th:object="${nuevoAlum}">
+            <form action="#" method="post"  th:action="@{/jefe/editarJefe/submit}" th:object="${jefe}">
                 <div>
                     <h3 class="mx-auto text-center">Nombre</h3>
                 </div>
+                <input type="hidden" class="form-control col-sm-12 col-xl-7" th:field="*{id}" id="id">
+                <input type="hidden" class="form-control col-sm-12 col-xl-7" th:field="*{contrasenya}" id="contrasenya">
                 <div class="wrap-input100 validate-input mx-auto mb-5">
                     <input class="input100" type="text" name="nombre" placeholder="Nombre" th:field="*{nombre}">
                     <span class="focus-input100"></span>
-                    </span>
+                </span>
                 </div>
                 <div class="wrap-input100 validate-input mx-auto mb-5">
                     <input class="input100" type="text" name="apellidos" placeholder="Apellidos" th:field="*{apellidos}">
                     <span class="focus-input100"></span>
-                    </span>
+                </span>
                 </div>
                 <div class="wrap-input100 validate-input mx-auto mb-5">
-                    <input class="input100" type="email" name="email" placeholder="Email" th:field="*{email}">
+                    <input class="input100" type="email" name="email" placeholder="Email" readonly th:field="*{email}">
                     <span class="focus-input100"></span>
-                    </span>
-                </div>
-                <div>
-                    <h3>Cursos</h3>
-                    <div class="w-50 mx-auto">
-                        <label for="curso" class="ml-3"></label><br>
-                        <select id="curso" class="form-control" th:field="*{curso}">
-                            <option th:each="curso : ${cursos}" th:value="${curso.id}"
-                                    th:text="${curso.nombre}">X</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-3 mt-4">
-                    <h3 class="mx-auto text-center">Código de invitación</h3>
-                    <span class="mx-auto text-centre mt-2 mb-2">Se le enviará por email</span>
-                    <input class="input100 w-50 mx-auto" type="text" name="codigoBienv" placeholder="Codigo" readonly th:field="*{codigoBienv}">
+                </span>
                 </div>
                 <div class="container-login100-form-btn mb-5 mt-5">
                     <input type="submit" class="login100-form-btn" value="Confirmar" />

@@ -29,13 +29,15 @@ public abstract class Usuario implements UserDetails {
     private boolean primerInic;
     private String nombre;
     private String apellidos;
+    private boolean esAlta;
 
-    public Usuario(String email, String contrasenya, boolean primerInic, String nombre, String apellidos) {
+    public Usuario(String email, String contrasenya, boolean primerInic, String nombre, String apellidos, boolean esAlta) {
         this.email = email;
         this.contrasenya = contrasenya;
         this.primerInic = primerInic;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.esAlta = esAlta;
     }
 
     public Usuario(String email, String nombre, String apellidos) {
