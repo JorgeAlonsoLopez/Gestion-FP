@@ -68,7 +68,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
         List<List<Horario>> listaF = new ArrayList<>();
         for(int i=1;i<7;i++){
-            listaF.add(this.ordenar(this.listaDia(lista, i)));
+            listaF.add(this.ordenar(this.listaTramo(lista, i)));
         }
 
         return listaF;
@@ -81,7 +81,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         return lista;
     }
 
-    public List<Horario> listaDia (List<Horario> lista, int dia){
+    public List<Horario> listaTramo(List<Horario> lista, int dia){
 
         List<Horario> listaF = new ArrayList<>();
             for(Horario h : lista){
