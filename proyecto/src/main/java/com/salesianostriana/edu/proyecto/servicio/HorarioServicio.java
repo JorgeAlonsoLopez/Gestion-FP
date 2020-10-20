@@ -10,8 +10,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,22 +52,45 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     }
 
-    public List<Horario> findByCurso (String nombre){
-
+    public List<Horario> findByCurso (Curso curso){
+        String nombre = curso.getNombre();
         List<Horario> lista = new ArrayList<>();
 
         for(Asignatura asig : asignaturaServicio.findByCurs(nombre)){
-            for(Horario h : this.findAll()){
-                if(h.getAsigntura().equals(asig)){
-                    lista.add(h);
-                }
+            for(Horario h : asig.getHorarios()){
+                lista.add(h);
             }
         }
-
-
         return lista;
     }
 
+    public List<List<Horario>> ordenarFinal (List<Horario> lista){
+
+        List<List<Horario>> listaF = new ArrayList<>();
+        for(int i=1;i<7;i++){
+            listaF.add(this.ordenar(this.listaDia(lista, i)));
+        }
+
+        return listaF;
+    }
+
+    public List<Horario> ordenar (List<Horario> lista){
+        lista = lista.stream()
+                .sorted(Comparator.comparingInt(Horario::getDia))
+                .collect(Collectors.toList());
+        return lista;
+    }
+
+    public List<Horario> listaDia (List<Horario> lista, int dia){
+
+        List<Horario> listaF = new ArrayList<>();
+            for(Horario h : lista){
+                if(h.getTramo()==dia){
+                    listaF.add(h);
+                }
+        }
+        return listaF;
+    }
 
 
 

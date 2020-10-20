@@ -19,8 +19,9 @@ public class AlumnoController {
 
     @GetMapping("/alumno/principal")
     public String principal(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
-        model.addAttribute("usuarioLogeado", alumnoServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("horarios", horarioServicio.findByCurso(alumnoServicio.findByEmail(usuarioLog.getEmail()).getCurso().getNombre()));
+        Alumno alum = alumnoServicio.findByEmail(usuarioLog.getEmail());
+        model.addAttribute("usuarioLogeado", alum);
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findByCurso(alum.getCurso())));
         return "alumno/principal";
     }
 
