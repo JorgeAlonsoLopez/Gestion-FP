@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
-public class Horario {
+public class Horario implements Comparable<Horario>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,12 +21,27 @@ public class Horario {
     private boolean esAlta;
 
     @ManyToOne
-    private Asignatura asigntura;
+    private Asignatura asignatura;
 
-    public Horario(int dia, int tramo, Asignatura asigntura,  boolean esAlta) {
+    public Horario(int dia, int tramo, Asignatura asignatura,  boolean esAlta) {
         this.dia = dia;
         this.tramo = tramo;
-        this.asigntura = asigntura;
+        this.asignatura = asignatura;
         this.esAlta = esAlta;
+    }
+
+    public Horario(int dia) {
+        this.dia = dia;
+    }
+
+    @Override
+    public int compareTo(Horario o) {
+        int numP=1, numN=-1;
+        if(this.getTramo() < o.getTramo()) {
+            return numP;
+        }else{
+            return numN;
+        }
+
     }
 }

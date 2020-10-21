@@ -37,8 +37,7 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
 //        ampl.setFechaSolicitud(LocalDate.now());
 //        ampl.setEstado("Pendiente");
 
-        alum.addAmpliacion(ampl);
-        asign.addAmpliacion(ampl);
+
         alumnoServicio.edit(alum);
         asignaturaServicio.edit(asign);
         this.save(ampl);
@@ -52,7 +51,7 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
         ampli.setEstado("Aceptado");
         ampli.setFechaResolucion(LocalDate.now());
 
-        alum.addAsignatura(ampli.getAsignatura());
+
 
         alumnoServicio.edit(alum);
         asignaturaServicio.edit(ampli.getAsignatura());

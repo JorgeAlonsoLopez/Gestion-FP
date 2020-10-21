@@ -1,6 +1,5 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.ProfesorRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
@@ -12,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,51 +37,24 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
         return prof;
     }
 
-    public void cargarListadoProf_Asig() {
-
-        List<Profesor> listaProf = new ArrayList<>();
-        List<Asignatura> listaAsig = new ArrayList<>();
-
-        String path = "classpath:AsignaturasProfesores.csv";
-        try {
-            // @formatter:off
-            listaProf = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return this.findByEmail(values[2]);
-
-            }).collect(Collectors.toList());
-            // @formatter:on
-
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de asignaturas de profesores.");
-            System.exit(-1);
+    public List<Profesor> findProfesor (){
+        List<Profesor> lista = new ArrayList<>();
+        for(Profesor p : this.findAll()){
+            if(!p.isEsJefeDeEstudios()){
+                lista.add(p);
+            }
         }
+        return lista;
+    }
 
-
-        try {
-            // @formatter:off
-            listaAsig = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return asignaturaServicio.findByNameCurs(values[0], values[1]);
-
-            }).collect(Collectors.toList());
-            // @formatter:on
-
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de asignaturas de profesores.");
-            System.exit(-1);
+    public List<Profesor> findJefes(){
+        List<Profesor> lista = new ArrayList<>();
+        for(Profesor p : this.findAll()){
+            if(p.isEsJefeDeEstudios()){
+                lista.add(p);
+            }
         }
-
-        for(int i=0; i < listaProf.size(); i++){
-
-            listaProf.get(i).addAsignatura(listaAsig.get(i));
-            this.edit(listaProf.get(i));
-            asignaturaServicio.edit(listaAsig.get(i));
-
-
-        }
-
-
+        return lista;
     }
 
     public void cargarListado(BCryptPasswordEncoder passwordEncoder) {
@@ -94,10 +67,10 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
                 String[] values = line.split(";");
                 if (values[4].equals("True")) {
                     return new Profesor(values[2], values[3], false,
-                            values[0], values[1], true);
+                            values[0], values[1], true, true);
                 } else {
                     return new Profesor(values[2], values[3], false,
-                            values[0], values[1], false);
+                            values[0], values[1], true, false);
                 }
 
 
@@ -115,6 +88,25 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
         }
 
     }
+
+    public String codigo(){
+        Random aleatorio = new Random();
+
+        String alfa = "ABCDEFGHIJKLMNOPQRSTVWXYZ";
+
+        String cadena = "";
+
+        int numero;
+
+        int forma;
+        forma=(int)(aleatorio.nextDouble() * alfa.length()-1+0);
+        numero=(int)(aleatorio.nextDouble() * 99+100);
+
+        cadena=cadena+alfa.charAt(forma)+numero;
+
+        return cadena;
+    }
+
 
 
 }

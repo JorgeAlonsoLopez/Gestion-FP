@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Carnet alumno</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <div class="row">
+            <div class="col-lg-4 mx-left text-left">
+                <div class=" mt-5 mb-5">
+                    <h2 class="mb-3">Nombre</h2>
+                    <h3 th:text="${alumno.nombre}">X</h3>
+                </div>
+                <div class=" mt-5 mb-5">
+                    <h2 class="mb-3">Apellidos</h2>
+                    <h3 th:text="${alumno.apellidos}">X</h3>
+                </div>
+                <div class=" mt-5 mb-5">
+                    <h2 class="mb-3">Correo</h2>
+                    <h3 th:text="${alumno.email}">X</h3>
+                </div>
+                <div class=" mt-5 mb-5">
+                    <h2 class="mb-3">Curso</h2>
+                    <h3 th:text="${alumno.curso.nombre}">X</h3>
+                </div>
+            </div>
+            <div class="col-lg-8 mx-auto text-center">
+                <table class="table mb-5" id="horario">
+                    <thead>
+                    <tr>
+                        <th scope="col">Lunes</th>
+                        <th scope="col">Martes</th>
+                        <th scope="col">Miércoles</th>
+                        <th scope="col">Jueves</th>
+                        <th scope="col">Viernes</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="horario : ${horarios}">
+                    <tr>
+                        <th:block th:each="clase : ${horario}">
+                            <td th:text="${clase.asignatura.nombre}"> X </td>
+                        </th:block>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

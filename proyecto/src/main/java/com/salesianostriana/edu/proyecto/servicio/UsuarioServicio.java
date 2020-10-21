@@ -17,29 +17,9 @@ public class UsuarioServicio extends BaseService<Usuario, Long, UsuarioRepositor
         return repositorio.findFirstByEmail(email);
     }
 
-    private String generarCódigo(){
-        Random aleatorio = new Random();
 
-        String alfa = "ABCDEFGHIJKLMNOPQRSTVWXYZ";
 
-        String cadena = "";
 
-        int numero;
-
-        int forma;
-        forma=(int)(aleatorio.nextDouble() * alfa.length()-1+0);
-        numero=(int)(aleatorio.nextDouble() * 99+100);
-
-        cadena=cadena+alfa.charAt(forma)+numero;
-
-        return cadena;
-    }
-
-    public void generarCodigo(String email){
-        Usuario u = this.buscarPorUsuario(email).get();
-        u.setCodigoBienv(this.generarCódigo());
-        this.edit(u);
-    }
 
 
 }

@@ -32,6 +32,20 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
         return titulo;
     }
 
+
+    public List<Titulo> listarActivos() {
+
+        List<Titulo> lista = new ArrayList<>();
+
+        for(Titulo t : this.findAll()){
+            if(t.isEsAlta()){
+                lista.add(t);
+            }
+        }
+
+        return lista;
+    }
+
     public void cargarListado() {
         List<Titulo> result = new ArrayList<>();
 

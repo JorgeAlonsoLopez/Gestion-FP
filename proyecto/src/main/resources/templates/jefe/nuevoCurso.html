@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo curso</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <h2 >Formulario de creación de un nuevo curso</h2>
+        <form action="#" method="post"  th:action="@{/jefe/nuevoCurso/submit}" th:object="${nuevoCurso}">
+            <div>
+                <h3 class="mx-auto text-center mt-5 mb-5">Nombre</h3>
+            </div>
+            <div class="wrap-input100 validate-input mx-auto mb-5">
+                <input class="input100" type="text" name="nombre" placeholder="Nombre" th:field="*{nombre}">
+                <span class="focus-input100"></span>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <h3>Títulos</h3>
+                    <div class="w-50 mx-auto">
+                        <label for="asignatura" class="ml-3"></label><br>
+                        <select id="asignatura" class="form-control" th:field="*{titulo}">
+                            <option th:each="titulo : ${titulos}" th:value="${titulo.id}"
+                                    th:text="${titulo.nombre}">X</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h3>Año</h3>
+                    <input type="number" id="anyo" name="anyo" min="1" max="2" th:field="*{anyo}">
+                </div>
+            </div>
+            <div class="container-login100-form-btn mb-5 mt-5">
+                <input type="submit" class="login100-form-btn" value="Confirmar" />
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

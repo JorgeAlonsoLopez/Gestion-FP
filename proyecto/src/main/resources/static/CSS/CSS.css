@@ -8,11 +8,11 @@ html {
     background-image: url(../img/sky.jpg);
 }
 
-a:link {
+#bodyLog a:link {
     color: black;
   }
 
-#contenLog a:link, #contenLog a , #contenLog a:hover {
+#contenLog a:link, #contenLog a , #contenLog a:hover , #contenLog a:visited {
   color: white;
   text-decoration: none;
 }
@@ -186,7 +186,7 @@ footer{
 
 .botonMenu{
   width: 70%;
-  margin-bottom: 25px;
+  margin-bottom: 19px;
   text-decoration: none;
 }
 
