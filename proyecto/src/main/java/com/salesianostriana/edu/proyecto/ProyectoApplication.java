@@ -5,6 +5,7 @@ import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.servicio.*;
+import com.salesianostriana.edu.proyecto.upload.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +24,14 @@ public class ProyectoApplication {
 	@Bean
 	public CommandLineRunner app(TituloServicio tituloServicio, CursoServicio cursoServicio, AsignaturaServicio asignaturaServicio,
 			 HorarioServicio horarioServicio, ProfesorServicio profesorServicio, AlumnoServicio alumnoServicio,
-			 BCryptPasswordEncoder passwordEncoder, ExcepcionServicio excepcionServicio, AmpliacionServicio ampliacionServicio){
+			 BCryptPasswordEncoder passwordEncoder, ExcepcionServicio excepcionServicio, AmpliacionServicio ampliacionServicio,
+			 StorageService storageService){
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
+
+			storageService.deleteAll();
+			storageService.init();
 
 			tituloServicio.cargarListado();
 			cursoServicio.cargarListado();

@@ -126,21 +126,21 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             for (int dia = 1; dia <= 5; dia++) {
                 encontrado = false;
                 //Buscamos para cada tramos, si para cada día está su hora
-                for (Horario h : lista) {
-                    if (h.getDia() == dia) {
-                        encontrado = true;
-                    }
-                }
-                //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
-                //y cambiamos su día por el que correspoda para rellenar el vacío dejado
-                if (!encontrado) {
-                    for (int j = 0; j < lista.size(); j++) {
-                        if (lista.get(j).getDia() == 6) {
-                            lista.get(j).setDia(dia);
-                            break;
+                    for (Horario h : lista) {
+                        if (h.getDia() == dia) {
+                            encontrado = true;
                         }
                     }
-                }
+                //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
+                //y cambiamos su día por el que correspoda para rellenar el vacío dejado
+                    if (!encontrado) {
+                        for (int j = 0; j < lista.size(); j++) {
+                            if (lista.get(j).getDia() == 6) {
+                                lista.get(j).setDia(dia);
+                                break;
+                            }
+                        }
+                    }
             }
 
         }
@@ -158,9 +158,6 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
                 listaF.add(h);
             }
         }
-
-
-
 
         return listaF;
     }

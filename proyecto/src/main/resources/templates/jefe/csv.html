@@ -9,62 +9,52 @@
 <body>
     <div layout:fragment="contenido-sin-menu">
         <div class="mx-auto text-centre w-90">
-            <h2 class="mt-3 mb-3">CArga de CVS</h2>
-            <form action="#" method="post"  th:action="@{/jefe/csv/submit}"  enctype="multipart/form-data" th:object="${csv}">
+            <h2 class="mt-3 mb-3">Carga de CVS</h2>
+            <form action="#" method="post"  th:action="@{/jefe/csv/submit}"  enctype="multipart/form-data" th:object="${objeto}">
                 <div>
                     <h3>Le recordamos la estructura que deben tener los .csv</h3>
-                    <table class="table">
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Curso</th>
-                            <th>Asignatura</th>
-                            <th>Horario</th>
-                            <th>Jefe de estudio</th>
-                            <th>Profesor</th>
-                            <th>Alumno</th>
-                        </tr>
-                        <tr>
-                            <td>Nombre del título;</td>
-                            <td>Nombre del título;Curso;Año</td>
-                            <td>Nombre de la asignatura;Nombre del curso;</td>
-                            <td>Nombre de la asignatura;Curso;Día;Tramo</td>
-                            <th>Nombre;Apellidos;correo;contrasenya;True</th>
-                            <th>Nombre;Apellidos;correo;contrasenya;False</th>
-                            <td>nombre,apellido,email,contraseña,curso</td>
-                        </tr>
-                    </table>
+                    <div>
+                        <span class="mt-2 mb-2">Titulo <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título</span><br>
+                        <span class="mt-2 mb-2">Curso  <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título;Curso;Año</span><br>
+                        <span class="mt-2 mb-2">Asignatura  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Nombre del curso</span><br>
+                        <span class="mt-2 mb-2">Horario  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Curso;Día;Tramo</span><br>
+                        <span class="mt-2 mb-2">Jefe de estudio  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Contraseña;True</span><br>
+                        <span class="mt-2 mb-2">Profesor  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Contraseña;False</span><br>
+                        <span class="mt-2 mb-2">Alumno  <i class="fas fa-arrow-alt-circle-right"></i> Nombre,Apellidos,Email,Contraseña,Nombre del curso</span><br>
+                    </div>
                 </div>
-                <div>
-                    <input type="file" name="file">
+                <div class="form-group mx-auto">
+                    <label for="file">CSV</label>
+                    <input type="file" name="file" id="file" class="form-control input-file w-25">
                 </div>
                 <div>
                     <h3 class="mt-5 mb-2">Tramo horario</h3>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{op}">
+                        <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
                         <label class="custom-control-label" for="option11">Títulos</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{op}">
+                        <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{tramo}">
                         <label class="custom-control-label" for="option12">Cursos</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{op}">
+                        <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{tramo}">
                         <label class="custom-control-label" for="option13">Asignaturas</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{op}">
+                        <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{tramo}">
                         <label class="custom-control-label" for="option14">Horarios</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option15" name="option15" class="custom-control-input" value="4" th:field="*{op}">
+                        <input type="radio" id="option15" name="option15" class="custom-control-input" value="5" th:field="*{tramo}">
                         <label class="custom-control-label" for="option15">Jefes de estudio</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option16" name="option16" class="custom-control-input" value="4" th:field="*{op}">
+                        <input type="radio" id="option16" name="option16" class="custom-control-input" value="6" th:field="*{tramo}">
                         <label class="custom-control-label" for="option16">Profesores</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option17" name="option17" class="custom-control-input" value="4" th:field="*{op}">
+                        <input type="radio" id="option17" name="option17" class="custom-control-input" value="7" th:field="*{tramo}">
                         <label class="custom-control-label" for="option17">Alumnos</label>
                     </div>
                 </div>

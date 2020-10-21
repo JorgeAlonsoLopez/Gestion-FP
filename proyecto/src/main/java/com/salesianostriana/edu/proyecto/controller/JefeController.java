@@ -2,14 +2,16 @@ package com.salesianostriana.edu.proyecto.controller;
 
 import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.servicio.*;
+import com.salesianostriana.edu.proyecto.upload.storage.StorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class JefeController {
     private final SendEmail sendEmail;
     private final AsignaturaServicio asignaturaServicio;
     private final HorarioServicio horarioServicio;
+    private final StorageService storageService;
 
 
 
@@ -460,17 +463,31 @@ public class JefeController {
         return "jefe/clases";
     }
 
-    @GetMapping ("/jefe/csv/")
-    public String csv( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+    @GetMapping ("/jefe/csv")
+    public String csvForm( Model model, @AuthenticationPrincipal  Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("objeto", new Horario());
         return "jefe/csv";
     }
 
     @PostMapping("/jefe/csv/submit")
-    public String cargarCsv(@ModelAttribute("titulo") Titulo titulo) {
+    public String cargarCsv(@ModelAttribute("objeto") Horario obj, @RequestParam("file") MultipartFile file) {
+
+        if(!file.isEmpty()){
+            String archivo = storageService.store(file);
+            Store store = new Store();
+            String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
+            System.out.println();
+        }
 
         return "redirect:/jefe/titulos";
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().body(file);
     }
 
 
