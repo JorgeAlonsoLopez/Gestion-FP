@@ -213,7 +213,7 @@ public class JefeController {
     public String carnet(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("alumno", alumnoServicio.findById(id));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findByCurso(alumnoServicio.findById(id).getCurso())));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(alumnoServicio.findById(id).getCurso())));
         return "jefe/carnet";
     }
 
@@ -291,8 +291,54 @@ public class JefeController {
     @GetMapping("/jefe/horarios")
     public String horarios(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
         return "jefe/horarios";
+    }
+
+    @GetMapping("/jefe/horarios/{id}")
+    public String horariosAltaBaja(@PathVariable("id") Long id) {
+        Horario modificado = horarioServicio.findById(id);
+        if(modificado.isEsAlta()){
+            modificado.setEsAlta(false);
+        }else{
+            modificado.setEsAlta(true);
+        }
+        horarioServicio.edit(modificado);
+        return "redirect:/jefe/horarios";
+    }
+
+    @GetMapping("/jefe/nuevoHorario")
+    public String nuevoHorario(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("nuevoHorario", new Horario());
+        model.addAttribute("asignaturas", asignaturaServicio.findActivas());
+        return "jefe/nuevoHorario";
+    }
+
+    @PostMapping("/jefe/nuevoHorario/submit")
+    public String nuevoCursoSubmit(@ModelAttribute("nuevoHorario") Horario nuevoHorario) {
+        if(!horarioServicio.solapaHora(nuevoHorario)){
+            nuevoHorario.setEsAlta(true);
+            horarioServicio.save(nuevoHorario);
+        }
+        return "redirect:/jefe/horarios";
+    }
+
+    @GetMapping ("/jefe/editarHorario/{id}")
+    public String editarHorario ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("horario", horarioServicio.findById(id));
+        model.addAttribute("asignaturas", asignaturaServicio.findActivas());
+        return "jefe/editarHorario";
+    }
+
+    @PostMapping("/jefe/editarHorario/submit")
+    public String editarHorarioSubmit(@ModelAttribute("horario") Horario horario) {
+        if(!horarioServicio.solapaHora(horario)){
+            horario.setEsAlta(true);
+            horarioServicio.edit(horario);
+        }
+        return "redirect:/jefe/horarios";
     }
 
 

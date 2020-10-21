@@ -1,7 +1,5 @@
 package com.salesianostriana.edu.proyecto.controller;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Horario;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.servicio.*;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +28,7 @@ public class ProfesorController {
     @GetMapping("/profesor/horario/{id}")
     public String curso(Model model, @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findByCurso(cursoServicio.findById(id))));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(cursoServicio.findById(id))));
         model.addAttribute("curso", cursoServicio.findById(id));
         return "profesor/horario";
     }

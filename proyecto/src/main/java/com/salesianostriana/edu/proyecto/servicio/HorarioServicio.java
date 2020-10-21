@@ -52,7 +52,22 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     }
 
-    public List<Horario> findByCurso (Curso curso){
+    public boolean solapaHora(Horario horario){
+        boolean encontrado = false;
+        boolean mod = false;
+        for(Horario h : this.findActivasByCurso(horario.getAsignatura().getCurso())){
+            if( h.getDia() == horario.getDia() && h.getTramo() == horario.getTramo()){
+               if(!mod){
+                   mod=true;
+                   encontrado = true;
+               }
+            }
+        }
+
+        return encontrado;
+    }
+
+    public List<Horario> findActivasByCurso(Curso curso){
         String nombre = curso.getNombre();
         List<Horario> lista = new ArrayList<>();
 
@@ -65,6 +80,22 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
                 }
             }
 
+        }
+        return lista;
+    }
+
+    public List<Horario> findByCursoActivo(){
+        List<Horario> lista = new ArrayList<>();
+        for(Curso curso : cursoServicio.findAll()) {
+            if (curso.isEsAlta()) {
+                for (Asignatura asig : asignaturaServicio.findByCurs(curso.getNombre())) {
+                    if (asig.isEsAlta()) {
+                        for (Horario h : asig.getHorarios()) {
+                            lista.add(h);
+                        }
+                    }
+                }
+            }
         }
         return lista;
     }
@@ -84,7 +115,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         lista = lista.stream()
                 .sorted(Comparator.comparingInt(Horario::getDia))
                 .collect(Collectors.toList());
-
+        //Buscamos si no están todas las horas ocupadas y contamos cuantas hay
         if(lista.size()<5) {
             plus = 5 - lista.size();
             for (int i = 0; i < plus; i++) {
@@ -94,11 +125,14 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             boolean encontrado;
             for (int dia = 1; dia <= 5; dia++) {
                 encontrado = false;
+                //Buscamos para cada tramos, si para cada día está su hora
                 for (Horario h : lista) {
                     if (h.getDia() == dia) {
                         encontrado = true;
                     }
                 }
+                //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
+                //y cambiamos su día por el que correspoda para rellenar el vacío dejado
                 if (!encontrado) {
                     for (int j = 0; j < lista.size(); j++) {
                         if (lista.get(j).getDia() == 6) {

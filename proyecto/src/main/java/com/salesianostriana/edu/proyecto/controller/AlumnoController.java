@@ -1,7 +1,6 @@
 package com.salesianostriana.edu.proyecto.controller;
 
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
-import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.servicio.AlumnoServicio;
 import com.salesianostriana.edu.proyecto.servicio.HorarioServicio;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class AlumnoController {
     public String principal(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
         Alumno alum = alumnoServicio.findByEmail(usuarioLog.getEmail());
         model.addAttribute("usuarioLogeado", alum);
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findByCurso(alum.getCurso())));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(alum.getCurso())));
         return "alumno/principal";
     }
 

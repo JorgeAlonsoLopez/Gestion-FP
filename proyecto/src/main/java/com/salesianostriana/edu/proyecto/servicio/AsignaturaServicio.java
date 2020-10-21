@@ -38,6 +38,22 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         return asign;
     }
 
+    public List<Asignatura> findActivas(){
+
+        List<Asignatura> asign = new ArrayList<>();
+
+
+        for (Curso a : cursoServicio.listaActivos()){
+            for(Asignatura t : a.getAsignaturas()){
+                if(t.isEsAlta()){
+                    asign.add(t);
+                }
+            }
+
+        }
+        return asign;
+    }
+
     public List<Asignatura> findByCurs(String curso){
 
         List<Asignatura> asign = new ArrayList<>();

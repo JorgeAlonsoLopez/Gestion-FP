@@ -4,11 +4,93 @@
 	layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
-    <title>Principal</title>
+    <title>Horarios</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <span>Menu principal del jefe</span>
+        <div class="mx-auto text-centre w-90">
+            <h2 class="mt-3 mb-3">Horarios</h2>
+
+            <div class="mt-3 mb-3">
+                <a type="button" class="btn btn-dark btn-lg mt-5 mb-5" href="/jefe/nuevoHorario">Nuevo horario</a>
+            </div>
+            <div class="mx-auto text-centre w-90">
+                <h2 class="mt-3 mb-3">Alumnos</h2>
+                <div th:each="curso : ${cursos}">
+                    <div class="mt-5 mb-5">
+                        <h2 th:text="${curso.nombre}">Nombre</h2>
+                    </div>
+                    <div th:each="asignatura : ${curso.asignaturas}">
+                        <h3 th:text="${asignatura.nombre}">Nombre asignatura</h3>
+                            <table class="table mb-5" id="horario">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Día</th>
+                                    <th scope="col">Hora</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="horario : ${asignatura.horarios}">
+                                <tr>
+                                    <td th:text="${horario.dia}"> X </td>
+                                    <td th:text="${horario.tramo}"> X </td>
+                                    <th:block th:if="${horario.esAlta==true}">
+                                        <td> Alta </td>
+                                    </th:block>
+                                    <th:block th:if="${horario.esAlta==false}">
+                                        <td> Baja </td>
+                                    </th:block>
+                                    <td><a type="button" class="btn btn-primary" th:href="@{'/jefe/editarHorario/'+${horario.id}}">Modificar</a></td>
+                                    <td><a type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-modal" th:data-id="${horario.id}">Cambiar de estado</a></td>
+                                    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>¿Está usted seguro de cambiar el estado del horario?</p>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                                    <a href="#" class="btn btn-danger">Sí</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+            $(document).ready(function() {
+                $('#delete-modal').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget);
+                    var data = button.data('id');
+
+                    var modal = $(this);
+
+                    var a = modal.find('.modal-body a')[0];
+                    a.href = '/jefe/horarios/' + data;
+                });
+            });
+
+
+
+        </script>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
     </div>
 
 </body>
