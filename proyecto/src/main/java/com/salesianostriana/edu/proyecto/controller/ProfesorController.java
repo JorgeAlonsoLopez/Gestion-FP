@@ -52,7 +52,7 @@ public class ProfesorController {
     @GetMapping("/profesor/horarios")
     public String horarios(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
         return "profesor/horarios";
     }
 
