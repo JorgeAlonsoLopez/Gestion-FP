@@ -479,6 +479,7 @@ public class JefeController {
             String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
             System.out.println();
         }
+        storageService.deleteAll();
 
         return "redirect:/jefe/titulos";
     }
