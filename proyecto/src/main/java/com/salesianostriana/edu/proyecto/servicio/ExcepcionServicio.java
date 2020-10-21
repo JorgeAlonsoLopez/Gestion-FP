@@ -25,7 +25,7 @@ public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, Excep
         excep.setEstado("Aceptado");
         excep.setFechaResolucion(LocalDate.now());
 
-        alum.removeAsignatura(excep.getAsignatura());
+
 
         alumnoServicio.edit(alum);
         asignaturaServicio.edit(excep.getAsignatura());
@@ -44,34 +44,7 @@ public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, Excep
 
     }
 
-    public void nuevaExcepcion (String correo, String curso, String nombreAsignatura){
 
-        Alumno alum = alumnoServicio.findByEmail(correo);
-        Asignatura asign = asignaturaServicio.findByNameCurs(nombreAsignatura, curso);
-
-        ExcepcionPK pk = new ExcepcionPK();
-        pk.setAlumno_id(alum.getId());
-        pk.setAsignatura_id(asign.getId());
-
-//         Excepcion exp = this.findById(pk);
-
-        Excepcion exp = new Excepcion();
-//        Excepcion exp = new Excepcion(pk, alum, asign, LocalDate.now(), "Convalidacion", "Pendiente");
-
-        exp.setId(pk);
-        exp.setAlumno(alum);
-        exp.setAsignatura(asign);
-        exp.setFechaSolicitud(LocalDate.now());
-        exp.setTipo("Convalidacion");
-        exp.setEstado("Pendiente");
-
-        alum.addExcepcion(exp);
-        asign.addExcepcion(exp);
-        alumnoServicio.edit(alum);
-        asignaturaServicio.edit(asign);
-        this.save(exp);
-
-    }
 
 
 }

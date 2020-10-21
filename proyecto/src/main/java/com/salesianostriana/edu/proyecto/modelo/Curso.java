@@ -6,7 +6,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +31,7 @@ public class Curso {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "curso", fetch = FetchType.EAGER)
-    private List<Asignatura> asignaturas = new ArrayList<>();
+    private Set<Asignatura> asignaturas = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

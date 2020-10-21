@@ -4,11 +4,34 @@
 	layout:decorate="~{fragmentos/menuAlumno}">
 <head>
     <meta charset="UTF-8">
-    <title>Principal</title>
+    <title>Alumno</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <span>Menu principal del alumno</span>
+        <div class="mx-auto text-centre mt-3 mb-5">
+            <h2>Horario</h2>
+        </div>
+        <div class="w-85 mb-5">
+            <table class="table mb-5" id="horario">
+                <thead>
+                  <tr>
+                    <th scope="col">Lunes</th>
+                    <th scope="col">Martes</th>
+                    <th scope="col">Miércoles</th>
+                    <th scope="col">Jueves</th>
+                    <th scope="col">Viernes</th>
+                  </tr>
+                </thead>
+                <tbody th:each="horario : ${horarios}">
+                  <tr>
+                      <th:block th:each="clase : ${horario}">
+                          <td th:text="${clase.asignatura.nombre}"> X </td>
+                      </th:block>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
     </div>
 
 </body>

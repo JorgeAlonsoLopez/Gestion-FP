@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Principal</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <div class="mx-auto text-centre w-90">
+            <h2 class="mt-3 mb-3">Asignaturas</h2>
+            <div class="mt-3 mb-3">
+                <a type="button" class="btn btn-dark btn-lg mt-5 mb-5" href="/jefe/nuevoAsignatura">Nueva asignatura</a>
+            </div>
+            <div th:each="curso : ${cursos}">
+                <div class="mt-5 mb-5">
+                    <h2 th:text="${curso.nombre}">Nombre</h2>
+                </div>
+                <div th:each="asignatura : ${curso.asignaturas}" class="row conten justify-content-around">
+                    <div class="col-lg-6 mt-3 mb-3">
+                        <h3 th:text="${asignatura.nombre}">Nombre</h3>
+                    </div>
+                    <div class="col-lg-1 mt-3 mb-3">
+                        <h3 th:text="${asignatura.curso.nombre}">Nombre del curso</h3>
+                    </div>
+                    <div class="col-lg-1 mt-3 mb-3">
+                        <div th:if="${asignatura.esAlta==true}">
+                            <h3>Alta</h3>
+                        </div>
+                        <div th:if="${asignatura.esAlta==false}">
+                            <h3>Baja</h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 mt-3 mb-3">
+                        <a type="button" class="btn btn-primary btn-lg" th:href="@{'/jefe/editarAsignatura/'+${asignatura.id}}">Modificar</a>
+                    </div>
+                    <div class="col-lg-2 mt-3 mb-3">
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#delete-modal" th:data-id="${asignatura.id}">Cambiar de estado</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está usted seguro de cambiar el estado de la asignatura?</p>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a href="#" class="btn btn-danger">Sí</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+		$(document).ready(function() {
+			$('#delete-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/jefe/asignaturas/' + data;
+			});
+		});
+
+
+
+	</script>
+    </div>
+
+</body>
+</html>
