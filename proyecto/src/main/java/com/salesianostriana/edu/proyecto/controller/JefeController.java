@@ -218,14 +218,6 @@ public class JefeController {
     }
 
 
-    @GetMapping("/jefe/clases")
-    public String clases(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
-        return "jefe/clases";
-    }
-
-
     @GetMapping("/jefe/cursos")
     public String cursos(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
@@ -454,5 +446,32 @@ public class JefeController {
         tituloServicio.edit(titulo);
         return "redirect:/jefe/titulos";
     }
+
+    @GetMapping("/jefe/clases")
+    public String clases(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        return "jefe/clases";
+    }
+
+    @GetMapping("/jefe/clasesDetalles/{id}")
+    public String clasesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        return "jefe/clases";
+    }
+
+    @GetMapping ("/jefe/csv/")
+    public String csv( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+
+        return "jefe/csv";
+    }
+
+    @PostMapping("/jefe/csv/submit")
+    public String cargarCsv(@ModelAttribute("titulo") Titulo titulo) {
+
+        return "redirect:/jefe/titulos";
+    }
+
 
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuJefe}">
+	layout:decorate="~{fragmentos/menuProfesor}">
 <head>
     <meta charset="UTF-8">
     <title>Cursos</title>
@@ -11,7 +11,7 @@
         <div class="row justify-content-around">
             <div th:each="curso : ${cursos}">
                 <div class="col-lg-4 mt-3 mb-3">
-                    <a type="button" class="btn btn-info btn-lg"  th:href="@{'/jefe/clasesDetalles/'+${curso.id}}"
+                    <a type="button" class="btn btn-info btn-lg"  th:href="@{'/profesor/clasesDetalles/'+${curso.id}}"
                        th:text="${curso.nombre}">Nombre</a>
                 </div>
             </div>

@@ -52,7 +52,7 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         return lista;
     }
 
-    public List<Alumno> listaCursosAlumnosActivos(){
+    public List<Alumno> listaAlumnosActivos(){
 
         List<Alumno> lista = new ArrayList<>();
         for(Titulo t : tituloServicio.findAll()){
