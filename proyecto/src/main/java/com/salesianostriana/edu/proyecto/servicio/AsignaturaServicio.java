@@ -93,13 +93,35 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
     }
 
-    public void recomponer(){
-        for(Curso c : cursoServicio.findAll()){
-            for(Asignatura asig : c.getAsignaturas()){
+    public void cargarNuevoListado(String file) {
+        List<Asignatura> result = new ArrayList<>();
 
+        String path = "upload-dir/" + file;
+        try {
+            // @formatter:off
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+        boolean encontrado=false;
+        for(Asignatura t : result){
+            encontrado=false;
+            for(Asignatura g : this.findAll()){
+                if((t.getNombre().equals(g.getNombre())) && (t.getCurso().getNombre().equals(g.getCurso().getNombre()))){
+                    encontrado=true;
+                }
+            }
+            if(!encontrado){
+                this.save(t);
             }
         }
-
     }
 
 

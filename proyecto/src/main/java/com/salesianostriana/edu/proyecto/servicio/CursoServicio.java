@@ -107,7 +107,37 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
             c.getTitulo().addCurso(c);
             this.save(c);
         }
+    }
 
+    public void cargarNuevoListado(String file) {
+        List<Curso> result = new ArrayList<>();
+
+        String path = "upload-dir/" + file;
+        try {
+            // @formatter:off
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Curso(values[1], Integer.parseInt(values[2]), tituloServicio.findByName(values[0]), true);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+        boolean encontrado=false;
+        for(Curso t : result){
+            for(Curso g : this.findAll()){
+                encontrado=false;
+                if((t.getNombre().equals(g.getNombre())) && (t.getTitulo().getNombre().equals(g.getTitulo().getNombre()))){
+                    encontrado=true;
+                }
+            }
+            if(!encontrado){
+                this.save(t);
+            }
+        }
     }
 
 

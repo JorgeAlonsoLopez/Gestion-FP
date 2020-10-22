@@ -173,6 +173,13 @@ nav a:link , footer a:link{
   color: white;
 }
 
+.botonera{
+    color: white;
+}
+
+.botonera a:link{
+    color: white;
+}
 
 footer{
   font-size: 15pt;
@@ -189,6 +196,4 @@ footer{
   margin-bottom: 19px;
   text-decoration: none;
 }
-
-
 

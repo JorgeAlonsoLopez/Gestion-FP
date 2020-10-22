@@ -481,33 +481,35 @@ public class JefeController {
 //            Store store = new Store(ruta, false);
 //            storeServicio.save(store);
 
+//            tituloServicio.cargarNuevoListado(file.getOriginalFilename());
+
             switch (obj.getTramo()){
                 case 1:
-
+                        tituloServicio.cargarNuevoListado(file.getOriginalFilename());
                         break;
                 case 2:
-
+                    cursoServicio.cargarNuevoListado(file.getOriginalFilename());
                     break;
                 case 3:
-
+                    asignaturaServicio.cargarNuevoListado(file.getOriginalFilename());
                     break;
                 case 4:
-
+                    horarioServicio.cargarNuevoListado(file.getOriginalFilename());
                     break;
                 case 5:
-
+                    profesorServicio.cargarNuevoListadoJef(file.getOriginalFilename());
                     break;
                 case 6:
-
+                    profesorServicio.cargarNuevoListadoProf(file.getOriginalFilename());
                     break;
                 case 7:
-
+                    alumnoServicio.cargarNuevoListado(file.getOriginalFilename());
                     break;
             }
 
             System.out.println();
         }
-        //storageService.deleteAll();
+        storageService.deleteAll();
 
         return "redirect:/jefe/titulos";
     }

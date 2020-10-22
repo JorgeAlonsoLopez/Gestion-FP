@@ -52,6 +52,40 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     }
 
+    public void cargarNuevoListado(String file) {
+        List<Horario> result = new ArrayList<>();
+
+        String path = "upload-dir/" + file;
+        try {
+            // @formatter:off
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
+                        asignaturaServicio.findByNameCurs(values[0],values[1]), true);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+        boolean encontrado=false;
+        for(Horario t : result){
+            encontrado=false;
+            for(Horario g : this.findAll()){
+                if((t.getDia()==g.getDia()) && (t.getTramo()==g.getTramo())
+                        && (t.getAsignatura().getNombre().equals(g.getAsignatura().getNombre()))
+                        && (t.getAsignatura().getCurso().equals(g.getAsignatura().getCurso()))){
+                    encontrado=true;
+                }
+            }
+            if(!encontrado){
+                this.save(t);
+            }
+        }
+    }
+
     public boolean solapaHora(Horario horario){
         boolean encontrado = false;
         boolean mod = false;

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -71,12 +73,13 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
 
     }
 
-    public void cargarNuevoListado(MultipartFile file) {
+    public void cargarNuevoListado(String file) {
         List<Titulo> result = new ArrayList<>();
 
+        String path = "upload-dir/" + file;
         try {
             // @formatter:off
-            result = Files.lines(file).skip(1).map(line -> {
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
                 return new Titulo(values[0], true);
 
@@ -87,12 +90,16 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
             System.err.println("Error de lectura del fichero de datos de títulos.");
             System.exit(-1);
         }
-
+        boolean encontrado=false;
         for(Titulo t : result){
+            encontrado=false;
             for(Titulo g : this.findAll()){
-                if(!(t.getNombre().equals(g.getNombre()))){
-                    this.save(t);
+                if((t.getNombre().equals(g.getNombre()))){
+                   encontrado=true;
                 }
+            }
+            if(!encontrado){
+                this.save(t);
             }
         }
 

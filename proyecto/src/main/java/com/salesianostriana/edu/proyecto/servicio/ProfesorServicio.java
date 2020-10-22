@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.ProfesorRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
@@ -87,6 +88,70 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
             this.save(p);
         }
 
+    }
+
+    public void cargarNuevoListadoJef(String file) {
+        List<Profesor> result = new ArrayList<>();
+
+        String path = "upload-dir/" + file;
+        try {
+            // @formatter:off
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Profesor(values[2], values[3], false,
+                        values[0], values[1], true, true);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+        boolean encontrado=false;
+        for(Profesor t : result){
+            encontrado=false;
+            for(Profesor g : this.findAll()){
+                if((t.getEmail().equals(g.getEmail()))){
+                    encontrado=true;
+                }
+            }
+            if(!encontrado){
+                this.save(t);
+            }
+        }
+    }
+
+    public void cargarNuevoListadoProf(String file) {
+        List<Profesor> result = new ArrayList<>();
+
+        String path = "upload-dir/" + file;
+        try {
+            // @formatter:off
+            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Profesor(values[2], values[3], false,
+                        values[0], values[1], true, false);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+        boolean encontrado=false;
+        for(Profesor t : result){
+            encontrado=false;
+            for(Profesor g : this.findAll()){
+                if((t.getEmail().equals(g.getEmail()))){
+                    encontrado=true;
+                }
+            }
+            if(!encontrado){
+                this.save(t);
+            }
+        }
     }
 
     public String codigo(){
