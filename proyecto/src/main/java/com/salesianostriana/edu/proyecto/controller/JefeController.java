@@ -25,6 +25,7 @@ public class JefeController {
     private final AsignaturaServicio asignaturaServicio;
     private final HorarioServicio horarioServicio;
     private final StorageService storageService;
+    private final StoreServicio storeServicio;
 
 
 
@@ -474,12 +475,39 @@ public class JefeController {
     public String cargarCsv(@ModelAttribute("objeto") Horario obj, @RequestParam("file") MultipartFile file) {
 
         if(!file.isEmpty()){
-            String archivo = storageService.store(file);
-            Store store = new Store();
+            String archivo = storageService.store(file, -1);
+
             String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
+//            Store store = new Store(ruta, false);
+//            storeServicio.save(store);
+
+            switch (obj.getTramo()){
+                case 1:
+
+                        break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+            }
+
             System.out.println();
         }
-        storageService.deleteAll();
+        //storageService.deleteAll();
 
         return "redirect:/jefe/titulos";
     }
@@ -490,6 +518,7 @@ public class JefeController {
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().body(file);
     }
+
 
 
 }

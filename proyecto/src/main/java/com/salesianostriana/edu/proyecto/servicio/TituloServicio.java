@@ -5,6 +5,7 @@ import com.salesianostriana.edu.proyecto.repositorio.TituloRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -70,7 +71,32 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
 
     }
 
+    public void cargarNuevoListado(MultipartFile file) {
+        List<Titulo> result = new ArrayList<>();
 
+        try {
+            // @formatter:off
+            result = Files.lines(file).skip(1).map(line -> {
+                String[] values = line.split(";");
+                return new Titulo(values[0], true);
+
+            }).collect(Collectors.toList());
+            // @formatter:on
+
+        } catch (Exception e) {
+            System.err.println("Error de lectura del fichero de datos de títulos.");
+            System.exit(-1);
+        }
+
+        for(Titulo t : result){
+            for(Titulo g : this.findAll()){
+                if(!(t.getNombre().equals(g.getNombre()))){
+                    this.save(t);
+                }
+            }
+        }
+
+    }
 
 
 }

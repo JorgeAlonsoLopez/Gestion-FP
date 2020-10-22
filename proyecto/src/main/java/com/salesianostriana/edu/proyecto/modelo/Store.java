@@ -20,5 +20,11 @@ public class Store {
     private Long id;
 
     private String ruta;
+    private Long idEntidad;
+    private boolean guardar;
 
+    public Store(String ruta, boolean guardar) {
+        this.ruta = ruta;
+        this.guardar = guardar;
+    }
 }
