@@ -63,19 +63,5 @@ public class ProfesorController {
         return "profesor/titulos";
     }
 
-    @GetMapping("/profesor/clases")
-    public String clases(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
-        return "profesor/clases";
-    }
-
-    @GetMapping("/profesor/clasesDetalles/{id}")
-    public String clasesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
-        return "profesor/clases";
-    }
-
 
 }
