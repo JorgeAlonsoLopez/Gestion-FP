@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Horario;
@@ -7,9 +8,15 @@ import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,39 +59,45 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     }
 
-    public void cargarNuevoListado(String file) {
-        List<Horario> result = new ArrayList<>();
-
-        String path = "upload-dir/" + file;
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
         try {
-            // @formatter:off
-            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
-                        asignaturaServicio.findByNameCurs(values[0],values[1]), true);
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
-            }).collect(Collectors.toList());
-            // @formatter:on
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Horario prof = new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
+                            asignaturaServicio.findByNameCurs(values[0],values[1]), true);
 
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
-            System.exit(-1);
-        }
-        boolean encontrado=false;
-        for(Horario t : result){
-            encontrado=false;
-            for(Horario g : this.findAll()){
-                if((t.getDia()==g.getDia()) && (t.getTramo()==g.getTramo())
-                        && (t.getAsignatura().getNombre().equals(g.getAsignatura().getNombre()))
-                        && (t.getAsignatura().getCurso().equals(g.getAsignatura().getCurso()))){
-                    encontrado=true;
+                    boolean encontrado=false;
+                    for(Horario g : this.findAll()){
+                        if((prof.getDia()==g.getDia()) && (prof.getTramo()==g.getTramo())
+                                && (prof.getAsignatura().getNombre().equals(g.getAsignatura().getNombre()))
+                                && (prof.getAsignatura().getCurso().equals(g.getAsignatura().getCurso()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
                 }
+
+                linea++;
             }
-            if(!encontrado){
-                this.save(t);
-            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
         }
+
+
     }
+
+
+
 
     public boolean solapaHora(Horario horario){
         boolean encontrado = false;

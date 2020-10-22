@@ -9,10 +9,11 @@
 <body>
     <div layout:fragment="contenido-sin-menu">
         <div class="mx-auto text-centre w-90">
-            <h2 class="mt-3 mb-3">Carga de CVS</h2>
+            <h2 class="mt-3 mb-4">Carga de CVS</h2>
             <form action="#" method="post"  th:action="@{/jefe/csv/submit}"  enctype="multipart/form-data" th:object="${objeto}">
                 <div>
-                    <h3>Le recordamos la estructura que deben tener los .csv</h3>
+                    <h3 class="mt-3">Le recordamos la estructura que deben tener los .csv</h3>
+                    <h5 class="mb-4">La primera línea del archivo no debe contener datos a insertar.</h5>
                     <div>
                         <span class="mt-2 mb-2">Titulo <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título</span><br><br>
                         <span class="mt-2 mb-2">Curso  <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título;Curso;Año</span><br><br>
@@ -23,11 +24,12 @@
                         <span class="mt-2 mb-2">Alumno  <i class="fas fa-arrow-alt-circle-right"></i> Nombre,Apellidos,Email,Contraseña,Nombre del curso</span><br><br>
                     </div>
                 </div>
-                <div class="form-group mx-auto text-centre">
-                    <input type="file" name="file" id="file" class="form-control input-file w-25">
+                <div class="form-group mx-auto text-centre row justify-content-center mt-4 mb-4">
+                    <span class="col-lg-4"></span>
+                    <input type="file" name="file" id="file" class="form-control input-file col-lg-4">
+                    <span class="col-lg-4"></span>
                 </div>
-                <div>
-                    <h3 class="mt-5 mb-2">Tramo horario</h3>
+                <div class="mt-4">
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
                         <label class="custom-control-label" for="option11">Títulos</label>
@@ -58,7 +60,7 @@
                     </div>
                 </div>
                 <div class="container-login100-form-btn mb-5 mt-5">
-                    <input type="submit" class="login100-form-btn" value="Enviar" />
+                    <input type="submit" class="login100-form-btn" value="Insertar datos" />
                 </div>
             </form>
         </div>

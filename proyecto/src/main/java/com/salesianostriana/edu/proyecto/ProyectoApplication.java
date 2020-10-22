@@ -1,9 +1,6 @@
 package com.salesianostriana.edu.proyecto;
 
-import com.salesianostriana.edu.proyecto.modelo.Alumno;
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Profesor;
+import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.servicio.*;
 import com.salesianostriana.edu.proyecto.upload.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
@@ -45,6 +43,12 @@ public class ProyectoApplication {
 				System.out.println("");
 //			excepcionServicio.nuevaExcepcion("alumno2@email.com", "1º DAM", "FOP");
 //			ampliacionServicio.nuevaAmpliacion("alumno2@email.com", "2º DAM", "Sistemas de Gestión Empresarial");
+
+//				ExcepcionPK pk = new ExcepcionPK(25L, 3L);
+//				Excepcion ex = new Excepcion(pk, alumnoServicio.findById(25L), asignaturaServicio.findById(3L), LocalDate.now(), "Conv", "Pend");
+//				excepcionServicio.save(ex);
+
+
 
 			}
 		};

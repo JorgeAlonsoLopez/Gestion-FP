@@ -1,15 +1,20 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.repositorio.ProfesorRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -90,68 +95,74 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
     }
 
-    public void cargarNuevoListadoJef(String file) {
-        List<Profesor> result = new ArrayList<>();
-
-        String path = "upload-dir/" + file;
+    public void cargarNuevoListadoJef(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
         try {
-            // @formatter:off
-            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return new Profesor(values[2], values[3], false,
-                        values[0], values[1], true, true);
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
-            }).collect(Collectors.toList());
-            // @formatter:on
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Profesor prof = new Profesor(values[2], values[3], false,
+                            values[0], values[1], true, true);
 
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
-            System.exit(-1);
-        }
-        boolean encontrado=false;
-        for(Profesor t : result){
-            encontrado=false;
-            for(Profesor g : this.findAll()){
-                if((t.getEmail().equals(g.getEmail()))){
-                    encontrado=true;
+                    boolean encontrado=false;
+                    for(Profesor g : this.findAll()){
+                        if((prof.getEmail().equals(g.getEmail()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
                 }
+
+                linea++;
             }
-            if(!encontrado){
-                this.save(t);
-            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
         }
+
     }
 
-    public void cargarNuevoListadoProf(String file) {
-        List<Profesor> result = new ArrayList<>();
-
-        String path = "upload-dir/" + file;
+    public void cargarNuevoListadoProf(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
         try {
-            // @formatter:off
-            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return new Profesor(values[2], values[3], false,
-                        values[0], values[1], true, false);
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
-            }).collect(Collectors.toList());
-            // @formatter:on
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Profesor prof = new Profesor(values[2], values[3], false,
+                            values[0], values[1], true, false);
 
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
-            System.exit(-1);
-        }
-        boolean encontrado=false;
-        for(Profesor t : result){
-            encontrado=false;
-            for(Profesor g : this.findAll()){
-                if((t.getEmail().equals(g.getEmail()))){
-                    encontrado=true;
+                    boolean encontrado=false;
+                    for(Profesor g : this.findAll()){
+                        if((prof.getEmail().equals(g.getEmail()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
                 }
+
+                linea++;
             }
-            if(!encontrado){
-                this.save(t);
-            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
         }
+
+
+
     }
 
     public String codigo(){

@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Profesor;
 import com.salesianostriana.edu.proyecto.modelo.Titulo;
 import com.salesianostriana.edu.proyecto.repositorio.TituloRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
@@ -7,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,37 +74,40 @@ public class TituloServicio extends BaseService<Titulo, Long, TituloRepository> 
 
     }
 
-    public void cargarNuevoListado(String file) {
-        List<Titulo> result = new ArrayList<>();
-
-        String path = "upload-dir/" + file;
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
         try {
-            // @formatter:off
-            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return new Titulo(values[0], true);
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
-            }).collect(Collectors.toList());
-            // @formatter:on
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Titulo prof = new Titulo(values[0], true);
 
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
-            System.exit(-1);
-        }
-        boolean encontrado=false;
-        for(Titulo t : result){
-            encontrado=false;
-            for(Titulo g : this.findAll()){
-                if((t.getNombre().equals(g.getNombre()))){
-                   encontrado=true;
+                    boolean encontrado=false;
+                    for(Titulo g : this.findAll()){
+                        if((prof.getNombre().equals(g.getNombre()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
                 }
+
+                linea++;
             }
-            if(!encontrado){
-                this.save(t);
-            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
         }
 
     }
+
+
 
 
 }

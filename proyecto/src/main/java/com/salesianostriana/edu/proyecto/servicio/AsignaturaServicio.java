@@ -6,9 +6,15 @@ import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,37 +99,41 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
     }
 
-    public void cargarNuevoListado(String file) {
-        List<Asignatura> result = new ArrayList<>();
-
-        String path = "upload-dir/" + file;
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
         try {
-            // @formatter:off
-            result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(";");
-                return new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
-            }).collect(Collectors.toList());
-            // @formatter:on
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Asignatura prof = new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
 
-        } catch (Exception e) {
-            System.err.println("Error de lectura del fichero de datos de títulos.");
-            System.exit(-1);
-        }
-        boolean encontrado=false;
-        for(Asignatura t : result){
-            encontrado=false;
-            for(Asignatura g : this.findAll()){
-                if((t.getNombre().equals(g.getNombre())) && (t.getCurso().getNombre().equals(g.getCurso().getNombre()))){
-                    encontrado=true;
+                    boolean encontrado=false;
+                    for(Asignatura g : this.findAll()){
+                        if((prof.getNombre().equals(g.getNombre())) && (prof.getCurso().getNombre().equals(g.getCurso().getNombre()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
                 }
+
+                linea++;
             }
-            if(!encontrado){
-                this.save(t);
-            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+
         }
     }
 
 
 
-}
+

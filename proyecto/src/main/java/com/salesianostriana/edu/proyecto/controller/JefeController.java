@@ -475,43 +475,41 @@ public class JefeController {
     public String cargarCsv(@ModelAttribute("objeto") Horario obj, @RequestParam("file") MultipartFile file) {
 
         if(!file.isEmpty()){
-            String archivo = storageService.store(file, -1);
+//            String archivo = storageService.store(file, -1);
 
-            String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
-//            Store store = new Store(ruta, false);
-//            storeServicio.save(store);
+//            String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
 
-//            tituloServicio.cargarNuevoListado(file.getOriginalFilename());
 
             switch (obj.getTramo()){
                 case 1:
-                        tituloServicio.cargarNuevoListado(file.getOriginalFilename());
+                        tituloServicio.cargarNuevoListado(file);
                         break;
                 case 2:
-                    cursoServicio.cargarNuevoListado(file.getOriginalFilename());
+                    cursoServicio.cargarNuevoListado(file);
                     break;
                 case 3:
-                    asignaturaServicio.cargarNuevoListado(file.getOriginalFilename());
+                    asignaturaServicio.cargarNuevoListado(file);
                     break;
                 case 4:
-                    horarioServicio.cargarNuevoListado(file.getOriginalFilename());
+                    horarioServicio.cargarNuevoListado(file);
                     break;
                 case 5:
-                    profesorServicio.cargarNuevoListadoJef(file.getOriginalFilename());
+                    profesorServicio.cargarNuevoListadoJef(file);
                     break;
                 case 6:
-                    profesorServicio.cargarNuevoListadoProf(file.getOriginalFilename());
+                    profesorServicio.cargarNuevoListadoProf(file);
                     break;
                 case 7:
-                    alumnoServicio.cargarNuevoListado(file.getOriginalFilename());
+                    alumnoServicio.cargarNuevoListado(file);
+                    break;
+                default:
                     break;
             }
 
-            System.out.println();
         }
-        storageService.deleteAll();
 
-        return "redirect:/jefe/titulos";
+
+        return "redirect:/jefe/principal";
     }
 
     @GetMapping("/files/{filename:.+}")
