@@ -25,11 +25,15 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
 
     private final AsignaturaServicio asignaturaServicio;
     private final CursoServicio cursoServicio;
+    private final SendEmail sendEmail;
+    private final UsuarioServicio usuarioServicio;
 
-    public AlumnoServicio(AlumnoRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
+    public AlumnoServicio(AlumnoRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio, SendEmail sendEmail, UsuarioServicio usuarioServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
         this.cursoServicio = cursoServicio;
+        this.sendEmail = sendEmail;
+        this.usuarioServicio = usuarioServicio;
     }
 
     public String codigo(){
@@ -103,15 +107,17 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
 
                 String [] values=line.split(";");
                 if(!(linea==0)){
-                    Alumno prof = new Alumno(values[2], values[3], false, values[0], values[1], true, cursoServicio.findByName(values[4]));
+                    Alumno prof = new Alumno(values[2], true, values[3], values[0], values[1], true, cursoServicio.findByName(values[4]));
 
                     boolean encontrado=false;
-                    for(Alumno g : this.findAll()){
+                    for(Usuario g : usuarioServicio.findAll()){
                         if((prof.getEmail().equals(g.getEmail()))){
                             encontrado=true;
                         }
                     }
                     if(!encontrado){
+                        prof.setContrasenya(null);
+                        sendEmail.enviarCodigo(prof.getCodigoBienv());
                         this.save(prof);
                     }
                 }

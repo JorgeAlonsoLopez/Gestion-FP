@@ -58,6 +58,19 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         return lista;
     }
 
+    public Curso cursoSegundoDeAlumno(Alumno alumno){
+
+        Curso curso = new Curso();
+
+        for(Curso c : alumno.getCurso().getTitulo().getListaCursos()){
+            if(c.getAnyo()==2){
+                curso = c;
+            }
+        }
+
+        return curso;
+    }
+
     public List<Alumno> listaAlumnosActivos(){
 
         List<Alumno> lista = new ArrayList<>();
@@ -83,7 +96,9 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         for(Titulo t : tituloServicio.findAll()){
             if(t.isEsAlta()){
                 for( Curso c : t.getListaCursos()){
+                    if(c.isEsAlta()){
                         lista.add(c);
+                    }
                 }
             }
         }

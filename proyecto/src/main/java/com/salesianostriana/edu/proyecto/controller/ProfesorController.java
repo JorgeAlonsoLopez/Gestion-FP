@@ -28,7 +28,7 @@ public class ProfesorController {
     @GetMapping("/profesor/horario/{id}")
     public String curso(Model model, @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(cursoServicio.findById(id))));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.encontrarPorAsignaturasAltaDeCurso(cursoServicio.findById(id))));
         model.addAttribute("curso", cursoServicio.findById(id));
         return "profesor/horario";
     }

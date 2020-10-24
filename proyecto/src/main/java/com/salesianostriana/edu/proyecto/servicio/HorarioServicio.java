@@ -1,9 +1,9 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.modelo.Horario;
+import com.salesianostriana.edu.proyecto.modelo.Titulo;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,13 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     private final AsignaturaServicio asignaturaServicio;
     private final CursoServicio cursoServicio;
+    private final TituloServicio tituloServicio;
 
-    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio, TituloServicio tituloServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
         this.cursoServicio = cursoServicio;
+        this.tituloServicio = tituloServicio;
     }
 
     public void cargarListado() {
@@ -102,7 +104,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
     public boolean solapaHora(Horario horario){
         boolean encontrado = false;
         boolean mod = false;
-        for(Horario h : this.findActivasByCurso(horario.getAsignatura().getCurso())){
+        for(Horario h : this.encontrarPorAsignaturasAltaDeCurso(horario.getAsignatura().getCurso())){
             if( h.getDia() == horario.getDia() && h.getTramo() == horario.getTramo()){
                if(!mod){
                    mod=true;
@@ -114,31 +116,18 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         return encontrado;
     }
 
-    public List<Horario> findActivasByCurso(Curso curso){
+    public List<Horario> encontrarPorAsignaturasAltaDeCurso(Curso curso){
         String nombre = curso.getNombre();
         List<Horario> lista = new ArrayList<>();
-
-        for(Asignatura asig : asignaturaServicio.findByCurs(nombre)){
-            if(asig.isEsAlta()){
-                for(Horario h : asig.getHorarios()){
-                    if(h.isEsAlta()) {
-                        lista.add(h);
-                    }
-                }
-            }
-
-        }
-        return lista;
-    }
-
-    public List<Horario> findByCursoActivo(){
-        List<Horario> lista = new ArrayList<>();
-        for(Curso curso : cursoServicio.findAll()) {
-            if (curso.isEsAlta()) {
-                for (Asignatura asig : asignaturaServicio.findByCurs(curso.getNombre())) {
+        Titulo t = tituloServicio.findByName(curso.getTitulo().getNombre());
+        if(t.isEsAlta()){
+            if(curso.isEsAlta()) {
+                for (Asignatura asig : asignaturaServicio.findByCurs(nombre)) {
                     if (asig.isEsAlta()) {
                         for (Horario h : asig.getHorarios()) {
-                            lista.add(h);
+                            if (h.isEsAlta()) {
+                                lista.add(h);
+                            }
                         }
                     }
                 }

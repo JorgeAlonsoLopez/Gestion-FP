@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @Controller
 @RequiredArgsConstructor
@@ -217,7 +216,7 @@ public class JefeController {
     public String carnet(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("alumno", alumnoServicio.findById(id));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(alumnoServicio.findById(id).getCurso())));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.encontrarPorAsignaturasAltaDeCurso(alumnoServicio.findById(id).getCurso())));
         return "jefe/carnet";
     }
 
@@ -353,6 +352,7 @@ public class JefeController {
     public String nuevoAlumnoSubmit(@ModelAttribute("nuevoAlum") Alumno alumnoForm) {
         if(profesorServicio.findByEmail(alumnoForm.getEmail()) == null && alumnoServicio.findByEmail(alumnoForm.getEmail()) == null){
             sendEmail.enviarCodigo(alumnoForm.getCodigoBienv());
+            alumnoForm.setContrasenya(null);
             alumnoForm.setEsAlta(true);
             alumnoServicio.save(alumnoForm);
         }
@@ -374,7 +374,9 @@ public class JefeController {
     public String nuevoProfesorSubmit(@ModelAttribute("nuevoProf") Profesor profForm) {
         profForm.setEsJefeDeEstudios(false);
         if(profesorServicio.findByEmail(profForm.getEmail()) == null && alumnoServicio.findByEmail(profForm.getEmail()) == null){
+            profForm.setContrasenya(null);
             sendEmail.enviarCodigo(profForm.getCodigoBienv());
+            profForm.setContrasenya(null);
             profForm.setEsAlta(true);
             profesorServicio.save(profForm);
         }
@@ -394,6 +396,7 @@ public class JefeController {
     public String nuevoJefeSubmit(@ModelAttribute("nuevoJefe") Profesor nuevoJefe) {
         nuevoJefe.setEsJefeDeEstudios(true);
         if(profesorServicio.findByEmail(nuevoJefe.getEmail()) == null && alumnoServicio.findByEmail(nuevoJefe.getEmail()) == null){
+            nuevoJefe.setContrasenya(null);
             sendEmail.enviarCodigo(nuevoJefe.getCodigoBienv());
             nuevoJefe.setEsAlta(true);
             profesorServicio.save(nuevoJefe);
@@ -476,35 +479,36 @@ public class JefeController {
 
         if(!file.isEmpty()){
 //            String archivo = storageService.store(file, -1);
-
 //            String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
-
-
-            switch (obj.getTramo()){
-                case 1:
+            String tipo = file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3);
+            if(tipo.equals("csv")){
+                switch (obj.getTramo()){
+                    case 1:
                         tituloServicio.cargarNuevoListado(file);
                         break;
-                case 2:
-                    cursoServicio.cargarNuevoListado(file);
-                    break;
-                case 3:
-                    asignaturaServicio.cargarNuevoListado(file);
-                    break;
-                case 4:
-                    horarioServicio.cargarNuevoListado(file);
-                    break;
-                case 5:
-                    profesorServicio.cargarNuevoListadoJef(file);
-                    break;
-                case 6:
-                    profesorServicio.cargarNuevoListadoProf(file);
-                    break;
-                case 7:
-                    alumnoServicio.cargarNuevoListado(file);
-                    break;
-                default:
-                    break;
+                    case 2:
+                        cursoServicio.cargarNuevoListado(file);
+                        break;
+                    case 3:
+                        asignaturaServicio.cargarNuevoListado(file);
+                        break;
+                    case 4:
+                        horarioServicio.cargarNuevoListado(file);
+                        break;
+                    case 5:
+                        profesorServicio.cargarNuevoListadoJef(file);
+                        break;
+                    case 6:
+                        profesorServicio.cargarNuevoListadoProf(file);
+                        break;
+                    case 7:
+                        alumnoServicio.cargarNuevoListado(file);
+                        break;
+                    default:
+                        break;
+                }
             }
+
 
         }
 

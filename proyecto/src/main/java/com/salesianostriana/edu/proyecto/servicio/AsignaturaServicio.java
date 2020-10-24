@@ -1,5 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
@@ -56,6 +57,33 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
                 }
             }
 
+        }
+        return asign;
+    }
+
+    public List<Asignatura> findActivasPorCurso(Curso curso){
+
+        List<Asignatura> asign = new ArrayList<>();
+        if(curso.isEsAlta()){
+            for(Asignatura t : curso.getAsignaturas()){
+                if(t.isEsAlta()){
+                    asign.add(t);
+                }
+            }
+        }
+        return asign;
+    }
+
+    public List<Asignatura> findActivasSegundo(Alumno alumno){
+
+        List<Asignatura> asign = new ArrayList<>();
+        Curso curso = cursoServicio.cursoSegundoDeAlumno(alumno);
+        if(curso.isEsAlta()){
+            for(Asignatura t : curso.getAsignaturas()){
+                if(t.isEsAlta()){
+                    asign.add(t);
+                }
+            }
         }
         return asign;
     }

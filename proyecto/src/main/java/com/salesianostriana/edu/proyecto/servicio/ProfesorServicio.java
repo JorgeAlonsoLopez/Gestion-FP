@@ -1,6 +1,8 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Profesor;
+import com.salesianostriana.edu.proyecto.modelo.Usuario;
 import com.salesianostriana.edu.proyecto.repositorio.ProfesorRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,10 +26,15 @@ import java.util.stream.Collectors;
 public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorRepository> {
 
     private final AsignaturaServicio asignaturaServicio;
+    private final SendEmail sendEmail;
+    private final UsuarioServicio usuarioServicio;
 
-    public ProfesorServicio(ProfesorRepository repo, AsignaturaServicio asignaturaServicio) {
+
+    public ProfesorServicio(ProfesorRepository repo, AsignaturaServicio asignaturaServicio, SendEmail sendEmail, UsuarioServicio usuarioServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
+        this.sendEmail = sendEmail;
+        this.usuarioServicio = usuarioServicio;
     }
 
     public Profesor findByEmail(String email){
@@ -106,16 +113,18 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
                 String [] values=line.split(";");
                 if(!(linea==0)){
-                    Profesor prof = new Profesor(values[2], values[3], false,
+                    Profesor prof = new Profesor(values[2], true, values[3],
                             values[0], values[1], true, true);
 
                     boolean encontrado=false;
-                    for(Profesor g : this.findAll()){
+                    for(Usuario g : usuarioServicio.findAll()){
                         if((prof.getEmail().equals(g.getEmail()))){
                             encontrado=true;
                         }
                     }
                     if(!encontrado){
+                        prof.setContrasenya(null);
+                        sendEmail.enviarCodigo(prof.getCodigoBienv());
                         this.save(prof);
                     }
                 }
@@ -140,16 +149,18 @@ public class ProfesorServicio extends BaseService<Profesor, Long, ProfesorReposi
 
                 String [] values=line.split(";");
                 if(!(linea==0)){
-                    Profesor prof = new Profesor(values[2], values[3], false,
+                    Profesor prof = new Profesor(values[2], true, values[3],
                             values[0], values[1], true, false);
 
                     boolean encontrado=false;
-                    for(Profesor g : this.findAll()){
+                    for(Usuario g : usuarioServicio.findAll()){
                         if((prof.getEmail().equals(g.getEmail()))){
                             encontrado=true;
                         }
                     }
                     if(!encontrado){
+                        prof.setContrasenya(null);
+                        sendEmail.enviarCodigo(prof.getCodigoBienv());
                         this.save(prof);
                     }
                 }
