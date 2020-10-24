@@ -25,6 +25,8 @@ public class JefeController {
     private final HorarioServicio horarioServicio;
     private final StorageService storageService;
     private final StoreServicio storeServicio;
+    private final ExcepcionServicio excepcionServicio;
+    private final AmpliacionServicio ampliacionServicio;
 
 
 
@@ -38,7 +40,7 @@ public class JefeController {
     @GetMapping("/jefe/alumnos")
     public String alumnos(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos", cursoServicio.findAll());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/alumnos";
     }
 
@@ -59,7 +61,7 @@ public class JefeController {
     public String editarAlumno ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("alumno", alumnoServicio.findById(id));
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/editarAlumno";
     }
 
@@ -144,26 +146,10 @@ public class JefeController {
     }
 
 
-    @GetMapping("/jefe/ampliacion")
-    public String ampliacion(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
-        return "jefe/ampliacion";
-    }
-
-
-    @GetMapping("/jefe/aprobados")
-    public String aprobados(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
-        return "jefe/aprobados";
-    }
-
-
     @GetMapping("/jefe/asignaturas")
     public String asignaturas(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos" , cursoServicio.findAll());
+        model.addAttribute("cursos" , cursoServicio.listaActivos());
         return "jefe/asignaturas";
     }
 
@@ -183,7 +169,7 @@ public class JefeController {
     public String nuevoAsignatura(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("nuevaAsignatura", new Asignatura());
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/nuevoAsignatura";
     }
 
@@ -200,7 +186,7 @@ public class JefeController {
     public String editarAsignatura ( Model model, @AuthenticationPrincipal  Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("asignatura", asignaturaServicio.findById(id));
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/editarAsignatura";
     }
 
@@ -274,19 +260,10 @@ public class JefeController {
         return "redirect:/jefe/cursos";
     }
 
-
-    @GetMapping("/jefe/excepciones")
-    public String excepciones(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
-        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-
-        return "jefe/excepciones";
-    }
-
-
     @GetMapping("/jefe/horarios")
     public String horarios(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/horarios";
     }
 
@@ -522,6 +499,67 @@ public class JefeController {
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().body(file);
     }
+
+
+    @GetMapping("/jefe/excepciones")
+    public String excepciones(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("excepciones", excepcionServicio.findAll());
+        return "jefe/excepciones";
+    }
+
+    @GetMapping("/jefe/excepciones/detalles/{AlumnId}/{AsignId}")
+    public String excepcionesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("AlumnId") Long idAlum, @PathVariable("AsignId") Long idAsig) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+
+        model.addAttribute("excepcion", excepcionServicio.buscarPorId(idAlum, idAsig));
+        return "jefe/excepcionesDetalle";
+    }
+
+    @GetMapping("/jefe/excepciones/aceptar/{AlumnId}/{AsignId}")
+    public String excepcionesAceptar(@PathVariable("AlumnId") Long idAlum, @PathVariable("AsignId") Long idAsig) {
+        excepcionServicio.aceptarExcepcion(excepcionServicio.buscarPorId(idAlum, idAsig));
+        return "redirect:/jefe/excepciones";
+    }
+
+    @GetMapping("/jefe/excepciones/rechazar/{AlumnId}/{AsignId}")
+    public String excepcionesRechazar(@PathVariable("AlumnId") Long idAlum, @PathVariable("AsignId") Long idAsig) {
+        excepcionServicio.declinarExcepcion(excepcionServicio.buscarPorId(idAlum, idAsig));
+        return "redirect:/jefe/excepciones";
+    }
+
+
+    @GetMapping("/jefe/ampliacion")
+    public String ampliacion(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+
+        return "jefe/ampliacion";
+    }
+
+
+    @GetMapping("/jefe/aprobados")
+    public String aprobados(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("cursos", cursoServicio.listaActivos());
+        return "jefe/aprobados";
+    }
+
+    @GetMapping("/jefe/aprobados/lista/{id}")
+    public String aprobadosLista(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("asignaturas", asignaturaServicio.findAll());
+        return "jefe/aprobadosAlumno";
+    }
+
+    @GetMapping("/jefe/aprobados/asignatura/{id}")
+    public String aprobadosListaAsignatura(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
+        Asignatura asig = asignaturaServicio.findById(id);
+
+        return "redirect:/jefe/aprobados";
+    }
+
+
+
 
 
 

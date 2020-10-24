@@ -4,11 +4,28 @@
 	layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
-    <title>Principal</title>
+    <title>Excepciones</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <span>Menu principal del jefe</span>
+        <div th:each="excepcion : ${excepciones}" class="row caja justify-content-around">
+            <div class="col-lg-3 mt-3 mb-3">
+                <h5 th:text="${excepcion.alumno.nombre} + ' ' + ${excepcion.alumno.apellidos}">Nombre</h5>
+            </div>
+            <div class="col-lg-3 mt-3 mb-3">
+                <h5 th:text="${excepcion.asignatura.nombre} + ' - ' + ${excepcion.asignatura.curso.nombre}">Nombre</h5>
+            </div>
+            <div class="col-lg-2 mt-3 mb-3">
+                <h5 th:text="${excepcion.tipo}">Tipo</h5>
+            </div>
+            <div class="col-lg-2 mt-3 mb-3">
+                <h5 th:text="${excepcion.estado}">Estado</h5>
+            </div>
+            <div class="col-lg-2 mt-3 mb-3">
+                <a type="button" class="btn btn-primary btn-lg" th:href="@{'/jefe/excepciones/detalles/'+${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}}">Más información</a>
+            </div>
+
+        </div>
     </div>
 
 </body>
