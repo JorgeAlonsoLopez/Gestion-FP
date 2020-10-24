@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Principal</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+
+        <div>
+            <div class="row d-flex justify-content-center mt-3 mb-3">
+                <div class="col-lg-3">
+                    <h3 th:text="${ampliacion.alumno.nombre} + ' ' + ${ampliacion.alumno.apellidos}">Nombre alumno</h3>
+                </div>
+                <div class="col-lg-3">
+                    <h3 th:text="${ampliacion.asignatura.nombre} + ' - ' + ${ampliacion.asignatura.curso.nombre}">Nombre asignatura</h3>
+                </div>
+            </div>
+            <div class="mx-auto text-centre">
+                <div class="row mx-auto text-centre">
+                    <div class="col-lg-6 mb-5">
+                        <table class="table mb-5 ampliacion" id="horario1">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Lunes</th>
+                                <th scope="col">Martes</th>
+                                <th scope="col">Miércoles</th>
+                                <th scope="col">Jueves</th>
+                                <th scope="col">Viernes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="horario : ${horariosAlumno}">
+                                <td></td>
+                                <th:block th:each="clase : ${horario}">
+                                    <th:block th:if="${clase.asignatura!=null}">
+                                        <td th:text="${clase.asignatura.nombre}"> X </td>
+                                    </th:block>
+                                    <th:block th:if="${clase.asignatura==null}">
+                                        <td> X </td>
+                                    </th:block>
+                                </th:block>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-lg-6 mb-5">
+                        <table class="table mb-5 ampliacion" id="horario2">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Lunes</th>
+                                <th scope="col">Martes</th>
+                                <th scope="col">Miércoles</th>
+                                <th scope="col">Jueves</th>
+                                <th scope="col">Viernes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="horario : ${horariosSegundo}">
+                                <td></td>
+                                <th:block th:each="clase : ${horario}">
+                                    <th:block th:if="${clase.asignatura!=null}">
+                                        <td th:text="${clase.asignatura.nombre}"> X </td>
+                                    </th:block>
+                                    <th:block th:if="${clase.asignatura==null}">
+                                        <td> X </td>
+                                    </th:block>
+                                </th:block>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <th:block th:if="${ampliacion.estado=='Pendiente'}">
+                <div class="row mx-auto justify-content-around">
+                    <div class="col-lg-3 mt-3 mb-3">
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#aceptar-modal" th:data-id="${ampliacion.alumno.id}+'/'+${ampliacion.asignatura.id}">Aceptar</a>
+                    </div>
+                    <div class="col-lg-3 mt-3 mb-3">
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#rechazar-modal" th:data-id="${ampliacion.alumno.id}+'/'+${ampliacion.asignatura.id}">Rechazar</a>
+                    </div>
+                </div>
+            </th:block>
+
+        </div>
+        <div class="modal fade" id="aceptar-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Desea aceptar la excepción/convalidación?</p>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a href="#" class="btn btn-danger">Sí</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="rechazar-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Desea rechazar la excepción/convalidación?</p>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a href="#" class="btn btn-danger">Sí</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+		$(document).ready(function() {
+			$('#aceptar-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/jefe/ampliacion/aceptar/' + data;
+			});
+		});
+	</script>
+
+        <script type="text/javascript">
+		$(document).ready(function() {
+			$('#rechazar-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/jefe/ampliacion/rechazar/' + data;
+			});
+		});
+	</script>
+    <script>
+
+        $(document).ready(function() {
+
+            $('table tbody').children("tr:nth-child(1)").children("td:nth-child(1)").html("8:00 - 9:00")
+            $('table tbody').children("tr:nth-child(2)").children("td:nth-child(1)").html("9:00 - 10:00")
+            $('table tbody').children("tr:nth-child(3)").children("td:nth-child(1)").html("10:00 - 11:00")
+            $('table tbody').children("tr:nth-child(4)").children("td:nth-child(1)").html("11:30 - 12:30")
+            $('table tbody').children("tr:nth-child(5)").children("td:nth-child(1)").html("12:30 - 13:30")
+            $('table tbody').children("tr:nth-child(6)").children("td:nth-child(1)").html("13:30 - 14:30")
+        });
+
+    </script>
+
+    </div>
+
+</body>
+</html>

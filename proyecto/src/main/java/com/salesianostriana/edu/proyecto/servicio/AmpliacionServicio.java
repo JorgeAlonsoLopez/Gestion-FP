@@ -6,6 +6,8 @@ import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, AmpliacionRepository> {
@@ -20,52 +22,38 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
         this.asignaturaServicio = asignaturaServicio;
     }
 
-    public void nuevaAmpliacion (String correo, String curso, String nombreAsignatura){
-        Alumno alum = alumnoServicio.findByEmail(correo);
-        Asignatura asign = asignaturaServicio.findByNameCurs(nombreAsignatura, curso);
+    public Ampliacion buscarPorId(Long idAlum, Long idAsig){
+        Ampliacion ampliacion = new Ampliacion();
+        for(Ampliacion amp : this.findAll()){
+            if(idAlum==amp.getAlumno().getId()){
+                if(idAsig==amp.getAsignatura().getId()){
+                    ampliacion = amp;
+                }
+            }
+        }
+        return ampliacion;
+    }
 
-        AmpliacionPK pk = new AmpliacionPK();
-        pk.setAlumno_id(alum.getId());
-        pk.setAsignatura_id(asign.getId());
-
-//        Ampliacion ampl = this.findById(pk);
-
-        Ampliacion ampl = new Ampliacion(pk, alum, asign, LocalDate.now(), "Pendiente");
-
-//        ampl.setAlumno(alum);
-//        ampl.setAsignatura(asign);
-//        ampl.setFechaSolicitud(LocalDate.now());
-//        ampl.setEstado("Pendiente");
-
-
-        alumnoServicio.edit(alum);
-        asignaturaServicio.edit(asign);
-        this.save(ampl);
-
+    public List<Ampliacion> listarPorAlumno(Alumno al){
+        List<Ampliacion> lista = new ArrayList<>();
+        for(Ampliacion amp : this.findAll()){
+            if(al.getId()==amp.getAlumno().getId()){
+                lista.add(amp);
+            }
+        }
+        return lista;
     }
 
     public void aceptarExcepcion(Ampliacion ampli){
-
-        Alumno alum = ampli.getAlumno();
-
         ampli.setEstado("Aceptado");
         ampli.setFechaResolucion(LocalDate.now());
-
-
-
-        alumnoServicio.edit(alum);
-        asignaturaServicio.edit(ampli.getAsignatura());
         this.edit(ampli);
 
     }
 
     public void declinarExcepcion(Ampliacion ampli){
-
-        Alumno alum = ampli.getAlumno();
-
         ampli.setEstado("Rechazado");
         ampli.setFechaResolucion(LocalDate.now());
-
         this.edit(ampli);
 
     }

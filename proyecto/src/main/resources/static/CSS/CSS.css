@@ -177,10 +177,6 @@ nav a:link , footer a:link{
     color: white;
 }
 
-.botonera a:link{
-    color: white;
-}
-
 footer{
   font-size: 15pt;
   background-color: #51626f;
@@ -207,6 +203,10 @@ footer{
 
 .caja{
     width: 95%;
+}
+
+.botonera{
+    color: white;
 }
 
 

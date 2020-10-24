@@ -11,10 +11,10 @@
         <div>
             <div class="row d-flex justify-content-center mt-3 mb-3">
                 <div class="col-lg-3">
-                    <h3 th:text="${excepcion.alumno.nombre}">Nombre</h3>
+                    <h3 th:text="${excepcion.alumno.nombre} + ' ' + ${excepcion.alumno.apellidos}">Nombre alumno</h3>
                 </div>
                 <div class="col-lg-3">
-                    <h3 th:text="${excepcion.asignatura.nombre} + ' - ' + ${excepcion.asignatura.curso.nombre}">Nombre</h3>
+                    <h3 th:text="${excepcion.asignatura.nombre} + ' - ' + ${excepcion.asignatura.curso.nombre}">Nombre asignatura</h3>
                 </div>
             </div>
             <div class="mx-auto text-centre">
@@ -23,10 +23,10 @@
             <th:block th:if="${excepcion.estado=='Pendiente'}">
                 <div class="row mx-auto justify-content-around">
                     <div class="col-lg-3 mt-3 mb-3">
-                        <a type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#aceptar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Aceptar</a>
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#aceptar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Aceptar</a>
                     </div>
                     <div class="col-lg-3 mt-3 mb-3">
-                        <a type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#rechazar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Rechazar</a>
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#rechazar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Rechazar</a>
                     </div>
                 </div>
             </th:block>
@@ -43,7 +43,7 @@
 
                     </div>
                     <div class="modal-body">
-                        <p>¿Desea aceptar la excepción/convalidación?</p>
+                        <p>¿Desea aceptar la ampliación de matrícula?</p>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                         <a href="#" class="btn btn-danger">Sí</a>
                     </div>
@@ -63,7 +63,7 @@
 
                     </div>
                     <div class="modal-body">
-                        <p>¿Desea rechazar la excepción/convalidación?</p>
+                        <p>¿Desea rechazar la ampliación de matrícula?</p>
                         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                         <a href="#" class="btn btn-danger">Sí</a>
                     </div>
@@ -99,13 +99,6 @@
 			});
 		});
 	</script>
-
-
-
-    </div>
-
-    </div>
-
     </div>
 
 </body>
