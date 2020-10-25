@@ -29,7 +29,7 @@ public class AlumnoController {
     public String principal(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
         Alumno alum = alumnoServicio.findByEmail(usuarioLog.getEmail());
         model.addAttribute("usuarioLogeado", alum);
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alum, excepcionServicio.findAll(), ampliacionServicio.findAll())));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alum, ampliacionServicio.findAll())));
         return "alumno/principal";
     }
 
@@ -65,7 +65,7 @@ public class AlumnoController {
         Alumno alum = alumnoServicio.findByEmail(usuarioLog.getEmail());
         model.addAttribute("usuarioLogeado", alum);
         model.addAttribute("asignaturas", asignaturaServicio.findActivasSegundo(alum));
-        model.addAttribute("horariosAlumno", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alum, excepcionServicio.findAll(), ampliacionServicio.findAll())));
+        model.addAttribute("horariosAlumno", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alum, ampliacionServicio.findAll())));
         model.addAttribute("horariosSegundo", horarioServicio.ordenarFinal(horarioServicio.encontrarPorAsignaturasAltaDeCurso(cursoServicio.cursoSegundoDeAlumno(alum))));
         model.addAttribute("ampliacionForm", new Ampliacion());
         model.addAttribute("primero", alum.getCurso());
@@ -81,7 +81,7 @@ public class AlumnoController {
         ampliacion.setId(pk);
         ampliacion.setEstado("Pendiente");
         ampliacion.setFechaSolicitud(LocalDate.now());
-        if(ampliacionServicio.comprobarAmpliacion(usuarioLog, ampliacion.getAsignatura())){
+        if(ampliacionServicio.comprobarAmpliacion(usuarioLog, ampliacion.getAsignatura(), ampliacionServicio.findAll())){
             ampliacionServicio.save(ampliacion);
         }
         return "redirect:/alumno/principal";

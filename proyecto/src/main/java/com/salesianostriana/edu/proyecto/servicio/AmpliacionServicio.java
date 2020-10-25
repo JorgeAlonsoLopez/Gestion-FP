@@ -14,14 +14,12 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
 
 
     private final HorarioServicio horarioServicio;
-    private final ExcepcionServicio excepcionServicio;
 
 
-    public AmpliacionServicio(AmpliacionRepository repo, HorarioServicio horarioServicio, ExcepcionServicio excepcionServicio) {
+    public AmpliacionServicio(AmpliacionRepository repo, HorarioServicio horarioServicio) {
         super(repo);
 
         this.horarioServicio = horarioServicio;
-        this.excepcionServicio = excepcionServicio;
     }
 
     public Ampliacion buscarPorId(Long idAlum, Long idAsig){
@@ -60,10 +58,12 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
 
     }
 
-    public boolean comprobarAmpliacion(Alumno alum, Asignatura asignatura){
+
+
+    public boolean comprobarAmpliacion(Alumno alum, Asignatura asignatura, List<Ampliacion> am){
         boolean aceptar = true;
         List<Horario> listaHorarios;
-        listaHorarios = horarioServicio.horariosTest(alum, excepcionServicio.findAll());
+        listaHorarios = horarioServicio.horariosPorAlumno(alum, am);
         for(Horario horA : asignatura.getHorarios()){
             for(Horario horT : listaHorarios){
                 if(horT.getTramo()==horA.getTramo() && horT.getDia()==horA.getDia()){

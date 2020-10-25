@@ -22,11 +22,13 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     private final AsignaturaServicio asignaturaServicio;
     private final TituloServicio tituloServicio;
+    private final ExcepcionServicio excepcionServicio;
 
-    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, TituloServicio tituloServicio) {
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, TituloServicio tituloServicio, ExcepcionServicio excepcionServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
         this.tituloServicio = tituloServicio;
+        this.excepcionServicio = excepcionServicio;
     }
 
     public void cargarListado() {
@@ -131,7 +133,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         return lista;
     }
 
-    public List<Horario> horariosPorAlumno(Alumno alumno, List<Excepcion> listaExcepciones, List<Ampliacion> listaAmpliaciones){
+    public List<Horario> horariosPorAlumno(Alumno alumno, List<Ampliacion> listaAmpliaciones){
 
         List<Horario> listaHor = new ArrayList<>();
         List<Asignatura> listaAsig = new ArrayList<>();
@@ -142,55 +144,19 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             }
         }
 
-        for(Excepcion exc : listaExcepciones){
-            if(exc.getAlumno().equals(alumno)) {
-                for(int i = 0; i < listaAsig.size(); i++){
-                    if (exc.getAsignatura().equals(listaAsig.get(i))) {
-                        if(exc.getEstado().equals("Aceptado")){
-                            listaAsig.remove(listaAsig.get(i));
-                        }
-                    }
-                }
+        for(int i = 0; i < listaAsig.size(); i++){
+            if (excepcionServicio.buscarExistenciaTerminadaExcepcion(listaAsig.get(i), alumno).orElse(null)!=null) {
+                    listaAsig.remove(listaAsig.get(i));
             }
         }
+
+
 
         for(Ampliacion ampl : listaAmpliaciones){
             if(ampl.getAlumno().equals(alumno)) {
                 if(ampl.getEstado().equals("Aceptado")){
-                    listaAsig.add(ampl.getAsignatura());
-                }
-            }
-        }
-
-        for(Asignatura asig : listaAsig){
-            for(Horario hor : asig.getHorarios()){
-                if(hor.isEsAlta()){
-                    listaHor.add(hor);
-                }
-            }
-        }
-
-        return listaHor;
-    }
-
-    public List<Horario> horariosTest(Alumno alumno, List<Excepcion> listaExcepciones){
-
-        List<Horario> listaHor = new ArrayList<>();
-        List<Asignatura> listaAsig = new ArrayList<>();
-
-        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
-            if(asig.isEsAlta()){
-                listaAsig.add(asig);
-            }
-        }
-
-        for(Excepcion exc : listaExcepciones){
-            if(exc.getAlumno().equals(alumno)) {
-                for(int i = 0; i < listaAsig.size(); i++){
-                    if (exc.getAsignatura().equals(listaAsig.get(i))) {
-                        if(exc.getEstado().equals("Aceptado")){
-                            listaAsig.remove(listaAsig.get(i));
-                        }
+                    if(ampl.getAsignatura().isEsAlta()){
+                        listaAsig.add(ampl.getAsignatura());
                     }
                 }
             }

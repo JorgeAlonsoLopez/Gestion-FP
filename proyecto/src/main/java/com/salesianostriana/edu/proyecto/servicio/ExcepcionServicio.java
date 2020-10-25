@@ -3,11 +3,13 @@ package com.salesianostriana.edu.proyecto.servicio;
 import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.repositorio.ExcepcionRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, ExcepcionRepository> {
@@ -15,6 +17,10 @@ public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, Excep
         super(repo);
         this.alumnoServicio = alumnoServicio;
         this.asignaturaServicio = asignaturaServicio;
+    }
+
+    public Optional<Excepcion> buscarExistenciaTerminadaExcepcion(Asignatura Asig, Alumno alumno) {
+        return repositorio.buscarExistenciaTerminadaExcepcion(Asig, alumno);
     }
 
     private final AlumnoServicio alumnoServicio;

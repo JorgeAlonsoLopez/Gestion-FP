@@ -202,7 +202,7 @@ public class JefeController {
     public String carnet(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("alumno", alumnoServicio.findById(id));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alumnoServicio.findById(id), excepcionServicio.findAll(), ampliacionServicio.findAll())));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alumnoServicio.findById(id), ampliacionServicio.findAll())));
         return "jefe/carnet";
     }
 
@@ -539,7 +539,7 @@ public class JefeController {
     public String ampliacionesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("AlumnId") Long idAlum, @PathVariable("AsignId") Long idAsig) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("ampliacion", ampliacionServicio.buscarPorId(idAlum, idAsig));
-        model.addAttribute("horariosAlumno", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alumnoServicio.findById(idAlum), excepcionServicio.findAll(), ampliacionServicio.findAll())));
+        model.addAttribute("horariosAlumno", horarioServicio.ordenarFinal(horarioServicio.horariosPorAlumno(alumnoServicio.findById(idAlum), ampliacionServicio.findAll())));
         model.addAttribute("horariosSegundo", horarioServicio.ordenarFinal(horarioServicio.encontrarPorAsignaturasAltaDeCurso(cursoServicio.cursoSegundoDeAlumno(alumnoServicio.findById(idAlum)))));
         return "jefe/ampliacionDetalles";
     }
