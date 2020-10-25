@@ -12,14 +12,16 @@ import java.util.List;
 @Service
 public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, AmpliacionRepository> {
 
-    private final AlumnoServicio alumnoServicio;
-    private final AsignaturaServicio asignaturaServicio;
+
+    private final HorarioServicio horarioServicio;
+    private final ExcepcionServicio excepcionServicio;
 
 
-    public AmpliacionServicio(AmpliacionRepository repo, AlumnoServicio alumnoServicio, AsignaturaServicio asignaturaServicio) {
+    public AmpliacionServicio(AmpliacionRepository repo, HorarioServicio horarioServicio, ExcepcionServicio excepcionServicio) {
         super(repo);
-        this.alumnoServicio = alumnoServicio;
-        this.asignaturaServicio = asignaturaServicio;
+
+        this.horarioServicio = horarioServicio;
+        this.excepcionServicio = excepcionServicio;
     }
 
     public Ampliacion buscarPorId(Long idAlum, Long idAsig){
@@ -44,18 +46,34 @@ public class AmpliacionServicio extends BaseService<Ampliacion, AmpliacionPK, Am
         return lista;
     }
 
-    public void aceptarExcepcion(Ampliacion ampli){
+    public void aceptarAmpliacion(Ampliacion ampli){
         ampli.setEstado("Aceptado");
         ampli.setFechaResolucion(LocalDate.now());
         this.edit(ampli);
 
     }
 
-    public void declinarExcepcion(Ampliacion ampli){
+    public void declinarAmpliacion(Ampliacion ampli){
         ampli.setEstado("Rechazado");
         ampli.setFechaResolucion(LocalDate.now());
         this.edit(ampli);
 
+    }
+
+    public boolean comprobarAmpliacion(Alumno alum, Asignatura asignatura){
+        boolean aceptar = true;
+        List<Horario> listaHorarios;
+        listaHorarios = horarioServicio.horariosTest(alum, excepcionServicio.findAll());
+        for(Horario horA : asignatura.getHorarios()){
+            for(Horario horT : listaHorarios){
+                if(horT.getTramo()==horA.getTramo() && horT.getDia()==horA.getDia()){
+                    aceptar = false;
+                }
+            }
+        }
+
+
+        return aceptar;
     }
 
 

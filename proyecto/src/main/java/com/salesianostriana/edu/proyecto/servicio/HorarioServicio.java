@@ -1,9 +1,6 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Horario;
-import com.salesianostriana.edu.proyecto.modelo.Titulo;
+import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -24,13 +21,11 @@ import java.util.stream.Collectors;
 public class HorarioServicio extends BaseService<Horario, Long, HorarioRepository> {
 
     private final AsignaturaServicio asignaturaServicio;
-    private final CursoServicio cursoServicio;
     private final TituloServicio tituloServicio;
 
-    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio, TituloServicio tituloServicio) {
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, TituloServicio tituloServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
-        this.cursoServicio = cursoServicio;
         this.tituloServicio = tituloServicio;
     }
 
@@ -136,6 +131,82 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         return lista;
     }
 
+    public List<Horario> horariosPorAlumno(Alumno alumno, List<Excepcion> listaExcepciones, List<Ampliacion> listaAmpliaciones){
+
+        List<Horario> listaHor = new ArrayList<>();
+        List<Asignatura> listaAsig = new ArrayList<>();
+
+        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
+            if(asig.isEsAlta()){
+                listaAsig.add(asig);
+            }
+        }
+
+        for(Excepcion exc : listaExcepciones){
+            if(exc.getAlumno().equals(alumno)) {
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if (exc.getAsignatura().equals(listaAsig.get(i))) {
+                        if(exc.getEstado().equals("Aceptado")){
+                            listaAsig.remove(listaAsig.get(i));
+                        }
+                    }
+                }
+            }
+        }
+
+        for(Ampliacion ampl : listaAmpliaciones){
+            if(ampl.getAlumno().equals(alumno)) {
+                if(ampl.getEstado().equals("Aceptado")){
+                    listaAsig.add(ampl.getAsignatura());
+                }
+            }
+        }
+
+        for(Asignatura asig : listaAsig){
+            for(Horario hor : asig.getHorarios()){
+                if(hor.isEsAlta()){
+                    listaHor.add(hor);
+                }
+            }
+        }
+
+        return listaHor;
+    }
+
+    public List<Horario> horariosTest(Alumno alumno, List<Excepcion> listaExcepciones){
+
+        List<Horario> listaHor = new ArrayList<>();
+        List<Asignatura> listaAsig = new ArrayList<>();
+
+        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
+            if(asig.isEsAlta()){
+                listaAsig.add(asig);
+            }
+        }
+
+        for(Excepcion exc : listaExcepciones){
+            if(exc.getAlumno().equals(alumno)) {
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if (exc.getAsignatura().equals(listaAsig.get(i))) {
+                        if(exc.getEstado().equals("Aceptado")){
+                            listaAsig.remove(listaAsig.get(i));
+                        }
+                    }
+                }
+            }
+        }
+
+        for(Asignatura asig : listaAsig){
+            for(Horario hor : asig.getHorarios()){
+                if(hor.isEsAlta()){
+                    listaHor.add(hor);
+                }
+            }
+        }
+
+        return listaHor;
+    }
+
     public List<List<Horario>> ordenarFinal (List<Horario> lista){
 
         List<List<Horario>> listaF = new ArrayList<>();
@@ -145,6 +216,8 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
         return listaF;
     }
+
+
 
     public List<Horario> ordenar (List<Horario> lista){
         int plus=0;

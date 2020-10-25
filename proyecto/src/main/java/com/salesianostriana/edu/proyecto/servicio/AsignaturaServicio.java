@@ -3,6 +3,7 @@ package com.salesianostriana.edu.proyecto.servicio;
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
+import com.salesianostriana.edu.proyecto.modelo.Excepcion;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -157,10 +158,8 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         } catch (InvalidParameterException | IOException e) {
             System.err.println(e.getMessage());
         }
-
-
-        }
     }
+}
 
 
 
