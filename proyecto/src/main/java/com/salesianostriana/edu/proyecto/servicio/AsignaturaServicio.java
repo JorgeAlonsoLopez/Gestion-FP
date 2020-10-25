@@ -3,7 +3,6 @@ package com.salesianostriana.edu.proyecto.servicio;
 import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Excepcion;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -25,10 +24,12 @@ import java.util.stream.Collectors;
 public class AsignaturaServicio extends BaseService<Asignatura, Long, AsignaturaRepository> {
 
     private final CursoServicio cursoServicio;
+    private final ExcepcionServicio excepcionServicio;
 
-    public AsignaturaServicio(AsignaturaRepository repo, CursoServicio cursoServicio) {
+    public AsignaturaServicio(AsignaturaRepository repo, CursoServicio cursoServicio, ExcepcionServicio excepcionServicio) {
         super(repo);
         this.cursoServicio = cursoServicio;
+        this.excepcionServicio = excepcionServicio;
     }
 
     public Asignatura findByNameCurs(String nombre, String curso){
@@ -100,6 +101,36 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
             }
         }
         return asign;
+    }
+
+    public List<Asignatura> asignaturasPorAlumno(Alumno alumno){
+
+        List<Asignatura> listaAsig = new ArrayList<>();
+
+
+        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
+            if(asig.isEsAlta()){
+                listaAsig.add(asig);
+            }
+        }
+
+        for(int i = 0; i < listaAsig.size(); i++){
+            if (excepcionServicio.buscarExistenciaTerminadaExcepcion(listaAsig.get(i), alumno).orElse(null)!=null) {
+                listaAsig.remove(listaAsig.get(i));
+            }
+        }
+
+        if(!alumno.getAsignaturas().isEmpty()){
+            for(Asignatura asig : alumno.getAsignaturas()){
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if(listaAsig.get(i).equals(asig)){
+                        listaAsig.remove(asig);
+                    }
+                }
+            }
+        }
+
+        return listaAsig;
     }
 
     public void cargarListado() {

@@ -16,7 +16,7 @@
                 <h3 th:text="${asignatura.nombre}">Nombre</h3>
             </div>
             <div class="col-lg-3 mt-3 mb-3">
-                <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#delete-modal" th:data-id="${asignatura.id}">Aprobar asignatura</a>
+                <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#delete-modal" th:data-id="${alumno.id}+'/'+${asignatura.id}">Aprobar asignatura</a>
             </div>
         </div>
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">

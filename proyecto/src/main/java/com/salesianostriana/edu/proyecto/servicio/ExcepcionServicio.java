@@ -13,18 +13,16 @@ import java.util.Optional;
 
 @Service
 public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, ExcepcionRepository> {
-    public ExcepcionServicio(ExcepcionRepository repo, AlumnoServicio alumnoServicio, AsignaturaServicio asignaturaServicio) {
+    public ExcepcionServicio(ExcepcionRepository repo) {
         super(repo);
-        this.alumnoServicio = alumnoServicio;
-        this.asignaturaServicio = asignaturaServicio;
+
     }
 
     public Optional<Excepcion> buscarExistenciaTerminadaExcepcion(Asignatura Asig, Alumno alumno) {
         return repositorio.buscarExistenciaTerminadaExcepcion(Asig, alumno);
     }
 
-    private final AlumnoServicio alumnoServicio;
-    private final AsignaturaServicio asignaturaServicio;
+
 
     public Excepcion buscarPorId(Long idAlum, Long idAsig){
         Excepcion excepcion = new Excepcion();

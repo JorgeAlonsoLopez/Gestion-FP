@@ -162,6 +162,16 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             }
         }
 
+        if(!alumno.getAsignaturas().isEmpty()){
+            for(Asignatura asig : alumno.getAsignaturas()){
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if(listaAsig.get(i).equals(asig)){
+                        listaAsig.remove(asig);
+                    }
+                }
+            }
+        }
+
         for(Asignatura asig : listaAsig){
             for(Horario hor : asig.getHorarios()){
                 if(hor.isEsAlta()){

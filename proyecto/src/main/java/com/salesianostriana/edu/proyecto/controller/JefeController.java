@@ -568,13 +568,19 @@ public class JefeController {
     public String aprobadosLista(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("alumno", alumnoServicio.findById(id));
-        model.addAttribute("asignaturas", asignaturaServicio.findActivasPorCurso(alumnoServicio.findById(id).getCurso()));
+        model.addAttribute("asignaturas", asignaturaServicio.asignaturasPorAlumno(alumnoServicio.findById(id)));
         return "jefe/aprobadosAlumno";
     }
 
-    @GetMapping("/jefe/aprobados/asignatura/{id}")
-    public String aprobadosListaAsignatura(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
-        Asignatura asig = asignaturaServicio.findById(id);
+    @GetMapping("/jefe/aprobados/asignatura/{AlumnId}/{AsignId}")
+    public String aprobadosListaAsignatura(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("AsignId") Long AsignId,
+                                           @PathVariable("AlumnId") Long AlumnId) {
+        Asignatura asig = asignaturaServicio.findById(AsignId);
+        Alumno alum = alumnoServicio.findById(AlumnId);
+
+        alum.addAsignatura(asig);
+        alumnoServicio.edit(alum);
+        asignaturaServicio.edit(asig);
 
         return "redirect:/jefe/aprobados";
     }
