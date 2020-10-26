@@ -4,11 +4,18 @@
 	layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
-    <title>Principal</title>
+    <title>Cursos</title>
 </head>
 <body>
     <div layout:fragment="contenido-sin-menu">
-        <span>Menu principal del jefe</span>
+        <div class="row justify-content-around">
+            <div th:each="curso : ${cursos}">
+                <div class="col-lg-4 mt-3 mb-3">
+                    <a type="button" class="btn btn-info btn-lg"  th:href="@{'/jefe/clasesDetalles/'+${curso.id}}"
+                       th:text="${curso.nombre}">Nombre</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

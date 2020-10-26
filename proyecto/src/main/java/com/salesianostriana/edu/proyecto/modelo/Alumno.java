@@ -7,10 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,7 +21,22 @@ public class Alumno extends Usuario{
     @ManyToOne
     private Curso curso;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            joinColumns = @JoinColumn(name="alumno_id"),
+            inverseJoinColumns = @JoinColumn(name="asignatura_id")
+    )
+    private Set<Asignatura> asignaturas = new HashSet<>();
 
+    public void addAsignatura(Asignatura a) {
+        asignaturas.add(a);
+        a.getAlumnos().add(this);
+    }
+
+    public void removeAsignatura(Asignatura a) {
+        asignaturas.remove(a);
+        a.getAlumnos().remove(this);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,6 +45,11 @@ public class Alumno extends Usuario{
 
     public Alumno(String email, String nombre, String apellidos, Curso curso) {
         super(email, nombre, apellidos);
+        this.curso = curso;
+    }
+
+    public Alumno(String email, boolean primerInic, String codigoBienv, String nombre, String apellidos, boolean esAlta, Curso curso) {
+        super(email, primerInic, codigoBienv, nombre, apellidos, esAlta);
         this.curso = curso;
     }
 

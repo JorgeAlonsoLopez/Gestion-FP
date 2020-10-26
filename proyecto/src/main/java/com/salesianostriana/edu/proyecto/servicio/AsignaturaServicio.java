@@ -1,14 +1,21 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
+import com.salesianostriana.edu.proyecto.modelo.Alumno;
 import com.salesianostriana.edu.proyecto.modelo.Asignatura;
 import com.salesianostriana.edu.proyecto.modelo.Curso;
 import com.salesianostriana.edu.proyecto.repositorio.AsignaturaRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +24,12 @@ import java.util.stream.Collectors;
 public class AsignaturaServicio extends BaseService<Asignatura, Long, AsignaturaRepository> {
 
     private final CursoServicio cursoServicio;
+    private final ExcepcionServicio excepcionServicio;
 
-    public AsignaturaServicio(AsignaturaRepository repo, CursoServicio cursoServicio) {
+    public AsignaturaServicio(AsignaturaRepository repo, CursoServicio cursoServicio, ExcepcionServicio excepcionServicio) {
         super(repo);
         this.cursoServicio = cursoServicio;
+        this.excepcionServicio = excepcionServicio;
     }
 
     public Asignatura findByNameCurs(String nombre, String curso){
@@ -54,6 +63,33 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
         return asign;
     }
 
+    public List<Asignatura> findActivasPorCurso(Curso curso){
+
+        List<Asignatura> asign = new ArrayList<>();
+        if(curso.isEsAlta()){
+            for(Asignatura t : curso.getAsignaturas()){
+                if(t.isEsAlta()){
+                    asign.add(t);
+                }
+            }
+        }
+        return asign;
+    }
+
+    public List<Asignatura> findActivasSegundo(Alumno alumno){
+
+        List<Asignatura> asign = new ArrayList<>();
+        Curso curso = cursoServicio.cursoSegundoDeAlumno(alumno);
+        if(curso.isEsAlta()){
+            for(Asignatura t : curso.getAsignaturas()){
+                if(t.isEsAlta()){
+                    asign.add(t);
+                }
+            }
+        }
+        return asign;
+    }
+
     public List<Asignatura> findByCurs(String curso){
 
         List<Asignatura> asign = new ArrayList<>();
@@ -65,6 +101,36 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
             }
         }
         return asign;
+    }
+
+    public List<Asignatura> asignaturasPorAlumno(Alumno alumno){
+
+        List<Asignatura> listaAsig = new ArrayList<>();
+
+
+        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
+            if(asig.isEsAlta()){
+                listaAsig.add(asig);
+            }
+        }
+
+        for(int i = 0; i < listaAsig.size(); i++){
+            if (excepcionServicio.buscarExistenciaTerminadaExcepcion(listaAsig.get(i), alumno).orElse(null)!=null) {
+                listaAsig.remove(listaAsig.get(i));
+            }
+        }
+
+        if(!alumno.getAsignaturas().isEmpty()){
+            for(Asignatura asig : alumno.getAsignaturas()){
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if(listaAsig.get(i).equals(asig)){
+                        listaAsig.remove(asig);
+                    }
+                }
+            }
+        }
+
+        return listaAsig;
     }
 
     public void cargarListado() {
@@ -93,15 +159,39 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
 
     }
 
-    public void recomponer(){
-        for(Curso c : cursoServicio.findAll()){
-            for(Asignatura asig : c.getAsignaturas()){
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
+        try {
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Asignatura prof = new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
+
+                    boolean encontrado=false;
+                    for(Asignatura g : this.findAll()){
+                        if((prof.getNombre().equals(g.getNombre())) && (prof.getCurso().getNombre().equals(g.getCurso().getNombre()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
+                }
+
+                linea++;
             }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
         }
-
     }
-
-
-
 }
+
+
+
+

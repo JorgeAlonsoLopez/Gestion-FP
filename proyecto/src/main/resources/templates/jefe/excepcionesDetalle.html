@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragmentos/menuJefe}">
+<head>
+    <meta charset="UTF-8">
+    <title>Excepciones</title>
+</head>
+<body>
+    <div layout:fragment="contenido-sin-menu">
+        <div>
+            <div class="row d-flex justify-content-center mt-3 mb-3">
+                <div class="col-lg-3">
+                    <h3 th:text="${excepcion.alumno.nombre} + ' ' + ${excepcion.alumno.apellidos}">Nombre alumno</h3>
+                </div>
+                <div class="col-lg-3">
+                    <h3 th:text="${excepcion.asignatura.nombre} + ' - ' + ${excepcion.asignatura.curso.nombre}">Nombre asignatura</h3>
+                </div>
+            </div>
+            <div class="mx-auto text-centre">
+                <div th:if="${excepcion.adjunto!=null}">
+                    <div th:if="${excepcion.adjunto!=''}">
+                        <a type="button" class="btn btn-info btn-lg" th:href="@{'/descargar/'+${excepcion.adjunto}}">Descargar <i class="fas fa-file-download pl-2 pr-2"></i> </a>
+                    </div>
+                </div>
+            </div>
+            <th:block th:if="${excepcion.estado=='Pendiente'}">
+                <div class="row mx-auto justify-content-around">
+                    <div class="col-lg-3 mt-3 mb-3">
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#aceptar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Aceptar</a>
+                    </div>
+                    <div class="col-lg-3 mt-3 mb-3">
+                        <a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#rechazar-modal" th:data-id="${excepcion.alumno.id}+'/'+${excepcion.asignatura.id}">Rechazar</a>
+                    </div>
+                </div>
+            </th:block>
+
+        </div>
+        <div class="modal fade" id="aceptar-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Desea aceptar la excepción/convalidación?</p>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a href="#" class="btn btn-danger">Sí</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="rechazar-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Desea rechazar la excepción/convalidación?</p>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a href="#" class="btn btn-danger">Sí</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+		$(document).ready(function() {
+			$('#aceptar-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/jefe/excepciones/aceptar/' + data;
+			});
+		});
+	</script>
+
+        <script type="text/javascript">
+		$(document).ready(function() {
+			$('#rechazar-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/jefe/excepciones/rechazar/' + data;
+			});
+		});
+	</script>
+    </div>
+
+</body>
+</html>

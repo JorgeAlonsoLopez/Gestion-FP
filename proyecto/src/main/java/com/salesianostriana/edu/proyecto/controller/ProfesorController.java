@@ -28,7 +28,7 @@ public class ProfesorController {
     @GetMapping("/profesor/horario/{id}")
     public String curso(Model model, @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.findActivasByCurso(cursoServicio.findById(id))));
+        model.addAttribute("horarios", horarioServicio.ordenarFinal(horarioServicio.encontrarPorAsignaturasAltaDeCurso(cursoServicio.findById(id))));
         model.addAttribute("curso", cursoServicio.findById(id));
         return "profesor/horario";
     }
@@ -61,6 +61,21 @@ public class ProfesorController {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("titulos", tituloServicio.listarActivos());
         return "profesor/titulos";
+    }
+
+    @GetMapping("/profesor/clases")
+    public String clases(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        return "profesor/clases";
+    }
+
+    @GetMapping("/profesor/clasesDetalles/{id}")
+    public String clasesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
+        model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
+        model.addAttribute("listaAsignatura",  horarioServicio.ordenarListaDeAsignaturas(cursoServicio.findById(id)));
+        model.addAttribute("listadoAlumnos",  horarioServicio.agregarAlListadoElTipo(cursoServicio.findById(id)));
+        return "profesor/clases";
     }
 
 

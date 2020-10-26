@@ -12,7 +12,7 @@
 
             <h3 class="mx-auto text-center mb-3">Correo</h3>
             <div class="wrap-input100 validate-input mx-auto mb-5">
-                <input class="input100" type="text" id="username" name="username" placeholder="Email">
+                <input class="input100" type="text" id="username" required name="username" placeholder="Email">
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -21,14 +21,17 @@
 
             <h3 class="mx-auto text-center mb-3">Contraseña</h3>
             <div class="wrap-input100 validate-input mx-auto mb-5">
-                <input class="input100" type="password" id="password" name="password" placeholder="Contraseña">
+                <input class="input100" type="password" id="password" required name="password" placeholder="Contraseña">
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
-                    <i class="fas fa-key" aria-hidden="true"></i>
+                    <i id="icono" class="fas fa-eye ojo" aria-hidden="true"></i>
                 </span>
             </div>
             <div class="container-login100-form-btn mb-5">
                 <input type="submit" class="login100-form-btn" value="Iniciar sesión" />
+            </div>
+            <div class="container-login100-form-btn mb-5">
+                <a type="button" class="mx-auto text-center login100-form-btn" href="/inicio">Volver</a>
             </div>
         </form>
 	</div>

@@ -40,6 +40,11 @@ public class Asignatura {
         h.setAsignatura(null);
     }
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @ManyToMany(mappedBy="asignaturas")
+    private List<Alumno> alumnos = new ArrayList<>();
+
     public Asignatura(String nombre, Curso curso,  boolean esAlta) {
         this.nombre = nombre;
         this.curso = curso;
