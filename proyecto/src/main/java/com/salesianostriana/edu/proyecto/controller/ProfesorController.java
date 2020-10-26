@@ -75,7 +75,7 @@ public class ProfesorController {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
         model.addAttribute("listaAsignatura",  horarioServicio.ordenarListaDeAsignaturas(cursoServicio.findById(id)));
         model.addAttribute("listadoAlumnos",  horarioServicio.agregarAlListadoElTipo(cursoServicio.findById(id)));
-        return "profesor/clases";
+        return "profesor/clasesDetalles";
     }
 
 
