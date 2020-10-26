@@ -2,9 +2,12 @@ package com.salesianostriana.edu.proyecto.controller;
 
 import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.servicio.*;
+import com.salesianostriana.edu.proyecto.upload.storage.FileSystemStorageService;
 import com.salesianostriana.edu.proyecto.upload.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,10 +26,9 @@ public class JefeController {
     private final SendEmail sendEmail;
     private final AsignaturaServicio asignaturaServicio;
     private final HorarioServicio horarioServicio;
-    private final StorageService storageService;
-    private final StoreServicio storeServicio;
     private final ExcepcionServicio excepcionServicio;
     private final AmpliacionServicio ampliacionServicio;
+    private final FileSystemStorageService fileSystemStorageService;
 
 
 
@@ -493,14 +495,6 @@ public class JefeController {
         return "redirect:/jefe/principal";
     }
 
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().body(file);
-    }
-
-
     @GetMapping("/jefe/excepciones")
     public String excepciones(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
@@ -586,7 +580,17 @@ public class JefeController {
     }
 
 
+    @GetMapping("/descargar/{nombre}")
+    public ResponseEntity<Resource> descargar(@PathVariable("nombre") String nombre) {
 
+        Resource resource = fileSystemStorageService.loadAsResource(nombre);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+
+
+    }
 
 
 

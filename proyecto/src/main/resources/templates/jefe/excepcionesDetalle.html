@@ -18,7 +18,9 @@
                 </div>
             </div>
             <div class="mx-auto text-centre">
-
+                <div>
+                    <a type="button" class="btn btn-info btn-lg" th:href="@{'/descargar/'+${excepcion.adjunto}}">Descargar</a>
+                </div>
             </div>
             <th:block th:if="${excepcion.estado=='Pendiente'}">
                 <div class="row mx-auto justify-content-around">
