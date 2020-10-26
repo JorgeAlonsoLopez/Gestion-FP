@@ -15,4 +15,10 @@ public interface ExcepcionRepository extends JpaRepository<Excepcion, ExcepcionP
     @Query("Select e From Excepcion e Where e.asignatura= :ASIGNATURA and e.alumno= :AlUMNO and e.estado='Aceptado'")
     public Optional<Excepcion> buscarExistenciaTerminadaExcepcion(@Param("ASIGNATURA") Asignatura Asig, @Param("AlUMNO") Alumno alumno);
 
+    @Query("Select e From Excepcion e Where e.asignatura= :ASIGNATURA and e.alumno= :AlUMNO and e.estado='Aceptado' and e.tipo= :TIPO")
+    public Optional<Excepcion> buscarExistenciaTerminadaExcepcionExc(@Param("ASIGNATURA") Asignatura Asig, @Param("AlUMNO") Alumno alumno, @Param("TIPO") String tipo);
+
+    @Query("Select e From Excepcion e Where e.asignatura= :ASIGNATURA and e.alumno= :AlUMNO and e.estado='Aceptado' and e.tipo= :TIPO")
+    public Optional<Excepcion> buscarExistenciaTerminadaExcepcionConv(@Param("ASIGNATURA") Asignatura Asig, @Param("AlUMNO") Alumno alumno, @Param("TIPO") String tipo);
+
 }

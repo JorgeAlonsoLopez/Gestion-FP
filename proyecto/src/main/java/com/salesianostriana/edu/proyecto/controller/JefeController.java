@@ -443,7 +443,11 @@ public class JefeController {
     @GetMapping("/jefe/clasesDetalles/{id}")
     public String clasesDetalles(Model model,  @AuthenticationPrincipal Profesor usuarioLog, @PathVariable("id") Long id) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        return "jefe/clases";
+        model.addAttribute("listaAsignatura",  horarioServicio.ordenarListaDeAsignaturas(cursoServicio.findById(id)));
+        model.addAttribute("listadoAlumnos",  horarioServicio.agregarAlListadoElTipo(cursoServicio.findById(id)));
+
+
+        return "jefe/clasesDetalles";
     }
 
     @GetMapping ("/jefe/csv")
@@ -457,8 +461,6 @@ public class JefeController {
     public String cargarCsv(@ModelAttribute("objeto") Horario obj, @RequestParam("file") MultipartFile file) {
 
         if(!file.isEmpty()){
-//            String archivo = storageService.store(file, -1);
-//            String ruta = MvcUriComponentsBuilder.fromMethodName(JefeController.class,"serveFile", archivo).build().toUriString();
             String tipo = file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3);
             if(tipo.equals("csv")){
                 switch (obj.getTramo()){

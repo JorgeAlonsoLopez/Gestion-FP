@@ -3,6 +3,7 @@ package com.salesianostriana.edu.proyecto.servicio;
 import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
+import com.salesianostriana.edu.proyecto.utilidades.AsignaturaOrdenar;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -246,6 +247,52 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
         return listaF;
     }
+
+
+    public List<Asignatura> ordenarListaDeAsignaturas(Curso curso) {
+        Set<Asignatura> lista=new HashSet<>();
+        lista.addAll(curso.getAsignaturas());
+        List<Asignatura> asignaturas=new ArrayList<>();
+        asignaturas.addAll(lista);
+        Collections.sort(asignaturas,new AsignaturaOrdenar());
+        return asignaturas;
+    }
+
+    public Map <Alumno,List<String>> agregarAlListadoElTipo(Curso curso){
+        List<String> resultados=new ArrayList<>();
+        int iNuevo=0;
+        int contador=0;
+        Map<Alumno,List<String>> listadoCompuesto=new HashMap<>();
+        List<String> listaAux=new ArrayList<>();
+        for (Alumno al:
+                curso.getAlumnos()) {
+            resultados.clear();
+            for (Asignatura asig:
+                    ordenarListaDeAsignaturas(curso)) {
+                if (excepcionServicio.buscarExistenciaTerminadaExcepcionConv(asig,al, "Convalidación").orElse(null)!=null){
+                    resultados.add("Convalidada");
+                }else if (excepcionServicio.buscarExistenciaTerminadaExcepcionExc(asig,al, "Exención").orElse(null)!=null){
+                    resultados.add("Exención");
+                }else if(al.getAsignaturas().contains(asig)){
+                    resultados.add("Aprob. del curso anterior");
+                }else{
+                    resultados.add("Matriculado");
+                }
+            }
+            iNuevo=resultados.size();
+            for (String componente:
+                    resultados) {
+                listaAux.add(componente);
+            }
+        }
+        for (Alumno al:
+                curso.getAlumnos()) {
+            listadoCompuesto.put(al,listaAux.subList(contador,contador+iNuevo));
+            contador+=iNuevo;
+        }
+        return listadoCompuesto;
+    }
+
 
 
 

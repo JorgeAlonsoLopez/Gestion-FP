@@ -13,6 +13,16 @@ import java.util.Optional;
 
 @Service
 public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, ExcepcionRepository> {
+    @Query("Select e From Excepcion e Where e.asignatura= :ASIGNATURA and e.alumno= :AlUMNO and e.estado='Aceptado' and e.tipo= :TIPO")
+    public Optional<Excepcion> buscarExistenciaTerminadaExcepcionExc(Asignatura Asig, Alumno alumno, String tipo) {
+        return repositorio.buscarExistenciaTerminadaExcepcionExc(Asig, alumno, tipo);
+    }
+
+    @Query("Select e From Excepcion e Where e.asignatura= :ASIGNATURA and e.alumno= :AlUMNO and e.estado='Aceptado' and e.tipo= :TIPO")
+    public Optional<Excepcion> buscarExistenciaTerminadaExcepcionConv(Asignatura Asig, Alumno alumno, String tipo) {
+        return repositorio.buscarExistenciaTerminadaExcepcionConv(Asig, alumno, tipo);
+    }
+
     public ExcepcionServicio(ExcepcionRepository repo) {
         super(repo);
 
