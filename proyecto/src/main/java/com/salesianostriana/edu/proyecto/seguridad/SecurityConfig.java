@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	private final UserDetailsService userDetailsService;
 	private final CustomSuccessHandler customSuccessHandler;
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -34,34 +34,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 
 		// @formatter:off
-		
+
 		http
-		.authorizeRequests()
-		.antMatchers("/css/**","/js/**","/img/**", "/h2-console/**", "/",
-				"/archivo/**", "/invitacionA/**", "/invitacionP/**", "/acceso", "/inicio", "/submit").permitAll()
-			.antMatchers("/jefe/**").hasAnyRole("JEFE")
-			.antMatchers("/profesor/**").hasAnyRole("PROF")
-			.antMatchers("/alumno/**").hasAnyRole("ALUM")
-			.anyRequest().authenticated()
-			.and()
-		.formLogin()
-			.loginPage("/login")
-			.permitAll()
-			.successHandler(customSuccessHandler)
-			.and()
-		.logout()
-			.logoutUrl("/logout")
-			.logoutSuccessUrl("/")
-			.permitAll()
-			.and()
-		.exceptionHandling()
-			.accessDeniedPage("/acceso");
-	
+				.authorizeRequests()
+				.antMatchers("/css/**","/js/**","/img/**", "/h2-console/**", "/",
+						"/archivo/**", "/invitacionA/**", "/invitacionP/**", "/acceso", "/inicio", "/submit").permitAll()
+				.antMatchers("/jefe/**").hasAnyRole("JEFE")
+				.antMatchers("/profesor/**").hasAnyRole("PROF")
+				.antMatchers("/alumno/**").hasAnyRole("ALUM")
+				.anyRequest().authenticated()
+				.and()
+				.formLogin()
+				.loginPage("/login")
+				.permitAll()
+				.successHandler(customSuccessHandler)
+				.and()
+				.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/")
+				.permitAll()
+				.and()
+				.exceptionHandling()
+				.accessDeniedPage("/acceso");
+
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
-		
+
 		// @formatter:on
 
 	}
-	
+
 }

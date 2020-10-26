@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuJefe}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
     <title>Nueva asignatura</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-        <div class="mt-3 mb-5">
-            <h2 >Formulario de creación de una nueva asignatura</h2>
-        </div>
-        <div class="mt-4 mb-4">
-            <form action="#" method="post"  th:action="@{/jefe/nuevoAsignatura/submit}" th:object="${nuevaAsignatura}">
-                <div>
-                    <h3 class="mx-auto text-center">Nombre</h3>
-                </div>
-                <div class="wrap-input100 validate-input mx-auto mb-5">
-                    <input class="input100" type="text" name="nombre" placeholder="Nombre" required th:field="*{nombre}">
-                    <span class="focus-input100"></span>
-                    </span>
-                </div>
-                <div>
-                    <h3>Cursos</h3>
-                    <div class="w-50 mx-auto">
-                        <label for="curso" class="ml-3"></label><br>
-                        <select id="curso" class="form-control" th:field="*{curso}">
-                            <option th:each="curso : ${cursos}" th:value="${curso.id}"
-                                    th:text="${curso.nombre}">X</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="container-login100-form-btn mb-5 mt-5">
-                    <input type="submit" class="login100-form-btn" value="Confirmar" />
-                </div>
-            </form>
-        </div>
+<div layout:fragment="contenido-sin-menu">
+    <div class="mt-3 mb-5">
+        <h2 >Formulario de creación de una nueva asignatura</h2>
     </div>
+    <div class="mt-4 mb-4">
+        <form action="#" method="post"  th:action="@{/jefe/nuevoAsignatura/submit}" th:object="${nuevaAsignatura}">
+            <div>
+                <h3 class="mx-auto text-center">Nombre</h3>
+            </div>
+            <div class="wrap-input100 validate-input mx-auto mb-5">
+                <input class="input100" type="text" name="nombre" placeholder="Nombre" required th:field="*{nombre}">
+                <span class="focus-input100"></span>
+                </span>
+            </div>
+            <div>
+                <h3>Cursos</h3>
+                <div class="w-50 mx-auto">
+                    <label for="curso" class="ml-3"></label><br>
+                    <select id="curso" class="form-control" th:field="*{curso}">
+                        <option th:each="curso : ${cursos}" th:value="${curso.id}"
+                                th:text="${curso.nombre}">X</option>
+                    </select>
+                </div>
+            </div>
+            <div class="container-login100-form-btn mb-5 mt-5">
+                <input type="submit" class="login100-form-btn" value="Confirmar" />
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

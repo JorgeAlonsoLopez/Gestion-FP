@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragmentos/menuJefe}">
+      layout:decorate="~{fragmentos/menuProfesor}">
 <head>
     <meta charset="UTF-8">
     <title>Alumnos por curso</title>
@@ -9,7 +9,6 @@
 <body>
 <div layout:fragment="contenido-sin-menu">
 
-<<<<<<< HEAD
     <table class="table">
         <thead>
         <tr>
@@ -17,29 +16,6 @@
             <div th:each="asignaturas :${listaAsignatura}">
                 <th th:text="${asignaturas.nombre}" class="text-centre"></th>
             </div>
-=======
-        <table class="table">
-            <thead>
-            <tr>
-                <th></th>
-                <div th:each="asignaturas :${listaAsignatura}">
-                    <th th:text="${asignaturas.nombre}" class="text-centre"></th>
-                </div>
-
-            </tr>
-            </thead>
-            <tbody>
-            <div th:each="alumnos :${listadoAlumnos}">
-                <tr>
-                    <td><span th:text="${alumnos.key.nombre}+ ' '"></span><span th:text="${alumnos.key.apellidos}"></span></a></td>
-                    <th:block th:each=" valores :${alumnos.value}">
-                        <td th:text="${valores}" class="text-centre"></td>
-                    </th:block>
-                </tr>
-            </div>
-            </tbody>
-        </table>
->>>>>>> PMV
 
         </tr>
         </thead>

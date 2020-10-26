@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuProfesor}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuProfesor}">
 <head>
     <meta charset="UTF-8">
     <title>Alumnos</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-        <div class="mx-auto text-centre w-90">
-            <h2 class="mt-3 mb-3">Alumnos</h2>
-            <div th:each="curso : ${cursos}">
-                <div class="mt-5 mb-5">
-                    <h2 th:text="${curso.nombre}">Nombre</h2>
-                </div>
-                <div th:each="alumno : ${curso.alumnos}">
-                    <div th:if="${alumno.esAlta}">
-                        <div class="row conten justify-content-around">
-                            <div class="col-lg-4 mt-3 mb-3">
-                                <h3 th:text="${alumno.nombre}">Nombre</h3>
-                            </div>
-                            <div class="col-lg-4 mt-3 mb-3">
-                                <h3 th:text="${alumno.apellidos}">Apellidos</h3>
-                            </div>
-                            <div class="col-lg-4 mt-3 mb-3">
-                                <h3 th:text="${alumno.email}">Email</h3>
-                            </div>
+<div layout:fragment="contenido-sin-menu">
+    <div class="mx-auto text-centre w-90">
+        <h2 class="mt-3 mb-3">Alumnos</h2>
+        <div th:each="curso : ${cursos}">
+            <div class="mt-5 mb-5">
+                <h2 th:text="${curso.nombre}">Nombre</h2>
+            </div>
+            <div th:each="alumno : ${curso.alumnos}">
+                <div th:if="${alumno.esAlta}">
+                    <div class="row conten justify-content-around">
+                        <div class="col-lg-4 mt-3 mb-3">
+                            <h3 th:text="${alumno.nombre}">Nombre</h3>
+                        </div>
+                        <div class="col-lg-4 mt-3 mb-3">
+                            <h3 th:text="${alumno.apellidos}">Apellidos</h3>
+                        </div>
+                        <div class="col-lg-4 mt-3 mb-3">
+                            <h3 th:text="${alumno.email}">Email</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 
 </body>
 </html>
