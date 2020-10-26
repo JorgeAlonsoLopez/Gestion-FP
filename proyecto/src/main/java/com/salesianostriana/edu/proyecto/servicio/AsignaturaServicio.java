@@ -142,7 +142,7 @@ public class AsignaturaServicio extends BaseService<Asignatura, Long, Asignatura
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
                 String[] values = line.split(";");
 
-                    return new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
+                return new Asignatura(values[0], cursoServicio.findByName(values[1]), true);
 
             }).collect(Collectors.toList());
             // @formatter:on

@@ -1,97 +1,97 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuAlumno}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuAlumno}">
 <head>
     <meta charset="UTF-8">
     <title>Ampliación</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-        <h2 class="mt-3 mb-4">Solicitud de ampliación de matrícula</h2>
-        <div class="mx-auto mb-3 mt-3 alert alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <p>Le recordamos que no puede ampliar matrícula con una asignatura que solape su horario
-                con el que ya tiene.</p>
-            <p>En caso contrario, no se enviará la petición al jefe de estudios.</p>
-        </div>
-        <div class="row mx-auto text-centre">
-            <div class="col-lg-6 mb-5">
-                <h3 class="mt-2 mb-2" th:text="${primero.nombre}">X</h3>
-                <table class="table mb-5 ampliacion" id="horario1">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Lunes</th>
-                        <th scope="col">Martes</th>
-                        <th scope="col">Miércoles</th>
-                        <th scope="col">Jueves</th>
-                        <th scope="col">Viernes</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="horario : ${horariosAlumno}">
-                        <td></td>
-                        <th:block th:each="clase : ${horario}">
-                            <th:block th:if="${clase.asignatura!=null}">
-                                <td th:text="${clase.asignatura.nombre}"> X </td>
-                            </th:block>
-                            <th:block th:if="${clase.asignatura==null}">
-                                <td> X </td>
-                            </th:block>
+<div layout:fragment="contenido-sin-menu">
+    <h2 class="mt-3 mb-4">Solicitud de ampliación de matrícula</h2>
+    <div class="mx-auto mb-3 mt-3 alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <p>Le recordamos que no puede ampliar matrícula con una asignatura que solape su horario
+            con el que ya tiene.</p>
+        <p>En caso contrario, no se enviará la petición al jefe de estudios.</p>
+    </div>
+    <div class="row mx-auto text-centre">
+        <div class="col-lg-6 mb-5">
+            <h3 class="mt-2 mb-2" th:text="${primero.nombre}">X</h3>
+            <table class="table mb-5 ampliacion" id="horario1">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">Lunes</th>
+                    <th scope="col">Martes</th>
+                    <th scope="col">Miércoles</th>
+                    <th scope="col">Jueves</th>
+                    <th scope="col">Viernes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="horario : ${horariosAlumno}">
+                    <td></td>
+                    <th:block th:each="clase : ${horario}">
+                        <th:block th:if="${clase.asignatura!=null}">
+                            <td th:text="${clase.asignatura.nombre}"> X </td>
                         </th:block>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-lg-6 mb-5">
-                <h3 class="mt-2 mb-2" th:text="${segundo.nombre}">X</h3>
-                <table class="table mb-5 ampliacion" id="horario2">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Lunes</th>
-                        <th scope="col">Martes</th>
-                        <th scope="col">Miércoles</th>
-                        <th scope="col">Jueves</th>
-                        <th scope="col">Viernes</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="horario : ${horariosSegundo}">
-                        <td></td>
-                        <th:block th:each="clase : ${horario}">
-                            <th:block th:if="${clase.asignatura!=null}">
-                                <td th:text="${clase.asignatura.nombre}"> X </td>
-                            </th:block>
-                            <th:block th:if="${clase.asignatura==null}">
-                                <td> X </td>
-                            </th:block>
+                        <th:block th:if="${clase.asignatura==null}">
+                            <td> X </td>
                         </th:block>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <form action="#" method="post"  th:action="@{/alumno/ampliacion/submit}" th:object="${ampliacionForm}">
-            <div class="mx-auto text-centre">
-                <h3>Asignaturas</h3>
-                <div class="w-50 mx-auto">
-                    <label for="asignatura" class="ml-3"></label><br>
-                    <select id="asignatura" class="form-control" th:field="*{asignatura}">
-                        <option th:each="asignatura : ${asignaturas}" th:value="${asignatura.id}"
-                                th:text="${asignatura.nombre}">X</option>
-                    </select>
-                </div>
+        <div class="col-lg-6 mb-5">
+            <h3 class="mt-2 mb-2" th:text="${segundo.nombre}">X</h3>
+            <table class="table mb-5 ampliacion" id="horario2">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">Lunes</th>
+                    <th scope="col">Martes</th>
+                    <th scope="col">Miércoles</th>
+                    <th scope="col">Jueves</th>
+                    <th scope="col">Viernes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="horario : ${horariosSegundo}">
+                    <td></td>
+                    <th:block th:each="clase : ${horario}">
+                        <th:block th:if="${clase.asignatura!=null}">
+                            <td th:text="${clase.asignatura.nombre}"> X </td>
+                        </th:block>
+                        <th:block th:if="${clase.asignatura==null}">
+                            <td> X </td>
+                        </th:block>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <form action="#" method="post"  th:action="@{/alumno/ampliacion/submit}" th:object="${ampliacionForm}">
+        <div class="mx-auto text-centre">
+            <h3>Asignaturas</h3>
+            <div class="w-50 mx-auto">
+                <label for="asignatura" class="ml-3"></label><br>
+                <select id="asignatura" class="form-control" th:field="*{asignatura}">
+                    <option th:each="asignatura : ${asignaturas}" th:value="${asignatura.id}"
+                            th:text="${asignatura.nombre}">X</option>
+                </select>
             </div>
-            <div class="container-login100-form-btn mb-5 mt-5">
-                <input type="submit" class="login100-form-btn" value="Solicitar" />
-            </div>
-        </form>
-        <script>
+        </div>
+        <div class="container-login100-form-btn mb-5 mt-5">
+            <input type="submit" class="login100-form-btn" value="Solicitar" />
+        </div>
+    </form>
+    <script>
 
             $(document).ready(function() {
 
@@ -104,7 +104,7 @@
             });
 
         </script>
-    </div>
+</div>
 
 </body>
 </html>

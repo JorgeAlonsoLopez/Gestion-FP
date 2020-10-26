@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuAlumno}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuAlumno}">
 <head>
     <meta charset="UTF-8">
     <title>Alumno</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-        <div class="mx-auto text-centre mt-3 mb-5">
-            <h2>Horario</h2>
-        </div>
-        <div class="w-85 mb-5">
-            <table class="table mb-5" id="horario">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Lunes</th>
-                        <th scope="col">Martes</th>
-                        <th scope="col">Miércoles</th>
-                        <th scope="col">Jueves</th>
-                        <th scope="col">Viernes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr th:each="horario : ${horarios}">
-                    <td></td>
-                    <th:block th:each="clase : ${horario}">
-                        <th:block th:if="${clase.asignatura!=null}">
-                            <td th:text="${clase.asignatura.nombre}"> X </td>
-                        </th:block>
-                        <th:block th:if="${clase.asignatura==null}">
-                            <td> X </td>
-                        </th:block>
+<div layout:fragment="contenido-sin-menu">
+    <div class="mx-auto text-centre mt-3 mb-5">
+        <h2>Horario</h2>
+    </div>
+    <div class="w-85 mb-5">
+        <table class="table mb-5" id="horario">
+            <thead>
+            <tr>
+                <th></th>
+                <th scope="col">Lunes</th>
+                <th scope="col">Martes</th>
+                <th scope="col">Miércoles</th>
+                <th scope="col">Jueves</th>
+                <th scope="col">Viernes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="horario : ${horarios}">
+                <td></td>
+                <th:block th:each="clase : ${horario}">
+                    <th:block th:if="${clase.asignatura!=null}">
+                        <td th:text="${clase.asignatura.nombre}"> X </td>
                     </th:block>
-                </tr>
-                </tbody>
-              </table>
-        </div>
-        <script>
+                    <th:block th:if="${clase.asignatura==null}">
+                        <td> X </td>
+                    </th:block>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
 
             $(document).ready(function() {
 
@@ -52,7 +52,7 @@
 
         </script>
 
-    </div>
+</div>
 
 </body>
 </html>

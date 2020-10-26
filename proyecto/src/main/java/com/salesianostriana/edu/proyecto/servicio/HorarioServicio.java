@@ -52,9 +52,9 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         }
 
         for(Horario h : result){
-           // h.getAsigntura().addHorario(h);
+            // h.getAsigntura().addHorario(h);
             this.save(h);
-           // asignaturaServicio.edit(h.getAsigntura());
+            // asignaturaServicio.edit(h.getAsigntura());
         }
 
     }
@@ -104,10 +104,10 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         boolean mod = false;
         for(Horario h : this.encontrarPorAsignaturasAltaDeCurso(horario.getAsignatura().getCurso())){
             if( h.getDia() == horario.getDia() && h.getTramo() == horario.getTramo()){
-               if(!mod){
-                   mod=true;
-                   encontrado = true;
-               }
+                if(!mod){
+                    mod=true;
+                    encontrado = true;
+                }
             }
         }
 
@@ -147,7 +147,7 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
         for(int i = 0; i < listaAsig.size(); i++){
             if (excepcionServicio.buscarExistenciaTerminadaExcepcion(listaAsig.get(i), alumno).orElse(null)!=null) {
-                    listaAsig.remove(listaAsig.get(i));
+                listaAsig.remove(listaAsig.get(i));
             }
         }
 
@@ -212,21 +212,21 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             for (int dia = 1; dia <= 5; dia++) {
                 encontrado = false;
                 //Buscamos para cada tramos, si para cada día está su hora
-                    for (Horario h : lista) {
-                        if (h.getDia() == dia) {
-                            encontrado = true;
-                        }
+                for (Horario h : lista) {
+                    if (h.getDia() == dia) {
+                        encontrado = true;
                     }
+                }
                 //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
                 //y cambiamos su día por el que correspoda para rellenar el vacío dejado
-                    if (!encontrado) {
-                        for (int j = 0; j < lista.size(); j++) {
-                            if (lista.get(j).getDia() == 6) {
-                                lista.get(j).setDia(dia);
-                                break;
-                            }
+                if (!encontrado) {
+                    for (int j = 0; j < lista.size(); j++) {
+                        if (lista.get(j).getDia() == 6) {
+                            lista.get(j).setDia(dia);
+                            break;
                         }
                     }
+                }
             }
 
         }

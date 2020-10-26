@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuJefe}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
     <title>Nuevo horario</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-           <div class="mt-2 mb-2">
-               <div class="mx-auto mb-3 mt-3 alert alert-info">
-                   <button type="button" class="close" data-dismiss="alert">&times;</button>
-                   <p>Le recordamos que no puede dar de alta un nuevo horario en un día y hora determinada
-                   sin asegurarse de que esté libre.</p>
-                   <p>En caso contrario, no se dará de alta el nuevo horario.</p>
-               </div>
-            <form action="#" method="post"  th:action="@{/jefe/nuevoHorario/submit}" th:object="${nuevoHorario}">
-                <div>
-                    <h3>Asignaturas</h3>
-                    <div class="w-50 mx-auto">
-                        <label for="curso" class="ml-3"></label><br>
-                        <select id="curso" class="form-control" th:field="*{asignatura}">
-                            <option th:each="asignatura : ${asignaturas}" th:value="${asignatura.id}"
-                                    th:text="${asignatura.nombre} + ' - ' + ${asignatura.curso.nombre}">X</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="mt-5 mb-2">Día de la semana</h3>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="1" th:field="*{dia}">
-                        <label class="custom-control-label" for="option1">Lunes</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="2" th:field="*{dia}">
-                        <label class="custom-control-label" for="option2">Martes</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option3" name="option3" class="custom-control-input" value="3" th:field="*{dia}">
-                        <label class="custom-control-label" for="option3">Miércoles</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option4" name="option4" class="custom-control-input" value="4" th:field="*{dia}">
-                        <label class="custom-control-label" for="option4">Jueves</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option5" name="option5" class="custom-control-input" value="5" th:field="*{dia}">
-                        <label class="custom-control-label" for="option5">Viernes</label>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="mt-5 mb-2">Tramo horario</h3>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option11">8:00 - 9:00</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option12">9:00 - 10:00</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option13">10:00 - 11:00</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option14">11:30 - 12:30</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option15" name="option15" class="custom-control-input" value="5" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option15">12:30 - 13:30</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option16" name="option16" class="custom-control-input" value="6" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option16">13:30 - 14:30</label>
-                    </div>
-                </div>
-                <div class="container-login100-form-btn mb-5 mt-5">
-                    <input type="submit" class="login100-form-btn" value="Confirmar" />
-                </div>
-            </form>
+<div layout:fragment="contenido-sin-menu">
+    <div class="mt-2 mb-2">
+        <div class="mx-auto mb-3 mt-3 alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p>Le recordamos que no puede dar de alta un nuevo horario en un día y hora determinada
+                sin asegurarse de que esté libre.</p>
+            <p>En caso contrario, no se dará de alta el nuevo horario.</p>
         </div>
+        <form action="#" method="post"  th:action="@{/jefe/nuevoHorario/submit}" th:object="${nuevoHorario}">
+            <div>
+                <h3>Asignaturas</h3>
+                <div class="w-50 mx-auto">
+                    <label for="curso" class="ml-3"></label><br>
+                    <select id="curso" class="form-control" th:field="*{asignatura}">
+                        <option th:each="asignatura : ${asignaturas}" th:value="${asignatura.id}"
+                                th:text="${asignatura.nombre} + ' - ' + ${asignatura.curso.nombre}">X</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <h3 class="mt-5 mb-2">Día de la semana</h3>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option1" name="option1" class="custom-control-input" value="1" th:field="*{dia}">
+                    <label class="custom-control-label" for="option1">Lunes</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option2" name="option2" class="custom-control-input" value="2" th:field="*{dia}">
+                    <label class="custom-control-label" for="option2">Martes</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option3" name="option3" class="custom-control-input" value="3" th:field="*{dia}">
+                    <label class="custom-control-label" for="option3">Miércoles</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option4" name="option4" class="custom-control-input" value="4" th:field="*{dia}">
+                    <label class="custom-control-label" for="option4">Jueves</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option5" name="option5" class="custom-control-input" value="5" th:field="*{dia}">
+                    <label class="custom-control-label" for="option5">Viernes</label>
+                </div>
+            </div>
+            <div>
+                <h3 class="mt-5 mb-2">Tramo horario</h3>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option11">8:00 - 9:00</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option12">9:00 - 10:00</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option13">10:00 - 11:00</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option14">11:30 - 12:30</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option15" name="option15" class="custom-control-input" value="5" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option15">12:30 - 13:30</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option16" name="option16" class="custom-control-input" value="6" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option16">13:30 - 14:30</label>
+                </div>
+            </div>
+            <div class="container-login100-form-btn mb-5 mt-5">
+                <input type="submit" class="login100-form-btn" value="Confirmar" />
+            </div>
+        </form>
     </div>
+</div>
 
 </body>
 </html>
