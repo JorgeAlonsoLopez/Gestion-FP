@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuJefe}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
     <title>Principal</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
+<div layout:fragment="contenido-sin-menu">
 
-        <div th:each="ampliacion : ${ampliaciones}" class="row caja justify-content-around">
-            <div class="col-lg-3 mt-3 mb-3">
-                <h5 th:text="${ampliacion.alumno.nombre} + ' ' + ${ampliacion.alumno.apellidos}">Nombre</h5>
-            </div>
-            <div class="col-lg-3 mt-3 mb-3">
-                <h5 th:text="${ampliacion.asignatura.nombre} + ' - ' + ${ampliacion.asignatura.curso.nombre}">Nombre</h5>
-            </div>
-            <div class="col-lg-2 mt-3 mb-3">
-                <h5 th:text="${ampliacion.estado}">Estado</h5>
-            </div>
-            <div class="col-lg-2 mt-3 mb-3">
-                <a type="button" class="btn btn-primary btn-lg" th:href="@{'/jefe/ampliacion/detalles/'+${ampliacion.alumno.id}+'/'+${ampliacion.asignatura.id}}">Más información</a>
-            </div>
-
+    <div th:each="ampliacion : ${ampliaciones}" class="row caja justify-content-around">
+        <div class="col-lg-3 mt-3 mb-3">
+            <h5 th:text="${ampliacion.alumno.nombre} + ' ' + ${ampliacion.alumno.apellidos}">Nombre</h5>
+        </div>
+        <div class="col-lg-3 mt-3 mb-3">
+            <h5 th:text="${ampliacion.asignatura.nombre} + ' - ' + ${ampliacion.asignatura.curso.nombre}">Nombre</h5>
+        </div>
+        <div class="col-lg-2 mt-3 mb-3">
+            <h5 th:text="${ampliacion.estado}">Estado</h5>
+        </div>
+        <div class="col-lg-2 mt-3 mb-3">
+            <a type="button" class="btn btn-primary btn-lg" th:href="@{'/jefe/ampliacion/detalles/'+${ampliacion.alumno.id}+'/'+${ampliacion.asignatura.id}}">Más información</a>
         </div>
 
     </div>
+
+</div>
 
 </body>
 </html>

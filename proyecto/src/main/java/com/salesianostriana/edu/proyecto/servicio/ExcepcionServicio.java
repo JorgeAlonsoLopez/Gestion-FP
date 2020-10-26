@@ -50,7 +50,7 @@ public class ExcepcionServicio extends BaseService<Excepcion, ExcepcionPK, Excep
         List<Excepcion> lista = new ArrayList<>();
         for(Excepcion exc : this.findAll()){
             if(al.getId()==exc.getAlumno().getId()){
-                    lista.add(exc);
+                lista.add(exc);
             }
         }
         return lista;

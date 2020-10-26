@@ -73,7 +73,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 		}
 		return false;
 	}
-	
+
 	private boolean isAlumm(List<String> roles) {
 		if (roles.contains("ROLE_ALUM")) {
 			return true;
@@ -88,6 +88,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	protected RedirectStrategy getRedirectStrategy() {
 		return redirectStrategy;
 	}
-	
-	
+
+
 }
