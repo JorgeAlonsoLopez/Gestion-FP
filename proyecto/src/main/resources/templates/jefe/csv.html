@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{fragmentos/menuJefe}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragmentos/menuJefe}">
 <head>
     <meta charset="UTF-8">
     <title>CSV</title>
 </head>
 <body>
-    <div layout:fragment="contenido-sin-menu">
-        <div class="mx-auto text-centre w-90">
-            <h2 class="mt-3 mb-4">Carga de CVS</h2>
-            <form action="#" method="post"  th:action="@{/jefe/csv/submit}"  enctype="multipart/form-data" th:object="${objeto}">
+<div layout:fragment="contenido-sin-menu">
+    <div class="mx-auto text-centre w-90">
+        <h2 class="mt-3 mb-4">Carga de CVS</h2>
+        <form action="#" method="post"  th:action="@{/jefe/csv/submit}"  enctype="multipart/form-data" th:object="${objeto}">
+            <div>
+                <h3 class="mt-3">Le recordamos la estructura que deben tener los .csv</h3>
+                <h5 class="mb-4">La primera línea del archivo no debe contener datos a insertar.</h5>
                 <div>
-                    <h3 class="mt-3">Le recordamos la estructura que deben tener los .csv</h3>
-                    <h5 class="mb-4">La primera línea del archivo no debe contener datos a insertar.</h5>
-                    <div>
-                        <span class="mt-2 mb-2">Titulo <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título</span><br><br>
-                        <span class="mt-2 mb-2">Curso  <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título;Curso;Año</span><br><br>
-                        <span class="mt-2 mb-2">Asignatura  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Nombre del curso</span><br><br>
-                        <span class="mt-2 mb-2">Horario  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Curso;Día(1-5);Tramo(1-6)</span><br><br>
-                        <span class="mt-2 mb-2">Jefe de estudio  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Código de acceso;True</span><br><br>
-                        <span class="mt-2 mb-2">Profesor  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Código de acceso;False</span><br><br>
-                        <span class="mt-2 mb-2">Alumno  <i class="fas fa-arrow-alt-circle-right"></i> Nombre,Apellidos,Email,Código de acceso,Nombre del curso</span><br><br>
-                    </div>
+                    <span class="mt-2 mb-2">Titulo <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título</span><br><br>
+                    <span class="mt-2 mb-2">Curso  <i class="fas fa-arrow-alt-circle-right"></i> Nombre del título;Curso;Año</span><br><br>
+                    <span class="mt-2 mb-2">Asignatura  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Nombre del curso</span><br><br>
+                    <span class="mt-2 mb-2">Horario  <i class="fas fa-arrow-alt-circle-right"></i> Nombre de la asignatura;Curso;Día(1-5);Tramo(1-6)</span><br><br>
+                    <span class="mt-2 mb-2">Jefe de estudio  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Código de acceso;True</span><br><br>
+                    <span class="mt-2 mb-2">Profesor  <i class="fas fa-arrow-alt-circle-right"></i> Nombre;Apellidos;Email;Código de acceso;False</span><br><br>
+                    <span class="mt-2 mb-2">Alumno  <i class="fas fa-arrow-alt-circle-right"></i> Nombre,Apellidos,Email,Código de acceso,Nombre del curso</span><br><br>
                 </div>
-                <div class="form-group mx-auto text-centre row justify-content-center mt-4 mb-4">
-                    <span class="col-lg-4"></span>
-                    <input type="file" name="file" id="file" class="form-control input-file col-lg-4">
-                    <span class="col-lg-4"></span>
+            </div>
+            <div class="form-group mx-auto text-centre row justify-content-center mt-4 mb-4">
+                <span class="col-lg-4"></span>
+                <input type="file" name="file" id="file" class="form-control input-file col-lg-4">
+                <span class="col-lg-4"></span>
+            </div>
+            <div class="mt-4">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option11">Títulos</label>
                 </div>
-                <div class="mt-4">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option11" name="option11" class="custom-control-input" value="1" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option11">Títulos</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option12">Cursos</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option13">Asignaturas</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option14">Horarios</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option15" name="option15" class="custom-control-input" value="5" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option15">Jefes de estudio</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option16" name="option16" class="custom-control-input" value="6" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option16">Profesores</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="option17" name="option17" class="custom-control-input" value="7" th:field="*{tramo}">
-                        <label class="custom-control-label" for="option17">Alumnos</label>
-                    </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option12" name="option12" class="custom-control-input" value="2" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option12">Cursos</label>
                 </div>
-                <div class="container-login100-form-btn mb-5 mt-5">
-                    <input type="submit" class="login100-form-btn" value="Insertar datos" />
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option13" name="option13" class="custom-control-input" value="3" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option13">Asignaturas</label>
                 </div>
-            </form>
-        </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option14" name="option14" class="custom-control-input" value="4" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option14">Horarios</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option15" name="option15" class="custom-control-input" value="5" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option15">Jefes de estudio</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option16" name="option16" class="custom-control-input" value="6" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option16">Profesores</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option17" name="option17" class="custom-control-input" value="7" th:field="*{tramo}">
+                    <label class="custom-control-label" for="option17">Alumnos</label>
+                </div>
+            </div>
+            <div class="container-login100-form-btn mb-5 mt-5">
+                <input type="submit" class="login100-form-btn" value="Insertar datos" />
+            </div>
+        </form>
     </div>
+</div>
 
 
 

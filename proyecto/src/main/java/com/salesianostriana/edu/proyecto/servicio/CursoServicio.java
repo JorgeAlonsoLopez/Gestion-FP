@@ -96,7 +96,7 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         for(Titulo t : tituloServicio.findAll()){
             if(t.isEsAlta()){
                 for( Curso c : t.getListaCursos()){
-                        lista.add(c);
+                    lista.add(c);
 
                 }
             }
