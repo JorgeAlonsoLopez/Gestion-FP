@@ -173,6 +173,9 @@ nav a:link , footer a:link{
   color: white;
 }
 
+.botonera{
+    color: white;
+}
 
 footer{
   font-size: 15pt;
@@ -190,5 +193,20 @@ footer{
   text-decoration: none;
 }
 
+.volver{
+    color: #467588;
+}
+
+.ampliacion{
+    font-size: 9pt;
+}
+
+.caja{
+    width: 95%;
+}
+
+.botonera{
+    color: white;
+}
 
 

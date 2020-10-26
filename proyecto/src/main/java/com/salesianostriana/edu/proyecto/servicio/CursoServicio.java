@@ -7,9 +7,15 @@ import com.salesianostriana.edu.proyecto.repositorio.CursoRepositorio;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +58,20 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         return lista;
     }
 
-    public List<Alumno> listaCursosAlumnosActivos(){
+    public Curso cursoSegundoDeAlumno(Alumno alumno){
+
+        Curso curso = new Curso();
+
+        for(Curso c : alumno.getCurso().getTitulo().getListaCursos()){
+            if(c.getAnyo()==2){
+                curso = c;
+            }
+        }
+
+        return curso;
+    }
+
+    public List<Alumno> listaAlumnosActivos(){
 
         List<Alumno> lista = new ArrayList<>();
         for(Titulo t : tituloServicio.findAll()){
@@ -77,7 +96,8 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
         for(Titulo t : tituloServicio.findAll()){
             if(t.isEsAlta()){
                 for( Curso c : t.getListaCursos()){
-                        lista.add(c);
+                    lista.add(c);
+
                 }
             }
         }
@@ -107,7 +127,38 @@ public class CursoServicio extends BaseService<Curso, Long, CursoRepositorio> {
             c.getTitulo().addCurso(c);
             this.save(c);
         }
+    }
 
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
+        try {
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
+
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Curso prof = new Curso(values[1], Integer.parseInt(values[2]), tituloServicio.findByName(values[0]), true);
+
+                    boolean encontrado=false;
+                    for(Curso g : this.findAll()){
+                        if((prof.getNombre().equals(g.getNombre())) && (prof.getTitulo().getNombre().equals(g.getTitulo().getNombre()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
+                }
+
+                linea++;
+            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 

@@ -6,9 +6,15 @@ import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,11 +25,15 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
 
     private final AsignaturaServicio asignaturaServicio;
     private final CursoServicio cursoServicio;
+    private final SendEmail sendEmail;
+    private final UsuarioServicio usuarioServicio;
 
-    public AlumnoServicio(AlumnoRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
+    public AlumnoServicio(AlumnoRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio, SendEmail sendEmail, UsuarioServicio usuarioServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
         this.cursoServicio = cursoServicio;
+        this.sendEmail = sendEmail;
+        this.usuarioServicio = usuarioServicio;
     }
 
     public String codigo(){
@@ -66,7 +76,7 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         try {
             // @formatter:off
             result = Files.lines(Paths.get(ResourceUtils.getFile(path).toURI())).skip(1).map(line -> {
-                String[] values = line.split(",");
+                String[] values = line.split(";");
                 return new Alumno(values[2], values[3], false, values[0], values[1], true, cursoServicio.findByName(values[4]));
 
 
@@ -86,6 +96,40 @@ public class AlumnoServicio extends BaseService<Alumno, Long, AlumnoRepository> 
         }
     }
 
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
+        try {
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
 
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Alumno prof = new Alumno(values[2], true, values[3], values[0], values[1], true, cursoServicio.findByName(values[4]));
+
+                    boolean encontrado=false;
+                    for(Usuario g : usuarioServicio.findAll()){
+                        if((prof.getEmail().equals(g.getEmail()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        prof.setContrasenya(null);
+                        sendEmail.enviarCodigo(prof.getCodigoBienv());
+                        this.save(prof);
+                    }
+                }
+
+                linea++;
+            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+
+    }
 
 }

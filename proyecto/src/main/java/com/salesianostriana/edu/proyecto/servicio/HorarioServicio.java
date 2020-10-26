@@ -1,15 +1,20 @@
 package com.salesianostriana.edu.proyecto.servicio;
 
-import com.salesianostriana.edu.proyecto.modelo.Asignatura;
-import com.salesianostriana.edu.proyecto.modelo.Curso;
-import com.salesianostriana.edu.proyecto.modelo.Horario;
+import com.salesianostriana.edu.proyecto.modelo.*;
 import com.salesianostriana.edu.proyecto.repositorio.HorarioRepository;
 import com.salesianostriana.edu.proyecto.servicio.base.BaseService;
+import com.salesianostriana.edu.proyecto.utilidades.AsignaturaOrdenar;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,12 +22,14 @@ import java.util.stream.Collectors;
 public class HorarioServicio extends BaseService<Horario, Long, HorarioRepository> {
 
     private final AsignaturaServicio asignaturaServicio;
-    private final CursoServicio cursoServicio;
+    private final TituloServicio tituloServicio;
+    private final ExcepcionServicio excepcionServicio;
 
-    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, CursoServicio cursoServicio) {
+    public HorarioServicio(HorarioRepository repo, AsignaturaServicio asignaturaServicio, TituloServicio tituloServicio, ExcepcionServicio excepcionServicio) {
         super(repo);
         this.asignaturaServicio = asignaturaServicio;
-        this.cursoServicio = cursoServicio;
+        this.tituloServicio = tituloServicio;
+        this.excepcionServicio = excepcionServicio;
     }
 
     public void cargarListado() {
@@ -52,10 +59,50 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
     }
 
+    public void cargarNuevoListado(MultipartFile file) {
+        int linea=0;
+        BufferedReader br;
+        try {
+            String line;
+            InputStream is = file.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is,  "UTF-8"));
+            while ((line = br.readLine()) != null) {
+
+                String [] values=line.split(";");
+                if(!(linea==0)){
+                    Horario prof = new Horario(Integer.parseInt(values[2]), Integer.parseInt(values[3]),
+                            asignaturaServicio.findByNameCurs(values[0],values[1]), true);
+
+                    boolean encontrado=false;
+                    for(Horario g : this.findAll()){
+                        if((prof.getDia()==g.getDia()) && (prof.getTramo()==g.getTramo())
+                                && (prof.getAsignatura().getNombre().equals(g.getAsignatura().getNombre()))
+                                && (prof.getAsignatura().getCurso().equals(g.getAsignatura().getCurso()))){
+                            encontrado=true;
+                        }
+                    }
+                    if(!encontrado){
+                        this.save(prof);
+                    }
+                }
+
+                linea++;
+            }
+
+        } catch (InvalidParameterException | IOException e) {
+            System.err.println(e.getMessage());
+        }
+
+
+    }
+
+
+
+
     public boolean solapaHora(Horario horario){
         boolean encontrado = false;
         boolean mod = false;
-        for(Horario h : this.findActivasByCurso(horario.getAsignatura().getCurso())){
+        for(Horario h : this.encontrarPorAsignaturasAltaDeCurso(horario.getAsignatura().getCurso())){
             if( h.getDia() == horario.getDia() && h.getTramo() == horario.getTramo()){
                if(!mod){
                    mod=true;
@@ -67,37 +114,74 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         return encontrado;
     }
 
-    public List<Horario> findActivasByCurso(Curso curso){
+    public List<Horario> encontrarPorAsignaturasAltaDeCurso(Curso curso){
         String nombre = curso.getNombre();
         List<Horario> lista = new ArrayList<>();
-
-        for(Asignatura asig : asignaturaServicio.findByCurs(nombre)){
-            if(asig.isEsAlta()){
-                for(Horario h : asig.getHorarios()){
-                    if(h.isEsAlta()) {
-                        lista.add(h);
-                    }
-                }
-            }
-
-        }
-        return lista;
-    }
-
-    public List<Horario> findByCursoActivo(){
-        List<Horario> lista = new ArrayList<>();
-        for(Curso curso : cursoServicio.findAll()) {
-            if (curso.isEsAlta()) {
-                for (Asignatura asig : asignaturaServicio.findByCurs(curso.getNombre())) {
+        Titulo t = tituloServicio.findByName(curso.getTitulo().getNombre());
+        if(t.isEsAlta()){
+            if(curso.isEsAlta()) {
+                for (Asignatura asig : asignaturaServicio.findByCurs(nombre)) {
                     if (asig.isEsAlta()) {
                         for (Horario h : asig.getHorarios()) {
-                            lista.add(h);
+                            if (h.isEsAlta()) {
+                                lista.add(h);
+                            }
                         }
                     }
                 }
             }
         }
         return lista;
+    }
+
+    public List<Horario> horariosPorAlumno(Alumno alumno, List<Ampliacion> listaAmpliaciones){
+
+        List<Horario> listaHor = new ArrayList<>();
+        List<Asignatura> listaAsig = new ArrayList<>();
+
+        for(Asignatura asig : alumno.getCurso().getAsignaturas()){
+            if(asig.isEsAlta()){
+                listaAsig.add(asig);
+            }
+        }
+
+        for(int i = 0; i < listaAsig.size(); i++){
+            if (excepcionServicio.buscarExistenciaTerminadaExcepcion(listaAsig.get(i), alumno).orElse(null)!=null) {
+                    listaAsig.remove(listaAsig.get(i));
+            }
+        }
+
+
+
+        for(Ampliacion ampl : listaAmpliaciones){
+            if(ampl.getAlumno().equals(alumno)) {
+                if(ampl.getEstado().equals("Aceptado")){
+                    if(ampl.getAsignatura().isEsAlta()){
+                        listaAsig.add(ampl.getAsignatura());
+                    }
+                }
+            }
+        }
+
+        if(!alumno.getAsignaturas().isEmpty()){
+            for(Asignatura asig : alumno.getAsignaturas()){
+                for(int i = 0; i < listaAsig.size(); i++){
+                    if(listaAsig.get(i).equals(asig)){
+                        listaAsig.remove(asig);
+                    }
+                }
+            }
+        }
+
+        for(Asignatura asig : listaAsig){
+            for(Horario hor : asig.getHorarios()){
+                if(hor.isEsAlta()){
+                    listaHor.add(hor);
+                }
+            }
+        }
+
+        return listaHor;
     }
 
     public List<List<Horario>> ordenarFinal (List<Horario> lista){
@@ -109,6 +193,8 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
 
         return listaF;
     }
+
+
 
     public List<Horario> ordenar (List<Horario> lista){
         int plus=0;
@@ -126,21 +212,21 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             for (int dia = 1; dia <= 5; dia++) {
                 encontrado = false;
                 //Buscamos para cada tramos, si para cada día está su hora
-                for (Horario h : lista) {
-                    if (h.getDia() == dia) {
-                        encontrado = true;
-                    }
-                }
-                //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
-                //y cambiamos su día por el que correspoda para rellenar el vacío dejado
-                if (!encontrado) {
-                    for (int j = 0; j < lista.size(); j++) {
-                        if (lista.get(j).getDia() == 6) {
-                            lista.get(j).setDia(dia);
-                            break;
+                    for (Horario h : lista) {
+                        if (h.getDia() == dia) {
+                            encontrado = true;
                         }
                     }
-                }
+                //Si no encontramos la hora X del tramo que estamos tratando, tratamos una de relleno (las que tienen el dia=6)
+                //y cambiamos su día por el que correspoda para rellenar el vacío dejado
+                    if (!encontrado) {
+                        for (int j = 0; j < lista.size(); j++) {
+                            if (lista.get(j).getDia() == 6) {
+                                lista.get(j).setDia(dia);
+                                break;
+                            }
+                        }
+                    }
             }
 
         }
@@ -159,11 +245,54 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
             }
         }
 
-
-
-
         return listaF;
     }
+
+
+    public List<Asignatura> ordenarListaDeAsignaturas(Curso curso) {
+        Set<Asignatura> lista=new HashSet<>();
+        lista.addAll(curso.getAsignaturas());
+        List<Asignatura> asignaturas=new ArrayList<>();
+        asignaturas.addAll(lista);
+        Collections.sort(asignaturas,new AsignaturaOrdenar());
+        return asignaturas;
+    }
+
+    public Map <Alumno,List<String>> agregarAlListadoElTipo(Curso curso){
+        List<String> resultados=new ArrayList<>();
+        int iNuevo=0;
+        int contador=0;
+        Map<Alumno,List<String>> listadoCompuesto=new HashMap<>();
+        List<String> listaAux=new ArrayList<>();
+        for (Alumno al:
+                curso.getAlumnos()) {
+            resultados.clear();
+            for (Asignatura asig:
+                    ordenarListaDeAsignaturas(curso)) {
+                if (excepcionServicio.buscarExistenciaTerminadaExcepcionConv(asig,al, "Convalidación").orElse(null)!=null){
+                    resultados.add("Convalidada");
+                }else if (excepcionServicio.buscarExistenciaTerminadaExcepcionExc(asig,al, "Exención").orElse(null)!=null){
+                    resultados.add("Exención");
+                }else if(al.getAsignaturas().contains(asig)){
+                    resultados.add("Aprob. del curso anterior");
+                }else{
+                    resultados.add("Matriculado");
+                }
+            }
+            iNuevo=resultados.size();
+            for (String componente:
+                    resultados) {
+                listaAux.add(componente);
+            }
+        }
+        for (Alumno al:
+                curso.getAlumnos()) {
+            listadoCompuesto.put(al,listaAux.subList(contador,contador+iNuevo));
+            contador+=iNuevo;
+        }
+        return listadoCompuesto;
+    }
+
 
 
 
