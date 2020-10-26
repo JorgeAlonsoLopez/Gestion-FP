@@ -39,7 +39,7 @@ public class AlumnoController {
     public String excepcion(Model model, @AuthenticationPrincipal Alumno usuarioLog) {
         Alumno alum = alumnoServicio.findByEmail(usuarioLog.getEmail());
         model.addAttribute("usuarioLogeado", alum);
-        model.addAttribute("asignaturas", asignaturaServicio.findActivasPorCurso(alum.getCurso()));
+        model.addAttribute("asignaturas", asignaturaServicio.asignaturasPorAlumno(alum));
         model.addAttribute("excepcionForm", new Excepcion());
         return "alumno/excepcion";
     }

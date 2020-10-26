@@ -9,6 +9,12 @@
 <body>
     <div layout:fragment="contenido-sin-menu">
            <div class="mt-2 mb-2">
+               <div class="mx-auto mb-3 mt-3 alert alert-info">
+                   <button type="button" class="close" data-dismiss="alert">&times;</button>
+                   <p>Le recordamos que no puede dar de alta un nuevo horario en un día y hora determinada
+                   sin asegurarse de que esté libre.</p>
+                   <p>En caso contrario, no se dará de alta el nuevo horario.</p>
+               </div>
             <form action="#" method="post"  th:action="@{/jefe/nuevoHorario/submit}" th:object="${nuevoHorario}">
                 <div>
                     <h3>Asignaturas</h3>
