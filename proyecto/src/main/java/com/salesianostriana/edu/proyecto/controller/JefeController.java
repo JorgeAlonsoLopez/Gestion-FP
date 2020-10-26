@@ -436,7 +436,7 @@ public class JefeController {
     @GetMapping("/jefe/clases")
     public String clases(Model model,  @AuthenticationPrincipal Profesor usuarioLog) {
         model.addAttribute("usuarioLogeado", profesorServicio.findByEmail(usuarioLog.getEmail()));
-        model.addAttribute("cursos", cursoServicio.listaDisponibles());
+        model.addAttribute("cursos", cursoServicio.listaActivos());
         return "jefe/clases";
     }
 
