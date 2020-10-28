@@ -267,6 +267,8 @@ public class HorarioServicio extends BaseService<Horario, Long, HorarioRepositor
         for (Alumno al:
                 curso.getAlumnos()) {
             resultados.clear();
+            //Primero se ordenan las asignaturas y después se van filtando en función de se está convalidad, aprobada, etc.
+            //Las asignaturas que no pasen los filtros, son las que el alumno tiene como matriculadas.
             for (Asignatura asig:
                     ordenarListaDeAsignaturas(curso)) {
                 if (excepcionServicio.buscarExistenciaTerminadaExcepcionConv(asig,al, "Convalidación").orElse(null)!=null){
