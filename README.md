@@ -31,9 +31,8 @@ Por parte del alumno:
 - Ver el estado de su horario.
 
 Datos de usuarios:
-Rol – correo - contraseña
-Jefe de estudios - naranjo@email.com – naranjo
-Profesor – magaña@email.com – magaña
-Alumno (1º) – alumno@email.com – 1234
-Alumno (2º) – alumno2@email.com – 1234
-
+Rol - correo - contraseña
+Jefe de estudios - naranjo@email.com - naranjo
+Profesor - magaña@email.com - magaña
+Alumno (1º) - alumno@email.com - 1234
+Alumno (2º) - alumno2@email.com - 1234
