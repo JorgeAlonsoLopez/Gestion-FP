@@ -36,3 +36,5 @@ Jefe de estudios - naranjo@email.com - naranjo
 Profesor - magaña@email.com - magaña  
 Alumno (1º) - alumno@email.com - 1234  
 Alumno (2º) - alumno2@email.com - 1234  
+
+Para cambiar el correo al cual le van a llegar las claves de verificación, se encuentra en la clase SendEmail.java (paquete servicio), en  email.setTo() del método enviarCodigo.
