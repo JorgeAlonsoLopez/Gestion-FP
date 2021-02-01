@@ -1,5 +1,7 @@
 # Proyecto de gestión de FP
 
+El proyecto se centra en la gestión de supuesto centro de FP. Se desarrolla en Java, haciendo uso de Spring y Maven. Para iniciar el proyecto, se lanzará mediante Spring Boot App en ProyectoApplication.java, dentro de ```src/main/java``` en el paquete ```com.salesianostriana.edu.proyecto``` y la URL será http://localhost:9000/
+
 En el sistema nos encontramos con tres tipos de usuarios:
 - Jefe de estudio
 - Profesor
